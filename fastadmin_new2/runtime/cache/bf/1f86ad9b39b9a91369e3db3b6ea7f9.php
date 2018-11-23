@@ -1,0 +1,4 @@
+<?php
+//000000000000
+ exit();?>
+a:1:{i:0;a:26:{s:2:"id";i:63;s:10:"channel_id";i:59;s:8:"model_id";i:1;s:5:"title";s:6:"热点";s:4:"flag";s:0:"";s:5:"image";s:54:"/uploads/20180915/6c46c355c575d3f0e70e2dd5651b2484.jpg";s:8:"keywords";s:3:"的";s:11:"description";s:3:"的";s:4:"tags";s:6:"Google";s:5:"weigh";i:63;s:5:"views";i:0;s:8:"comments";i:0;s:5:"likes";i:0;s:8:"dislikes";i:0;s:7:"diyname";s:0:"";s:10:"createtime";i:1542161716;s:10:"updatetime";i:1542161716;s:11:"publishtime";i:1542124800;s:10:"deletetime";N;s:6:"status";s:6:"normal";s:9:"filestype";i:0;s:8:"username";s:0:"";s:11:"archives_id";s:0:"";s:5:"files";s:0:"";s:7:"content";s:19:"<p>顶顶顶顶</p>";s:6:"avatar";s:0:"";}}

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {include file="common/meta" /}
+    <link href="__CDN__/assets/css/user.css?v={$Think.config.site.version}" rel="stylesheet">
+    {if $user}
+    <link rel="stylesheet" href="__CDN__/assets//plugin/layui/css/layui.css">
+    <link rel="stylesheet" href="__CDN__/assets/plugin/linzesen/linzesen.css" />
+    <link rel="stylesheet" href="__CDN__/assets/addons/cms/new/common/public.css" />
+    {/if}
+</head>
+
+<body>
+    {if $user}
+
+    <header class="lzs-nav">
+
+        <div class="container ">
+            <div class="header-r flex-c">
+                <ul class="nav-ul   flex-c layui-nav">
+                    <li class="layui-nav-item active">
+                        <!-- {cms:config name='cms.actionname'/} -->
+                        <a href="{cms:config name='cms.indexurl'/}">首页</a>
+                    </li>
+          
+                    <li class=" flex-item search-form">
+                        <form class=" flex-r" action="{:addon_url('cms/search/index')}" method="get">
+                            <div class="box-searchInput">
+                                <input type="text" name="search" />
+                            </div>
+                            <button class="button position-a-center"><i class="iconfont icon-sousuokuang "></i>
+                            </button>
+                        </form>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">消息</a>
+                    </li>
+                    <li class="layui-nav-item">
+                        {if $user}
+                        <a href="{:url('index/user/index')}" class="flex-c" style="height:50px;">
+                            <div class="img-c" style="width:30px;height:30px;"><img src="{$user.avatar}"></div>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="{:url('index/user/index')}">会员中心</a>
+                            </dd>
+                            <dd>
+                                <a href="{:url('index/user/logout')}">退出</a>
+                            </dd>
+                        </dl>
+                        {else /}
+                        <a href="{:url('index/user/index')}">用户登录</a>
+                        {/if}
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    {/if}
+    <div class="margin-20">
+            {__CONTENT__}
+    </div>
+    {if $user}
+
+
+    <footer>
+
+        <div class="footer-site flex  container ">
+            <div class="f-left flex ">
+                <dl class="flex-item">
+                    <dt>
+                        <a href="#" class="h4">帮助中心</a></dt>
+                    <dd>
+                        <a href="#">关于我们</a>
+                    </dd>
+                    <dd>
+                        <a href="#">技术经济方案分享</a>
+                    </dd>
+                    <dd>
+                        <a href="#">外包项目合作方案</a>
+                    </dd>
+
+                </dl>
+                <dl class="flex-item">
+                    <dt>
+                        <a href="#" class="h4">关注我们</a></dt>
+                    <dd>
+                        微博:
+                        <a href="#">805650999@qq.com</a>
+                    </dd>
+                    <dd>
+                        邮箱 :
+                        <a href="#">
+                            805650999@qq.com
+                        </a>
+                    </dd>
+                    <dd>
+                        qq :
+                        <a href="#">
+                            805650999
+                        </a>
+                    </dd>
+                    <dd>联系微信号：
+                        <a href="#">
+                            lin_805650999
+                        </a>
+                    </dd>
+                    <dd>github：
+                        <a href="#">
+                            zx13790954101
+                        </a>
+                    </dd>
+                    <dd>合作电话：
+                        <a href="#">
+                            13790954101
+                        </a>
+                    </dd>
+                </dl>
+
+            </div>
+            <div class="f-right right     flex-item ">
+                <dl class=" ">
+                    <dt class="center">
+                        <a href="#" class="h4">官方微信服务号</a></dt>
+                    <dd class="center">
+                        <a href="#">
+                            <div class="img-r wechat-code center">
+                                <img src="__CDN__/assets/img/qrcode_wecaht.jpg" />
+                            </div>
+                        </a>
+                    </dd>
+                </dl>
+                <dl class=" ">
+                    <dt class="center">
+                        <a href="#" class="h4">官方微信小程序</a></dt>
+                    <dd class="center">
+                        <a href="#">
+                            <div class="img-r wechat-code center">
+                                <img src="__CDN__/assets/img/qrcode_wecaht.jpg" />
+                            </div>
+                        </a>
+                    </dd>
+                </dl>
+
+            </div>
+
+        </div>
+
+        <div class="footer-info   center container  margin-20 ">
+            <span>© 2010- 2018 · All Rights Reserved ·
+                <a href="http://www.linkben.com">连接基本</a>
+            </span>
+            <span> 粤ICP备15117005号-1 版权所有 © 广州连接基本信息科技有限公司</span>
+        </div>
+
+    </footer>
+
+    {/if}
+
+    {include file="common/script" /}
+
+    {if $config['actionname'] !='usershop'}
+    <script src="__CDN__/assets/plugin/layui/layui.js" charset="utf-8"></script>
+    <script>
+        layui.use(['element'], function () {
+            var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+   
+        });
+      
+    </script>
+      {/if}
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+
+    <div class="hotspot  margin-20">
+            <div class="flex-c">
+                <span class="span-mark"></span>
+                <h5 class="title flex-item">24小时</h5>
+                <span class="all-btn">查看全部</span>
+            </div>
+            <ul class="ul-array">
+               {cms:arclist id="new" row="8" orderby="id" orderway="desc"}
+                <li>
+                    <div class="header flex-c">
+                        <div class="img-r hotspot-img">
+                            <img src="{$new.avatar}" />
+                        </div>
+                        <a class="content  flex-item" href="{$new.url}">
+                            <h5 class="block ellipsis-line-2">
+                                    {$new.content}
+                            </h5>
+                            <span class="flex-c block">
+                                <h6 class="auther flex-item">{$new.username} </h6>
+                                <h6 class="time">{$new.createtime|date='d',###}</h6>
+                            </span>
+    
+                        </a>
+    
+                    </div>
+                </li>
+                {/cms:arclist}
+            </ul>
+        </div>
+    
+        <div class="recommend-auther">
+    
+            <div class="flex-c">
+                <span class="span-mark"></span>
+                <h5 class="title flex-item">热门推荐</h5>
+                <span class="">换一批</span>
+            </div>
+            <ul class="ul-array">
+                    {cms:arclist id="hot" row="10" orderby="id" orderway="asc"}
+                <li>
+                    <a href="#">
+                        <div class="item flex-c">
+                            <div class="img-r auther-img">
+                                <img src="{$hot.avatar}" />
+                            </div>
+                            <div class="content flex-item">
+                                <h5 class="name">{$hot.username} </h5>
+                                <div class="flex-c">
+                                    <span class="flex-item">122人关注</span>
+                                    <span>122人喜欢</span>
+                                </div>
+                            </div>
+                            <h5 class="attention">+关注</h5>
+                        </div>
+                    </a>
+                </li>
+                {/cms:arclist}
+            </ul>
+    
+        </div>

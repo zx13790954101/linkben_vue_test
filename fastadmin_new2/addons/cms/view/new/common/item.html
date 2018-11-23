@@ -1,0 +1,54 @@
+<li>
+    <div class="list-item">
+        <div class="flex ">
+            <div class="item-l ">
+                <div class="img-c news-array-img">
+                        <img src='{$item.avatar?$item.avatar:"/assets/img/null-img.png"}'> </div>
+            </div>
+            <div class="flex-item   item-r ">
+                <h4 class="title ellipsis-line-1">
+                        {$item.username?$item.username:$item.title}
+                </h4>
+                <div class="flex-c  item-bottom  group">
+                    {if $item.description}
+                    <span class="flex-item auther">作者:{$item.username}</span>
+                    {/if}
+                    <span class="time">{$item.createtime|datetime}</span>
+                </div>
+                <div class="ellipsis-line-3 content h5">
+                        {$item.content?$item.content:$item.description}
+                </div>
+
+                <div class="layer-photos-demo  layer-img-preview row  flex-c">
+                    {if $item.files}
+                        <!-- 图片的循环 -->
+                        {volist name="$item.files|explode=',',###" id="image"}
+                            <div class="img-r">
+                                <img layer-pid="图片id，可以不写"  lay-src="{$image}" alt="图片名">
+                            </div>
+                        {/volist}
+
+                    {else /}
+                        <div class="img-r">
+                            <img layer-pid="图片id，可以不写"  lay-src="{$item.image}" alt="图片名">
+                        </div>
+                     {/if}
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="list-item-action flex-c btn-group">
+            <!--<button class="flex-c-y flex-item"><i class="iconfont icon-yanjing"></i>预览人数</button><span class="line-bar"></span>-->
+            <button class="flex-c-y flex-item Checked"><i class="iconfont icon-shoucang2 "></i><span>点赞</span></button><span class="line-bar"></span>
+            <button class="flex-c-y flex-item"><i class="iconfont icon-shoucang3 "></i><span>收藏</span></button><span class="line-bar"></span>
+            <button class="flex-c-y flex-item"><i class="iconfont icon-pinglun"></i><span>评论</span></button><span class="line-bar"></span>
+            <button class="flex-c-y flex-item"><i class="iconfont icon-msnui-share-big"></i><span>分享</span></button>
+            <!--<button class="flex-c"><i class="iconfont icon-gengduo"></i><span>更多</span></button>-->
+        </div>
+        <div class="list-item-extend ">
+
+        </div>
+    </div>
+</li>

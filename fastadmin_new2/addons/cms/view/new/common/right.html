@@ -1,0 +1,66 @@
+<div class="news-r col-lg-4 col-xs-0">
+    
+	   {if $user}
+	   <div class="edit-info">
+        <div class="edit-type btn-group flex-c">
+            <button class="active flex-item">说说</button>
+            <button class="flex-item">提问</button>
+            <button class="flex-item">写文章</button>
+            <button class="flex-item">话题</button>
+        </div>
+        
+        <form class="layui-form " action="">
+            <div class="layui-form-item flex-c">
+                <h3 class="edit-title1 flex-item">有什么新鲜事想告诉大家?</h3>
+                <h6 class="font-num">输入<span>0</span>字</h6>
+                <input type="hidden" value="0" name="row[filestype]" lay-verify="" class="layui-input" />
+                <input type="hidden" value="56" name="row[channel_id]" lay-verify="" class="layui-input" />
+                <input type="hidden"  id="files-input" value="" name="row[files]" lay-verify="" class="layui-input" />
+                <input type="hidden"  id="files-input" value="{$user.username}" name="row[username]" lay-verify="" class="layui-input" />
+                <input type="hidden"  id="files-input" value="{$user.avatar}" name="row[avatar]" lay-verify="" class="layui-input" />
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <textarea placeholder="请输入内容" lay-verify="required"  maxlength="150" name="row[content]" class="layui-textarea edit-text"></textarea>
+            </div>
+            <div class="btn-group flex-c flie-select" id="add-edittext-flie">
+                <span class="emoji pointer flex-item"><i class="iconfont icon-biaoqing" style="color: #ffac1a;"></i><label>表情</label></span>
+                <span class="photo pointer flex-item" id="multifile"><i class="iconfont icon-tupian" style="color: #8cc413;"></i><label>图片</label></span>
+                <span class="music pointer flex-item"><i class="iconfont icon-yinle" style="color: #c67ec2;"></i><label>音乐</label></span>
+                <span class="topic pointer  flex-item"><i class="iconfont icon-huati" style="color: #5a8ce6;"></i><label>话题</label></span>
+            </div>
+            <div class="layui-form-item flex-c">
+                <!-- 
+                    <div class="layui-inline flex-item">
+                    <select name="" lay-filter="aihao">
+                        <option value="0" selected="">说说</option>
+                        <option value="1">文章</option>
+                        <option value="2" >音乐</option>
+                        <option value="3">图片</option>
+                    </select>
+                </div>
+             -->
+                <div class="layui-inline flex-item">
+                    <button class="submit"  lay-submit=""   lay-filter="edit-info1">发布</button>
+                </div>
+            </div>
+		</form>
+	</div>
+		{else /}
+		<iframe src="" id="login_iframe" style=" height: 395px;"></iframe>
+		<script>
+				function setIframeSrc() {
+					var s = "__CDN__/index/userdetail/login.html";
+					var iframe1 = document.getElementById('login_iframe');
+					if ( - 1 == navigator.userAgent.indexOf("MSIE")) {
+						iframe1.src = s;
+					} else {
+						iframe1.location = s;
+					}
+				}
+				setTimeout(setIframeSrc,1000);
+		</script>
+        {/if}
+
+    
+    {include file="common/sidebar"}
+</div>

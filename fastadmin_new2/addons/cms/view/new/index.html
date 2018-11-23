@@ -1,0 +1,158 @@
+{layout name="common/layout" /}
+<link rel="stylesheet" href="__ADDON__/new/index/news.css" />
+<section class="section-news container margin-20">
+        <div class="row">
+
+            <div class="col-lg-8 col-xs-12">
+                <div class="banner-wrapper ">
+
+                    <div class="swiper-container swiper-header">
+                        <div class="swiper-wrapper">
+                            {cms:blocklist id="block" name="focus" row="5"}
+                            <div class="swiper-slide">
+                                <div class="position-r">
+                                    <div class="img-r  swiper-header-img">
+                                        <img src="{$block.image}" />
+                                    </div>
+                                    <a href="{$block.url}" class="center text position-a-center">第一个</a>
+                                </div>
+                            </div>
+                            {/cms:blocklist}
+                        </div>
+                        <!-- Add Pagination -->
+                        <div class="swiper-pagination"></div>
+                        <!-- Add Arrows -->
+                        <div class="swiper-button-next" style="background-image: none;">
+                            <i class="layui-icon layui-icon-right"></i>
+                        </div>
+                        <div class="swiper-button-prev" style="background-image: none;">
+                            <i class="layui-icon layui-icon-left"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="news-select-type flex-c">
+
+                    <ul class="layui-nav flex-item" lay-filter="news-select-type">
+                        <li class="layui-nav-item layui-this">
+                            <a href="">全部</a>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">说说</a>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">文章</a>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">话题</a>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">音乐</a>
+                        </li>
+                    </ul>
+                    <form class="flex-c search-form layui-form" action="">
+                        <div class="box-searchInput">
+                            <input type="text" />
+                        </div>
+                        <button class="button position-a-center">
+                            <i class="iconfont icon-sousuokuang "></i>
+                        </button>
+                    </form>
+                </div>
+                <div class="news-box">
+                    <ul class="news-array flow-default" id="flow_newsList">
+                        <!-- S 首页列表  model="1" 在标签里面来判断类型 -->
+                        <!-- cms:arclist id="item"  addon="true" -->
+                            <!-- include file="common/item" -->
+                        <!-- /cms:arclist  -->
+						<!-- E 首页列表 -->
+						
+                    </ul>
+                </div>
+            </div>
+
+           
+            {include file="common/right"}
+        
+            
+        </div>
+    </section>
+
+    		<!--评论的列表模板-->
+		<script id="commentlistpanel" type="text/html">
+			<div class="flex">
+				<div class="img-c  news-array-img"><img src="../../../img/hua.png"></div>
+				<form class="layui-form flex-item " action="">
+					<div class="layui-form-item layui-form-text flex">
+						<textarea placeholder="请输入内容" class="layui-textarea edit-text"></textarea>
+					</div>
+					<div class=" flex-c flie-select" id="add-edittext-flie">
+						<span class="emoji pointer margin-right"><i class="iconfont icon-biaoqing" style="color: #ffac1a;"></i><label>表情</label></span>
+						<span class="photo pointer " id="multifile"><i class="iconfont icon-tupian" style="color: #8cc413;"></i><label>图片</label></span>
+						<span class="flex-item"></span><button class="submit"  lay-submit="" lay-filter="edit-info">发布</button>
+					</div>
+				</form>
+			</div>
+			<div class="layui-tab commentlistpanel">
+				<ul class="layui-tab-title">
+					<li class="layui-this">按热度</li>
+					<li>按时间</li>
+				</ul>
+				<div class="layui-tab-content">
+					<div class="layui-tab-item layui-show">
+						<ul>
+							<li class="list-item">
+								<div class="flex ">
+									<div class="item-l ">
+										<div class="img-c news-array-img"> <img src="../../../img/hua.png"> </div>
+									</div>
+									<div class="flex-item   item-r ">
+										<div class="flex-c">
+											<h5 class="title">我是题目 :</h5>
+
+											<h5 class="ellipsis-line-3 ">你的</h5>
+										</div>
+
+										<div class="flex-c  item-bottom  group list-item-action">
+											<span class="time flex-item">今天（2018年8月14日）</span>
+											<span class="flex-c-y"><i class="iconfont icon-pinglun-tianchong"></i><span>评论</span></span>
+											<span class="line-bar"></span>
+											<span class="flex-c-y "><i class="iconfont icon-buoumaotubiao16"></i><span>点赞</span></span>
+
+										</div>
+
+										<div class="flex-item   item-r commentlistpanel-reply2 ">
+											<div class="flex-c">
+												<h5 class="title">我是题目 :</h5>
+												<h5 class="ellipsis-line-3 ">你的</h5>
+											</div>
+											<div class="flex-c  item-bottom  group list-item-action">
+												<span class="time flex-item">今天（2018年8月14日）</span>
+												<span class="flex-c-y"><i class="iconfont icon-pinglun-tianchong"></i><span>评论</span></span>
+												<span class="line-bar"></span>
+												<span class="flex-c-y "><i class="iconfont icon-buoumaotubiao16"></i><span>点赞</span></span>
+											</div>
+											<div class="reply-more-content flex-c">
+												<a href="#">一共1200条回复</a>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</li>
+						</ul>
+						<h5 class="center">
+								<a href="#">查看更多</a>
+							</h5>
+					</div>
+					<div class="layui-tab-item">内容2</div>
+				</div>
+			</div>
+		</script>
+		<!--评论的列表模板-->
+		<script id="login-panel" type="text/html">
+			<iframe src="../login.html"></iframe>
+		</script>
+		{include file="common/script"}
+		<script type="text/javascript" src="__ADDON__/new/index/news.js"></script>
