@@ -1,7 +1,11 @@
 
 <template>
   <div class="good-select">
-    <Matting></Matting>
+    <div class="flex-c">
+     <h4 class="title"> 
+        添加你的物件
+     </h4>
+    </div>
     <!-- 商品列表 -->
     <div class="good_list ">
       <div class="row">
@@ -10,18 +14,19 @@
         </div>
         <div class="col-lg-6" v-for="(item,index) in goodsList" v-on:click="selectGood(index)">
           <div class="upload_warp_img_div " :class="item.checked?'bg_yellow':''">
-            <div class="upload_warp_img_div_top">
-              <div class="upload_warp_img_div_text">
+            <!-- <div class="upload_warp_img_div_top"> -->
+              <!-- <div class="upload_warp_img_div_text">
                 {{item.name}}
-              </div>
-              <img src="../../../static/images/upload/del.png" class="upload_warp_img_div_del" @click="fileDel(index)">
-            </div>
+              </div> -->
+               <i class="el-icon-circle-close upload_warp_img_div_del" @click="fileDel(index)"></i>
+            <!-- </div> -->
             <good-img :url="item.url" :noStock="item.number==0?true:false" :key="item.id"></good-img>
           </div>
         </div>
 
       </div>
 
+     
       <!-- loading动画 -->
       <div class="loader" v-show="showLoading">
         <div class="loader-inner line-scale-pulse-out">
@@ -33,6 +38,10 @@
         </div>
       </div>
 
+    </div>
+    <div class="bottom-bar flex-c row">
+        <Matting></Matting>
+      
     </div>
     
   </div>
@@ -116,7 +125,18 @@ export default {
           element.checked = false
         })
       }
-    })
+    });
+
+            var file={};
+            file.src = "static/images/hua.png";
+            file.thumbImage = "static/images/hua.png";
+            file.url = "static/images/hua.png";
+            file.number = 12333;
+            file.mainImage = "static/images/hua.png";
+            file.checked = false;
+            file.needNum = 1;
+
+            that.goodsList.push(file);
   },
   methods: {
     fileDel(index) {
@@ -342,25 +362,6 @@ export default {
     answer: function() {},
     getGoodsList: function() {
       var that = this
-      // var res=JSON.parse('[{"id":220170900001877,"typeName":"null%2C0%2C228160600000007",
-      // "styleName":"%E5%B9%B3%E6%9D%BF%E9%93%9D%E6%9D%90%E7%81%AF",
-      // "areaName":"%E5%AE%A2%E5%8E%85%3B+%E4%B9%A6%E6%88%BF",
-      // "mianjiName":"25-35%E3%8E%A1",
-      // "goodName":"%E5%B9%B3%E6%9D%BF%E9%93%9D%E6%9D%90%E7%81%AF%E5%AE%A2%E5%8E%85%3B+%E4%B9%A6%E6%88%BF%E5%90%B8%E9%A1%B6%E7%81%AF80001812"
-      // ,"goodCode":"80001812","code":"JKX1181%2F1117",
-      // "goodMoney":954.25,
-      // "offMoney":0.0,"number":352,"weight":0.0,
-      // "shopMoney":0.0,"mainImage":"http%3A%2F%2Forbi0d8g8.bkt.clouddn.com%2F220170900001877-e8aekejtug.png"
-      // ,"thumbImage":"http%3A%2F%2Forbi0d8g8.bkt.clouddn.com%2Fthumb-220170900001877-omgmvfvzip.png",
-      // "productImage":"http%3A%2F%2Forbi0d8g8.bkt.clouddn.com%2F220170900001877-dxz9qql1wd.png",
-      // "isNew":"Y","isHot":"Y","isCheap":"Y",
-      // "textPropertyList":[{"key":"%E4%B8%BB%E4%BD%93%E9%A2%9C%E8%89%B2",
-      // "value":"%E5%93%91%E7%99%BD%2B%E5%9C%9F%E8%B1%AA%E9%87%91"},
-      // {"key":"%E6%9D%90%E8%B4%A8","value":"%E9%93%9D%E6%9D%90%2BPV%E6%9D%BF"},
-      // {"key":"%E5%85%89%E6%BA%90%2F%E5%8A%9F%E7%8E%87","value":"LED+240W+3000K%2B6800K"},
-      // {"key":"%E7%89%B9%E7%82%B9","value":""},{"key":"%E8%A3%85%E7%AE%B1%E6%95%B0%E9%87%8F","value":"1"},
-      // {"key":"%E5%B0%BA%E5%AF%B8","value":"1117*697*125%2F%E5%8F%8C%E8%89%B2%E5%85%89%E6%BA%90"}]
-      // ,"planNum":0,"isValid":"Y","order":0}]');
 
       var res = ''
       //console.log(res);
@@ -439,13 +440,25 @@ export default {
 </style>
 
 <style scoped>
+  .title{
+    color: white;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-left: 30px;
+    margin-top: 20px;
+  }
 .upload_warp_img_div_del {
   position: absolute;
-  top: 6px;
-  width: 16px;
-  right: 4px;
+    top: 5px;
+    width: 16px;
+    right: 10px;
+    font-size: 20px;
+    z-index: 9;
+    color: white;
 }
-
+.upload_warp_img_div_del:hover{
+  color: #293036;
+}
 .upload_warp_img_div_top {
   position: absolute;
   top: 0;
@@ -529,5 +542,14 @@ export default {
 }
 .bg_yellow {
   background: #999;
+}
+.bottom-bar{
+  position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    background-color: #314858;
+    padding: 10px;
+    margin-bottom: 0px;
 }
 </style>

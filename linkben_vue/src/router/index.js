@@ -13,9 +13,15 @@ import CarQuery from '@/demo/pages/CarQuery'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
-      path: '/',
+      path:"/",
+      name:'Home',
+      components:Home
+    },
+    {
+      path: '/Simulate',
       name: 'Simulate',
       component: Simulate
     },

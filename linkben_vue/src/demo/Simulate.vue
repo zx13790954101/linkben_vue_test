@@ -1,35 +1,22 @@
 <template>
   <div class="simulate">
-    <!-- 左菜单 -->
-    <div class="left_bar flex-c">
-        <div class="head-radio">
-        <el-radio-group v-model="isCollapse">
-          <el-radio-button :label="false" v-if="isCollapse">
-                <i class="iconfont icon-dingzhi-copy active" > </i>
-           </el-radio-button>
-          <el-radio-button :label="true"  v-if="!isCollapse">
-              <div class="flex-c">
-                 <a href="https://linkben.com"><h4 class="flex-item">LinkBen</h4></a>
-                  <i class="iconfont icon-dingzhi-copy-copy" ></i>
-              </div>
-            </el-radio-button>
-        </el-radio-group>
-        </div>
-    <div class="flex-r flex-item">
-        <ul class="menu_bar">
-            <li class="bar_item flex-c" v-for="(item,index) in leftBarList" @click="menuBar(index,$event)">
-              <i :class="['iconfont',item.icon]"></i>
-              <p v-if="index!=3">{{item.text}}</p>
-              <a v-if="index==3" class="down" id="down" download>{{item.text}}</a>
-            </li>
-          </ul>
-    </div>
-     
-
+    <!-- 右菜单 -->
+    <div class="head-bar  flex-c">
+      <h3 class="flex-item">
+        <a href="linkben.com" class="flex-l  head-title">LinkBen</a>
+      </h3>
+      <ul class="menu_bar ">
+        <li class="bar_item flex-c" v-for="(item,index) in leftBarList" @click="menuBar(index,$event)">
+          <i :class="['iconfont',item.icon]"></i>
+          <p v-if="index!=3">{{item.text}}</p>
+          <a v-if="index==3" class="down" id="down" download>{{item.text}}</a>
+        </li>
+      </ul>
     </div>
     <!-- 场景功能 -->
     <!--:class="[onload?'onload':'','cover']"-->
-    <transition name="animate-transition" enter-active-class="animated fadeIn" leave-active-class="animated slideOutLeft" :duration="200">
+    <transition name="animate-transition" enter-active-class="animated fadeIn" leave-active-class="animated slideOutLeft"
+      :duration="200">
       <div class="cover" v-if="barShow">
         <div class="cover_btn" @click="hideCover"></div>
         <div class="barControl" :style="{marginTop:brightnessTop+'px'}">
@@ -43,7 +30,8 @@
       </div>
     </transition>
     <!-- 背景滤镜滑条 -->
-    <transition name="animate-transition" enter-active-class="animated fadeIn" leave-active-class="animated slideOutLeft" :duration="200">
+    <transition name="animate-transition" enter-active-class="animated fadeIn" leave-active-class="animated slideOutLeft"
+      :duration="200">
       <div class="cover" v-if="brightnessShow">
         <div class="cover_btn" @click="hideCover"></div>
         <div class="bgBrightnessControl" :style="{marginTop:brightnessTop+'px'}">
@@ -54,17 +42,33 @@
       </div>
     </transition>
     <section class="flex simulate-section">
-      <!-- 右商品清单 -->
 
-      <div class="right_goods" :style="{width:(isCollapse==false?'30%':'0%')}">
-        <el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
 
-          <good-select @curGoodList="setCurGoodList" :deleteUrl="deleteUrl" :oldList="oldList"></good-select>
+      <div class="right_goods" :style="{width:(isCollapse==false?'320px':'0px')}">
+        <div class="left-content" :style="{width:(isCollapse==false?'100%':'0px')}">
+          <el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
+            :collapse="isCollapse">
 
-        </el-menu>
+            <good-select @curGoodList="setCurGoodList" :deleteUrl="deleteUrl" :oldList="oldList"></good-select>
+
+          </el-menu>
+        </div>
+        <div class="cut-button">
+          <el-radio-group v-model="isCollapse">
+            <el-radio-button :label="false" v-if="isCollapse">
+              <i class="el-icon-arrow-right"> </i>
+            </el-radio-button>
+            <el-radio-button :label="true" v-if="!isCollapse">
+              <i class="el-icon-arrow-left"></i>
+            </el-radio-button>
+          </el-radio-group>
+        </div>
+
+
       </div>
+
       <!-- 背景轮换 -->
-      <div class="swiper_box  content-r">
+      <div class="swiper_box  content-r flex-item">
         <div class="upload_warp  position-a-center" v-show="!homeImageType">
           <div class="upload_warp_left" @click="fileClick">
             <i class="iconfont icon-buoumaotubiao47 position-a-center"></i>
@@ -74,23 +78,58 @@
 
         <!-- 主的照片的div-->
         <div class="homeImage flex-c-y" v-show="homeImageType" v-for="(item,index) in mainImg">
-          <p class="cut" @click="fileClick" v-if="homeImageType">
-            切换
-          </p>
-          <div class=" flex-r main-img" id="main-img">
-            <div class="img-r">
-              <img :src="item.file.url">
-            </div>
-            <img-control v-for="(item,index) in curGoodList" :url="item.mainImage" :key="item.id" @deleteUrl="setDeleteUrl" @setCurGood="setCurGood(index)"></img-control>
 
+
+
+          <div class="main-img flex-c-y flex-c flex-item" id="main-img"  :style="{'width':mainImgWidth}">
+            <div class="box" :style="{'padding-top':'30px','width':(mainImgSize===true?'100%':mainImgWidth),'height':'100%'}">
+              <button class="cut" @click="fileClick" v-if="homeImageType">
+                切换
+              </button>
+              <div class="bootom"  :style="{'width':(mainImgSize===true?'100%':mainImgWidth),'height':(mainImgSize==true?'auto':'100%')}">
+                      <img :src="item.file.url" :style="{'width':(mainImgSize==true?'100%':'auto'),'height':(mainImgSize==true?'auto':'100%')}">
+              </div>
+              
+              <img-control v-for="(item,index) in curGoodList" :url="item.mainImage" :key="item.id" @deleteUrl="setDeleteUrl"
+                @setCurGood="setCurGood(index)"></img-control>
+              </div>
           </div>
-          <div class="position-a-r plusminus">
-              <button class="add">+</button>
-              <button class="minus">-</button>
-         </div>
+
+          <div class="main-right-bar flex-c">
+            <ul class="menu_bar ">
+              <li class="bar_item flex-c" v-for="(item,index) in leftBarList2" @click="menuBar(index,$event)">
+                <i :class="['iconfont',item.icon]"></i>
+                <p v-if="index!=3">{{item.text}}</p>
+                <a v-if="index==3" class="down" id="down" download>{{item.text}}</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class=" plusminus flex-c-y flex-c">
+            <button class="add" @click="plusminus(1)">+</button>
+            <el-slider v-model="sliderValue" :step="5" :max="20" show-stops>
+            </el-slider>
+            <button class="minus" @click="plusminus(2)">-</button>
+          </div>
+          <!-- 底部的主照片的功能button -->
+          <!-- <div class="buttom-bar">
+            <div class="buttom-wrap">
+            <div class="bg-box">
+                <div class="bg-filter"></div>
+            </div>
+            <ul class="menu_bar flex-c flex-c-y ">
+                <li class="bar_item center" v-for="(item,index) in leftBarList2" @click="menuBar(index,$event)">
+                  <i :class="['iconfont',item.icon]"></i>
+                  <p v-if="index!=3">{{item.text}}</p>
+                  <a v-if="index==3" class="down" id="down"  download>{{item.text}}</a>
+                </li>
+              </ul>
+            </div>
+          </div> -->
         </div>
 
-        <div class="user_img" v-if="userImg!=''" :class="[box.width/box.height-userImgWidth/userImgHeight>0?'bgSizeReset':'',box.isFlip?'flipx':'']" :style="{backgroundImage:'url('+userImg+')',filter:'brightness('+bgBrightness+'%)'}">
+        <div class="user_img" v-if="userImg!=''" :class="[box.width/box.height-userImgWidth/userImgHeight>0?'bgSizeReset':'',box.isFlip?'flipx':'']"
+          :style="{backgroundImage:'url('+userImg+')',filter:'brightness('+bgBrightness+'%)'}">
         </div>
 
       </div>
@@ -135,225 +174,233 @@
     <transition name="animate-transition" enter-active-class="animated slideInRight" leave-active-class="animated slideOutRight">
       <scence-select v-if="showSelect" @closeSelect="showSelect=false" @bgListChange="bgListChange"></scence-select>
     </transition>
-    <!--返回时候等待过长，添加loading动画-->
-    <div class="my_loading_box" v-if="backLoading">
-      <div class="my_loading">
-        <img src="static/images/extra/loading.svg" alt="">
-      </div>
-    </div>
+
   </div>
 
 </template>
 
 <script>
-import html2canvas from 'html2canvas'
-import bus from '../assets/bus'
-import GoodImg from './simulate/components/GoodImg.vue'
-import GoodSelect from './simulate/GoodSelect.vue'
-import ImgControl from './simulate/ImgControl.vue'
-// import PicUpload from './simulate/PicUpload.vue'
-// import PicUploadLess from './simulate/PicUploadLess.vue'
-import Share from './simulate/Share.vue'
-import GoodDetailCopy from './simulate/GoodDetailCopy.vue'
-import ScenceSelect from './simulate/ScenceSelect.vue'
-export default {
-  name: 'simulate',
-  components: { GoodSelect, ImgControl, Share, GoodDetailCopy, ScenceSelect, GoodImg },
-  data() {
-    var data = {
-      list: [],
-      index: 0
-    }
-    var bgList =
-      '{"index":4,"list":[{"id":998393154,"style":"中式风格","area":"客厅","name":"客厅中式风格031","mainImage":"http://7xo8yg.com1.z0.glb.clouddn.com/kt_zs_031.jpg","thumbImage":"http://7xo8yg.com1.z0.glb.clouddn.com/thumb-kt_zs_031.jpg","text":""},{"id":989541965,"style":"地中海风格","area":"客厅","name":"客厅地中海风格001","mainImage":"http://7xo8yg.com1.z0.glb.clouddn.com/kt_dzh_001.jpg","thumbImage":"http://7xo8yg.com1.z0.glb.clouddn.com/thumb-kt_dzh_001.jpg","text":""},{"id":983460350,"style":"简约风格","area":"客厅","name":"客厅简约风格068","mainImage":"http://7xo8yg.com1.z0.glb.clouddn.com/kt_jy_068.jpg","thumbImage":"http://7xo8yg.com1.z0.glb.clouddn.com/thumb-kt_jy_068.jpg","text":""},{"id":973816065,"style":"欧式风格","area":"客厅","name":"客厅欧式风格015","mainImage":"http://7xo8yg.com1.z0.glb.clouddn.com/kt_os_015.jpg","thumbImage":"http://7xo8yg.com1.z0.glb.clouddn.com/thumb-kt_os_015.jpg","text":""},{"id":971604356,"style":"中式风格","area":"客厅","name":"客厅中式风格059","mainImage":"http://7xo8yg.com1.z0.glb.clouddn.com/kt_zs_059.jpg","thumbImage":"http://7xo8yg.com1.z0.glb.clouddn.com/thumb-kt_zs_059.jpg","text":""},{"id":970170892,"style":"地中海风格","area":"客厅","name":"客厅地中海风格003","mainImage":"http://7xo8yg.com1.z0.glb.clouddn.com/kt_dzh_003.jpg","thumbImage":"http://7xo8yg.com1.z0.glb.clouddn.com/thumb-kt_dzh_003.jpg","text":""},{"id":969625968,"style":"简约风格","area":"客厅","name":"客厅简约风格070","mainImage":"http://7xo8yg.com1.z0.glb.clouddn.com/kt_jy_070.jpg","thumbImage":"http://7xo8yg.com1.z0.glb.clouddn.com/thumb-kt_jy_070.jpg","text":""},{"id":966885496,"style":"地中海风格","area":"客厅","name":"客厅地中海风格033","mainImage":"http://7xo8yg.com1.z0.glb.clouddn.com/kt_dzh_033.jpg","thumbImage":"http://7xo8yg.com1.z0.glb.clouddn.com/thumb-kt_dzh_033.jpg","text":""},{"id":965119002,"style":"美式风格","area":"客厅","name":"客厅美式风格037","mainImage":"http://7xo8yg.com1.z0.glb.clouddn.com/kt_ms_037.jpg","thumbImage":"http://7xo8yg.com1.z0.glb.clouddn.com/thumb-kt_ms_037.jpg","text":""}]}'
-    data.list = JSON.parse(bgList).list
-    data.index = JSON.parse(bgList).index
-    var simulateRe = ''
-    if (sessionStorage.simulateRe) {
-      simulateRe = JSON.parse(sessionStorage.simulateRe)
-      data.list.push({
-        mainImage: simulateRe.bg
-      })
-    }
-    var url = ''
-    var curGood = sessionStorage.curGood || ''
-    var array = []
-    if (curGood) {
-      //url=(JSON.parse(curGood)).mainImage;
-      array.push(JSON.parse(curGood))
-    }
-    var that = this
-    return {
-      canvasContent: null,
-      //主的界面的状态
-      homeImageType: false,
-      //主的照片
-      mainImg: [],
-      isCollapse: false,
-      oldList: array,
-      backLoading: false,
-      sessionGoodUrl: url,
-      bgList: data.list,
-      showSelect: false,
-      showDetail: false,
-      shareUrl: '',
-      share: {
-        title: '',
-        reason: ''
-      },
-      dialogFormVisible: false,
-      dialogVisible: false,
-      deleteUrl: '',
-      shareImg: '',
-      swiperIndex: data.index,
-      userImg: '',
-      userImgWidth: 0,
-      userImgHeight: 0,
-      brightnessTop: 0,
-      brightnessShow: false,
-      barShow: false,
-      onload: false,
-      curGoodList: [],
-      bgBrightness: 100,
-      box: {
-        width: $('.swiper_box').width(),
-        height: $('.swiper_box').height(),
-        isFlip: false
-      },
-      leftBarList: [
-        {
-          icon: 'icon-tupian',
-          text: '场景'
-        },
-        {
-          icon: 'icon-shape23',
-          text: '亮度'
-        },
-        {
-          icon: 'icon-111jingxiang',
-          text: '镜像'
-        },
-        {
-          icon: 'icon-baocun',
-          text: '保存'
-        },
-        {
-          icon: 'icon-fenxiang11',
-          text: '分享'
-        },
-        {
-          icon: 'icon-shanchu-copy',
-          text: '清除'
-        },
+  import html2canvas from 'html2canvas'
+  import bus from '../assets/bus'
+  import GoodImg from './simulate/components/GoodImg.vue'
+  import GoodSelect from './simulate/GoodSelect.vue'
+  import ImgControl from './simulate/ImgControl.vue'
+  // import PicUpload from './simulate/PicUpload.vue'
+  // import PicUploadLess from './simulate/PicUploadLess.vue'
+  import Share from './simulate/Share.vue'
+  import GoodDetailCopy from './simulate/GoodDetailCopy.vue'
+  import ScenceSelect from './simulate/ScenceSelect.vue'
+  export default {
+    name: 'simulate',
+    components: {
+      GoodSelect,
+      ImgControl,
+      Share,
+      GoodDetailCopy,
+      ScenceSelect,
+      GoodImg
+    },
+    data() {
+      var data = {
+        list: [],
+        index: 0
+      }
+      var bgList =
+        '{"index":4,"list":[{"id":998393154,"style":"中式风格","area":"客厅","name":"客厅中式风格031","mainImage":"http://7xo8yg.com1.z0.glb.clouddn.com/kt_zs_031.jpg","thumbImage":"http://7xo8yg.com1.z0.glb.clouddn.com/thumb-kt_zs_031.jpg","text":""},{"id":989541965,"style":"地中海风格","area":"客厅","name":"客厅地中海风格001","mainImage":"http://7xo8yg.com1.z0.glb.clouddn.com/kt_dzh_001.jpg","thumbImage":"http://7xo8yg.com1.z0.glb.clouddn.com/thumb-kt_dzh_001.jpg","text":""},{"id":983460350,"style":"简约风格","area":"客厅","name":"客厅简约风格068","mainImage":"http://7xo8yg.com1.z0.glb.clouddn.com/kt_jy_068.jpg","thumbImage":"http://7xo8yg.com1.z0.glb.clouddn.com/thumb-kt_jy_068.jpg","text":""},{"id":973816065,"style":"欧式风格","area":"客厅","name":"客厅欧式风格015","mainImage":"http://7xo8yg.com1.z0.glb.clouddn.com/kt_os_015.jpg","thumbImage":"http://7xo8yg.com1.z0.glb.clouddn.com/thumb-kt_os_015.jpg","text":""},{"id":971604356,"style":"中式风格","area":"客厅","name":"客厅中式风格059","mainImage":"http://7xo8yg.com1.z0.glb.clouddn.com/kt_zs_059.jpg","thumbImage":"http://7xo8yg.com1.z0.glb.clouddn.com/thumb-kt_zs_059.jpg","text":""},{"id":970170892,"style":"地中海风格","area":"客厅","name":"客厅地中海风格003","mainImage":"http://7xo8yg.com1.z0.glb.clouddn.com/kt_dzh_003.jpg","thumbImage":"http://7xo8yg.com1.z0.glb.clouddn.com/thumb-kt_dzh_003.jpg","text":""},{"id":969625968,"style":"简约风格","area":"客厅","name":"客厅简约风格070","mainImage":"http://7xo8yg.com1.z0.glb.clouddn.com/kt_jy_070.jpg","thumbImage":"http://7xo8yg.com1.z0.glb.clouddn.com/thumb-kt_jy_070.jpg","text":""},{"id":966885496,"style":"地中海风格","area":"客厅","name":"客厅地中海风格033","mainImage":"http://7xo8yg.com1.z0.glb.clouddn.com/kt_dzh_033.jpg","thumbImage":"http://7xo8yg.com1.z0.glb.clouddn.com/thumb-kt_dzh_033.jpg","text":""},{"id":965119002,"style":"美式风格","area":"客厅","name":"客厅美式风格037","mainImage":"http://7xo8yg.com1.z0.glb.clouddn.com/kt_ms_037.jpg","thumbImage":"http://7xo8yg.com1.z0.glb.clouddn.com/thumb-kt_ms_037.jpg","text":""}]}'
+      data.list = JSON.parse(bgList).list
+      data.index = JSON.parse(bgList).index
+      var simulateRe = ''
+      if (sessionStorage.simulateRe) {
+        simulateRe = JSON.parse(sessionStorage.simulateRe)
+        data.list.push({
+          mainImage: simulateRe.bg
+        })
+      }
+      var url = ''
+      var curGood = sessionStorage.curGood || ''
+      var array = []
+      if (curGood) {
+        //url=(JSON.parse(curGood)).mainImage;
+        array.push(JSON.parse(curGood))
+      }
+      var that = this
+      return {
+        mainImgWidth:"auto",
+        mainImgSize: true,
+        sliderValue: 0,
+        canvasContent: null,
+        //主的界面的状态
+        homeImageType: false,
+        //主的照片
+        mainImg: [
 
-        {
-          icon: 'icon-beiwanglu1',
-          text: '备忘录'
-        }
-      ],
-      swiperOption: {
-        // NotNextTick is a component's own property, and if notNextTick is set to true, the component will not instantiate the swiper through NextTick, which means you can get the swiper object the first time (if you need to use the get swiper object to do what Things, then this property must be true)
-        // notNextTick是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，也就意味着你可以在第一时间获取到swiper对象，假如你需要刚加载遍使用获取swiper对象来做什么事，那么这个属性一定要是true
-        notNextTick: true,
-        // swiper configs 所有的配置同swiper官方api配置
-        // direction : 'vertical',
-        grabCursor: true,
-        setWrapperSize: true,
-        initialSlide: data.index,
-        // autoHeight: true,
-        // paginationType:"bullets",
-        mousewheelControl: false,
-        observeParents: true,
-        observer: true,
-        onTransitionStart(swiper) {
-          that.setCurIndex(swiper.activeIndex)
-        }
-      }
-    }
-  },
-  methods: {
-    fileClick() {
-      document.getElementById('upload_file2').click()
-    },
-    fileChange(el) {
-      if (!el.target.files[0].size) return
-      this.fileList(el.target)
-      el.target.value = ''
-    },
-    fileList(fileList) {
-      let files = fileList.files
+        ],
+        isCollapse: false,
+        oldList: array,
+        backLoading: false,
+        sessionGoodUrl: url,
+        bgList: data.list,
+        showSelect: false,
+        showDetail: false,
+        shareUrl: '',
+        share: {
+          title: '',
+          reason: ''
+        },
+        dialogFormVisible: false,
+        dialogVisible: false,
+        deleteUrl: '',
+        shareImg: '',
+        swiperIndex: data.index,
+        userImg: '',
+        userImgWidth: 0,
+        userImgHeight: 0,
+        brightnessTop: 0,
+        brightnessShow: false,
+        barShow: false,
+        onload: false,
+        curGoodList: [],
+        bgBrightness: 100,
+        box: {
+          width: $('.swiper_box').width(),
+          height: $('.swiper_box').height(),
+          isFlip: false
+        },
+        leftBarList: [{
+            icon: 'icon-tupian',
+            text: '场景'
+          },
+          {
+            icon: 'icon-shape23',
+            text: '亮度'
+          },
+          {
+            icon: 'icon-111jingxiang',
+            text: '镜像'
+          },
+          {
+            icon: 'icon-baocun',
+            text: '保存'
+          },
+          {
+            icon: 'icon-fenxiang11',
+            text: '分享'
+          },
+          {
+            icon: 'icon-shanchu-copy',
+            text: '清除'
+          },
 
-      for (let i = 0; i < files.length; i++) {
-        //判断是否为文件夹
-        if (files[i].type != '') {
-          this.fileAdd(files[i])
-        } else {
-          //文件夹处理
-          this.folders(fileList.items[i])
-        }
-      }
-    },
-    //文件夹处理
-    folders(files) {
-      let _this = this
-      //判断是否为原生file
-      if (files.kind) {
-        files = files.webkitGetAsEntry()
-      }
-      files.createReader().readEntries(function(file) {
-        for (let i = 0; i < file.length; i++) {
-          if (file[i].isFile) {
-            _this.foldersAdd(file[i])
-          } else {
-            _this.folders(file[i])
+          {
+            icon: 'icon-beiwanglu1',
+            text: '备忘'
+          },
+          {
+            icon: 'icon-beiwanglu1',
+            text: '文档'
+          }
+        ],
+        leftBarList2: [{
+            icon: 'icon-shape23',
+            text: '亮度'
+          },
+          {
+            icon: 'icon-111jingxiang',
+            text: '镜像'
+          },
+          {
+            icon: 'icon-shanchu-copy',
+            text: '清除'
+          },
+
+          {
+            icon: 'icon-beiwanglu1',
+            text: '备忘'
+          },
+        ],
+        swiperOption: {
+          // NotNextTick is a component's own property, and if notNextTick is set to true, the component will not instantiate the swiper through NextTick, which means you can get the swiper object the first time (if you need to use the get swiper object to do what Things, then this property must be true)
+          // notNextTick是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，也就意味着你可以在第一时间获取到swiper对象，假如你需要刚加载遍使用获取swiper对象来做什么事，那么这个属性一定要是true
+          notNextTick: true,
+          // swiper configs 所有的配置同swiper官方api配置
+          // direction : 'vertical',
+          grabCursor: true,
+          setWrapperSize: true,
+          initialSlide: data.index,
+          // autoHeight: true,
+          // paginationType:"bullets",
+          mousewheelControl: false,
+          observeParents: true,
+          observer: true,
+          onTransitionStart(swiper) {
+            that.setCurIndex(swiper.activeIndex)
           }
         }
-      })
+      }
     },
-    foldersAdd(entry) {
-      let _this = this
-      entry.file(function(file) {
-        _this.fileAdd(file)
-      })
-    },
-    fileAdd(file) {
-      var that = this
-      //总大小
-      this.size = this.size + file.size
-      //判断是否为图片文件
-      if (file.type.indexOf('image') == -1) {
-        debugger
-        file.src = 'wenjian.png'
-        file.src = this.result
-        file.thumbImage = file.src
-        file.url = file.src
-        file.number = file.size
-        file.mainImage = file.src
-        file.checked = false
-        file.needNum = 1
-        if (that.mainImg.length > 0) {
-          that.mainImg.splice(0, 1)
+    methods: {
+      plusminus: function (data) {
+        var that = this;
+        if (data == 1) {
+          if (that.sliderValue === 100) return;
+          that.sliderValue = that.sliderValue + 20
+        } else {
+          if (that.sliderValue === 0) return;
+          that.sliderValue = that.sliderValue - 20
         }
-        this.mainImg.push({
-          file
+      },
+      fileClick() {
+        document.getElementById('upload_file2').click()
+      },
+      fileChange(el) {
+        if (!el.target.files[0].size) return
+        this.fileList(el.target)
+        el.target.value = ''
+      },
+      fileList(fileList) {
+        let files = fileList.files
+
+        for (let i = 0; i < files.length; i++) {
+          //判断是否为文件夹
+          if (files[i].type != '') {
+            this.fileAdd(files[i])
+          } else {
+            //文件夹处理
+            this.folders(fileList.items[i])
+          }
+        }
+      },
+      //文件夹处理
+      folders(files) {
+        let _this = this
+        //判断是否为原生file
+        if (files.kind) {
+          files = files.webkitGetAsEntry()
+        }
+        files.createReader().readEntries(function (file) {
+          for (let i = 0; i < file.length; i++) {
+            if (file[i].isFile) {
+              _this.foldersAdd(file[i])
+            } else {
+              _this.folders(file[i])
+            }
+          }
         })
-     
-       
-        that.homeImageType = true;
-        
-         setTimeout(function(){
-            html2canvas(document.querySelector('#main-img')).then(function(canvas) {
-              //document.body.appendChild(canvas);
-              //canvas转换成url，然后利用a标签的download属性，直接下载，绕过上传服务器再下载
-              document.querySelector('#down').setAttribute('href', canvas.toDataURL())
-            })
-            },1000)
-      } else {
-        let reader = new FileReader()
-        reader.vue = this
-        reader.readAsDataURL(file)
-        reader.onload = function() {
+      },
+      foldersAdd(entry) {
+        let _this = this
+        entry.file(function (file) {
+          _this.fileAdd(file)
+        })
+      },
+      fileAdd(file) {
+        var that = this
+        //总大小
+        this.size = this.size + file.size
+        //判断是否为图片文件
+        if (file.type.indexOf('image') == -1) {
           debugger
+          file.src = 'wenjian.png'
           file.src = this.result
           file.thumbImage = file.src
           file.url = file.src
@@ -364,577 +411,807 @@ export default {
           if (that.mainImg.length > 0) {
             that.mainImg.splice(0, 1)
           }
-          this.vue.mainImg.push({
+          const image = new Image();
+          image.src = file.src;
+          if (image.width > (parseInt(image.height) + 50)) {
+            that.mainImgSize = true;
+          } else {
+            that.mainImgSize = false;
+          }
+          this.mainImg.push({
             file
           })
+
+          console.log("data", file);
           that.homeImageType = true;
-          //下载的功能
-          setTimeout(function(){
-            html2canvas(document.querySelector('#main-img')).then(function(canvas) {
+
+          setTimeout(function () {
+            html2canvas(document.querySelector('#main-img')).then(function (canvas) {
               //document.body.appendChild(canvas);
               //canvas转换成url，然后利用a标签的download属性，直接下载，绕过上传服务器再下载
               document.querySelector('#down').setAttribute('href', canvas.toDataURL())
             })
-          },1000);
-        }
-      }
-    },
-    fileDel(index) {
-      this.size = this.size - this.mainImg[index].file.size //总大小
-      this.mainImg.splice(index, 1)
-      this.homeImageType = false
-    },
-    login: function() {
-      console.log('ssss')
-    },
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath)
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath)
-    },
-    bgListChange(data) {
-      this.userImg = ''
-      var that = this
-      this.showSelect = false
-      console.log(data)
-
-      this.bgList = data.list
-      setTimeout(function() {
-        that.swiper.slideTo(data.index, 300, false)
-      }, 250)
-    },
-    setShareInfo(url) {
-      console.log('setShareInfo')
-      console.log(url)
-      this.shareImg = url
-      this.dialogFormVisible = true
-    },
-    shareSubmit() {
-      function randomString(len) {
-        len = len || 32
-        var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
-        /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
-        var maxPos = $chars.length
-        var pwd = ''
-        for (var i = 0; i < len; i++) {
-          pwd += $chars.charAt(Math.floor(Math.random() * maxPos))
-        }
-        return pwd
-      }
-
-      this.dialogFormVisible = false
-      var data = {}
-      data.userId = sessionStorage.userId
-      data.sceneId = new Date().getTime() + randomString(10)
-      data.title = encodeURIComponent(this.share.title)
-      data.mainPic = this.shareImg
-      var goodIds = ''
-      $(this.curGoodList).each(function(index, ele) {
-        goodIds += ele.id + '%7C1,'
-      })
-      data.goodIds = goodIds
-      data.reason = encodeURIComponent(this.share.reason)
-      console.log(data)
-
-      var that = this
-      that.shareUrl = ''
-      this.$http.post(globalPath + '/ShareScene', data, { emulateJSON: true }).then(function(res) {
-        console.log(res)
-        if (res.body == 1000) {
-          that.$message({
-            message: '保存成功',
-            type: 'success'
-          })
+          }, 1000)
         } else {
-          that.$message({
-            message: '保存失败',
+          let reader = new FileReader()
+          reader.vue = this
+          reader.readAsDataURL(file)
+          reader.onload = function () {
+            debugger
+            file.src = this.result
+            file.thumbImage = file.src
+            file.url = file.src
+            file.number = file.size
+            file.mainImage = file.src
+            file.checked = false
+            file.needNum = 1;
+            if (that.mainImg.length > 0) {
+              that.mainImg.splice(0, 1)
+            }
+            const image = new Image();
+            image.src = file.src;
+            if (image.width > (parseInt(image.height) + 50)) {
+              that.mainImgSize = true;
+            } else {
+              that.mainImgSize = false;
+            }
+            this.vue.mainImg.push({
+              file
+            })
+            console.log("data", file);
+            that.homeImageType = true;
+            //下载的功能
+            setTimeout(function () {
+              html2canvas(document.querySelector('#main-img')).then(function (canvas) {
+                //document.body.appendChild(canvas);
+                //canvas转换成url，然后利用a标签的download属性，直接下载，绕过上传服务器再下载
+                document.querySelector('#down').setAttribute('href', canvas.toDataURL())
+              })
+            }, 1000);
+          }
+        }
+      },
+      fileDel(index) {
+        this.size = this.size - this.mainImg[index].file.size //总大小
+        this.mainImg.splice(index, 1)
+        this.homeImageType = false
+      },
+      login: function () {
+        console.log('ssss')
+      },
+      handleOpen(key, keyPath) {
+        console.log(key, keyPath)
+      },
+      handleClose(key, keyPath) {
+        console.log(key, keyPath)
+      },
+      bgListChange(data) {
+        this.userImg = ''
+        var that = this
+        this.showSelect = false
+        console.log(data)
+
+        this.bgList = data.list
+        setTimeout(function () {
+          that.swiper.slideTo(data.index, 300, false)
+        }, 250)
+      },
+      setShareInfo(url) {
+        console.log('setShareInfo')
+        console.log(url)
+        this.shareImg = url
+        this.dialogFormVisible = true
+      },
+      shareSubmit() {
+        function randomString(len) {
+          len = len || 32
+          var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
+          /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+          var maxPos = $chars.length
+          var pwd = ''
+          for (var i = 0; i < len; i++) {
+            pwd += $chars.charAt(Math.floor(Math.random() * maxPos))
+          }
+          return pwd
+        }
+
+        this.dialogFormVisible = false
+        var data = {}
+        data.userId = sessionStorage.userId
+        data.sceneId = new Date().getTime() + randomString(10)
+        data.title = encodeURIComponent(this.share.title)
+        data.mainPic = this.shareImg
+        var goodIds = ''
+        $(this.curGoodList).each(function (index, ele) {
+          goodIds += ele.id + '%7C1,'
+        })
+        data.goodIds = goodIds
+        data.reason = encodeURIComponent(this.share.reason)
+        console.log(data)
+
+        var that = this
+        that.shareUrl = ''
+        this.$http.post(globalPath + '/ShareScene', data, {
+          emulateJSON: true
+        }).then(function (res) {
+          console.log(res)
+          if (res.body == 1000) {
+            that.$message({
+              message: '保存成功',
+              type: 'success'
+            })
+          } else {
+            that.$message({
+              message: '保存失败',
+              type: 'error'
+            })
+            return
+          }
+          that.shareUrl = sharePath + '/shareTemplate/scene_' + data.sceneId + '.html'
+        })
+      },
+      uploadShareImg() {
+        if (this.curGoodList.length == 0) {
+          this.$message({
+            message: '请先添加商品',
             type: 'error'
           })
-          return
+          return false
         }
-        that.shareUrl = sharePath + '/shareTemplate/scene_' + data.sceneId + '.html'
-      })
-    },
-    uploadShareImg() {
-      if (this.curGoodList.length == 0) {
-        this.$message({
-          message: '请先添加商品',
-          type: 'error'
-        })
-        return false
-      }
-      console.log('uploadShareImg')
-      $('#uploadImgLess').click()
-      this.dialogVisible = false
-    },
-    handleClose(done) {
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          done()
-        })
-        .catch(_ => {})
-    },
-    setCurIndex(index) {
-      this.swiperIndex = index
-    },
-    setUrl(val) {
-      var that = this
-      this.userImg = val
-      var img = new Image()
-      img.src = val
-      img.onload = function() {
-        that.userImgWidth = img.width
-        that.userImgHeight = img.height
-      }
-    },
-    setCurGood(index) {
-      sessionStorage.setItem('curGood', JSON.stringify(this.curGoodList[index]))
-      this.showDetail = true
-    },
-    setCurGoodList(data) {
-      this.curGoodList = data
-    },
-    formatTooltip(val) {
-      return val + '%'
-    },
-    hideCover: function() {
-      this.brightnessShow = false
-      this.barShow = false
-    },
-    toBack: function() {
-      this.backLoading = true
-      var that = this
-      setTimeout(function() {
-        that.$emit('toBack', 'main')
-      }, 150)
-    },
-    setDeleteUrl(url) {
-      var that = this
-      console.log(url)
-      var deleteIndex = ''
-      $(this.curGoodList).each(function(index, ele) {
-        console.log(ele)
-        if (url == ele.mainImage) {
-          that.curGoodList.splice(index, 1)
-          return
+        console.log('uploadShareImg')
+        $('#uploadImgLess').click()
+        this.dialogVisible = false
+      },
+      handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done()
+          })
+          .catch(_ => {})
+      },
+      setCurIndex(index) {
+        this.swiperIndex = index
+      },
+      setUrl(val) {
+        var that = this
+        this.userImg = val
+        var img = new Image()
+        img.src = val
+        img.onload = function () {
+          that.userImgWidth = img.width
+          that.userImgHeight = img.height
         }
-      })
-      this.deleteUrl = url
-    },
-    chooseImg() {
-      $('#uploadImg').val('')
-      $('#uploadImg').click()
-    },
-    menuBar: function(index, event) {
-      var that = this
-      switch (index) {
-        case 0:
-          var top = $('.iconfont.icon-tupian').offset().top
-          $('.barControl').css('marginTop', top + 5)
-          that.barShow = true
-          that.brightnessTop = top
-          break
-        case 1:
-          var top = $('.iconfont.icon-shape23').offset().top
-          $('.bgBrightnessControl').css('marginTop', top + 5)
-          that.brightnessShow = true
-          that.brightnessTop = top
-          break
-
-        case 2:
-          that.box.isFlip = !that.box.isFlip
-          break
-        case 3:
-          //截图工具
-          //直接选择要截图的dom，就能截图，但是因为canvas的原因，生成的图片模糊
-          //html2canvas(document.querySelector('div')).then(function(canvas) {
-          //    document.body.appendChild(canvas);
-          //});
-          //创建一个新的canvas
- 
-        // var canvas2 = document.createElement('canvas')
-        // let _canvas = document.querySelector('#main-img')
-        // var w = parseInt(window.getComputedStyle(_canvas).width)
-        // var h = parseInt(window.getComputedStyle(_canvas).height)
-        // canvas2.width = w * 2
-        // canvas2.height = h * 2
-        // canvas2.style.width = w + 'px'
-        // canvas2.style.height = h + 'px'
-        // var context = canvas2.getContext('2d')
-        // context.scale(2, 2)
-        
-          //  setTimeout(function(){
-          //   html2canvas(document.querySelector('#main-img')).then(function(canvas) {
-          //     document.body.appendChild(canvas);
-          //     //canvas转换成url，然后利用a标签的download属性，直接下载，绕过上传服务器再下载
-             
-          //     document.querySelector('#down').setAttribute('href', canvas.toDataURL())
-       
-          //   })
-          //   },1000)
-        
-
-          // that.$message({
-          //   message: '请使用截图工具截图再保存！'
-          // })
-
-          break
-        case 4:
-          that.dialogVisible = true
-          break
-        case 5:
-          that.curGoodList = []
-          bus.$emit('clearGoodList', true)
-          break
-        case 6:
-          var data = {}
-          data.goodList = that.curGoodList
-          if (that.userImg) {
-            data.bg = that.userImg
-          } else {
-            data.bg = that.bgList[that.swiperIndex].mainImage
+      },
+      setCurGood(index) {
+        sessionStorage.setItem('curGood', JSON.stringify(this.curGoodList[index]))
+        this.showDetail = true
+      },
+      setCurGoodList(data) {
+        this.curGoodList = data
+      },
+      formatTooltip(val) {
+        return val + '%'
+      },
+      hideCover: function () {
+        this.brightnessShow = false
+        this.barShow = false
+      },
+      toBack: function () {
+        this.backLoading = true
+        var that = this
+        setTimeout(function () {
+          that.$emit('toBack', 'main')
+        }, 150)
+      },
+      setDeleteUrl(url) {
+        var that = this
+        console.log(url)
+        var deleteIndex = ''
+        $(this.curGoodList).each(function (index, ele) {
+          console.log(ele)
+          if (url == ele.mainImage) {
+            that.curGoodList.splice(index, 1)
+            return
           }
-          console.log(data)
-          sessionStorage.setItem('curSimulate', JSON.stringify(data))
-          bus.$emit('curPage', 'remark-add')
-          break
+        })
+        this.deleteUrl = url
+      },
+      chooseImg() {
+        $('#uploadImg').val('')
+        $('#uploadImg').click()
+      },
+      menuBar: function (index, event) {
+        var that = this
+        switch (index) {
+          case 0:
+            var top = $('.iconfont.icon-tupian').offset().top
+            $('.barControl').css('marginTop', top + 5)
+            that.barShow = true
+            that.brightnessTop = top
+            break
+          case 1:
+            var top = $('.iconfont.icon-shape23').offset().top
+            $('.bgBrightnessControl').css('marginTop', top + 5)
+            that.brightnessShow = true
+            that.brightnessTop = top
+            break
+
+          case 2:
+            that.box.isFlip = !that.box.isFlip
+            break
+          case 3:
+            //截图工具
+            //直接选择要截图的dom，就能截图，但是因为canvas的原因，生成的图片模糊
+            //html2canvas(document.querySelector('div')).then(function(canvas) {
+            //    document.body.appendChild(canvas);
+            //});
+            //创建一个新的canvas
+
+            // var canvas2 = document.createElement('canvas')
+            // let _canvas = document.querySelector('#main-img')
+            // var w = parseInt(window.getComputedStyle(_canvas).width)
+            // var h = parseInt(window.getComputedStyle(_canvas).height)
+            // canvas2.width = w * 2
+            // canvas2.height = h * 2
+            // canvas2.style.width = w + 'px'
+            // canvas2.style.height = h + 'px'
+            // var context = canvas2.getContext('2d')
+            // context.scale(2, 2)
+
+            //  setTimeout(function(){
+            //   html2canvas(document.querySelector('#main-img')).then(function(canvas) {
+            //     document.body.appendChild(canvas);
+            //     //canvas转换成url，然后利用a标签的download属性，直接下载，绕过上传服务器再下载
+
+            //     document.querySelector('#down').setAttribute('href', canvas.toDataURL())
+
+            //   })
+            //   },1000)
+
+
+            // that.$message({
+            //   message: '请使用截图工具截图再保存！'
+            // })
+
+            break
+          case 4:
+            that.dialogVisible = true
+            break
+          case 5:
+            that.curGoodList = []
+            bus.$emit('clearGoodList', true)
+            break
+          case 6:
+            var data = {}
+            data.goodList = that.curGoodList
+            if (that.userImg) {
+              data.bg = that.userImg
+            } else {
+              data.bg = that.bgList[that.swiperIndex].mainImage
+            }
+            console.log(data)
+            sessionStorage.setItem('curSimulate', JSON.stringify(data))
+            bus.$emit('curPage', 'remark-add')
+            break
+        }
       }
-    }
-  },
-  mounted: function() {
-    sessionStorage.removeItem('curRemark')
-    var that = this
-    //页面加载的时候滑块控件必须要可见，否则会初始化错误，故在页面加载完成之后再display：none
-    //$('.cover').css({'z-index':21,'display':'none'});
-    $(window).resize(function() {
-      console.log('resize')
-      /* that.win.width = $(window).width();
-         that.win.height = $(window).height();*/
-      that.box.width = $('.swiper_box').width()
-      that.box.height = $('.swiper_box').height()
-      console.log(that.box.width / that.box.height - that.userImgWidth / that.userImgHeight)
-    })
-    this.$message.closeAll()
-    this.$message({
-      showClose: true,
-      message: '鼠标左键拖动，滚轮缩放，右键功能面板',
-      duration: 3000
-    })
-    $(window).trigger('resize')
-    this.login()
-  },
-  computed: {
-    swiper() {
-      return this.$refs.mySwiper.swiper
+    },
+    mounted: function () {
+      sessionStorage.removeItem('curRemark')
+      var that = this
+      var file = {};
+      file.src = "static/images/hua.png";
+      file.thumbImage = "static/images/hua.png";
+      file.url = "static/images/hua.png";
+      file.number = 12333;
+      file.mainImage = "static/images/hua.png";
+      file.checked = false;
+      file.needNum = 1;
+
+      that.mainImg.push({
+        file
+      });
+      const image = new Image();
+      image.src = file.src;
+      if (image.width > (parseInt(image.height) + 50)) {
+        that.mainImgSize = true;
+      } else {
+        that.mainImgSize = false;
+      }
+      that.homeImageType = true;
+      //页面加载的时候滑块控件必须要可见，否则会初始化错误，故在页面加载完成之后再display：none
+      //$('.cover').css({'z-index':21,'display':'none'});
+      $(window).resize(function () {
+        console.log('resize')
+        /* that.win.width = $(window).width();
+           that.win.height = $(window).height();*/
+        that.box.width = $('.swiper_box').width()
+        that.box.height = $('.swiper_box').height()
+        console.log(that.box.width / that.box.height - that.userImgWidth / that.userImgHeight)
+      })
+      this.$message.closeAll()
+      this.$message({
+        showClose: true,
+        message: '鼠标左键拖动，滚轮缩放，右键功能面板',
+        duration: 3000
+      })
+    
+    
+
+
+      $(window).trigger('resize');
+      this.login()
+    },
+    computed: {
+      swiper() {
+        return this.$refs.mySwiper.swiper
+      }
+    },
+    watch:{
+      mainImg:function(){
+        this.mainImgWidth=$(".main-img .bootom img").width()+'px';
+      },
+      bootom:function(){
+        this.mainImgWidth=$(".main-img .bootom img").width()+'px';
+        $(".main-img .bootom").width(this.mainImgWidth);
+      },
+    },
+    updated : function(){ 
+      setTimeout(function(){
+        this.mainImgWidth=$(".main-img .bootom img").width()+'px';
+        $(".main-img .bootom").width(this.mainImgWidth);
+       console.log(this.mainImgWidth);
+      },100)
+    
     }
   }
-}
+
 </script>
 <style>
-  .head-radio .el-radio-button__inner{
-    background-color: rgba(0,0,0,0);
-    border: 0px !important;
+  .cut-button .el-radio-button__inner {
+    background-color: #353f48;
     color: white;
-    width: 100%;
-    padding: 0px;
+    font-weight: 600;
+    border: 0px !important;
+    padding: 10px 2px;
   }
-  .head-radio .el-radio-group{
+
+  .cut-button .el-radio-button__inner i {
+    font-size: 25px;
+  }
+
+  .right_goods .el-menu {
+    background-color: initial;
+    height: 100%;
+  }
+
+  .right_goods .el-radio-group {
     width: 100%;
   }
-  .head-radio .el-radio-button{
+
+  .right_goods .el-radio-button {
     width: 100%;
   }
-  .head-radio .active{
-    background: linear-gradient(to left,#3b9eff 0,#19c3ff 100%);
+
+  .right_goods .active {
+    background: linear-gradient(to left, #3b9eff 0, #19c3ff 100%);
     float: left;
     height: 50px;
     line-height: 50px;
     width: 50px;
   }
+
+  .plusminus .el-slider {
+    width: 120px;
+    margin: 0px 10px;
+  }
+
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .head-radio{
-    width: 30%;
+  .head-title {
+    color: #ffffff;
+    font-size: 23px;
+    margin-left: 20px;
+  }
+
+  .head-radio {
+    width: 320px;
     height: 50px;
     line-height: 50px;
+    position: absolute;
+    background-color: #353f48;
+    top: 0px;
+    left: 0px;
   }
-.head-radio i{
-  font-size: 24px;
-  font-weight: 600;
-  padding: 0px 10px;
-}
-.good-select {
-  height: 100%;
-  background-color: #353f48;
-  padding: 0px 0px;
-}
-.content-r .upload_warp_left {
-  width: 100%;
-}
-.img-r img {
-  width: 100%;
-  height: auto;
-}
-.simulate-section {
-  height: 100vh;
-  margin-top: -50px;
-  padding-top: 50px;
-  position: relative;
-}
-.my-swiper {
-  background-color: #ffff;
-  box-shadow: 0 4px 12px rgba(6, 31, 50, 0.24);
-  -webkit-box-shadow: 0 4px 12px rgba(6, 31, 50, 0.24);
-  -moz-shadow: 0 4px 12px rgba(6, 31, 50, 0.24);
-  -o-shadow: 0 4px 12px rgba(6, 31, 50, 0.24);
-}
-.banner_img {
-  width: 100%;
-}
 
-.el-upload__input {
-  display: none !important;
-}
-.swiper-slide {
-  height: 100%;
-  background-position: 50% 50%;
-  background-size: auto 100%;
-  background-repeat: no-repeat;
-}
+  .head-radio i {
+    font-size: 24px;
+    font-weight: 600;
+    padding: 0px 10px;
+  }
 
-.bgSizeReset {
-  background-size: 100% auto !important;
-}
+  .good-select {
+    height: 100%;
+    padding: 0px 0px;
+  }
 
-.toBack {
-  width: 100px;
-  cursor: pointer;
-  height: 50px;
-  display: inline-block;
-  background: #fff;
-}
+  .content-r .upload_warp_left {
+    width: 100%;
+  }
 
-.toBack:active {
-  color: #ffa538;
-}
+  .img-r img {
+    width: 100%;
+    height: auto;
+  }
 
-.toBack > .iconfont {
-  padding-right: 5px;
-}
+  .simulate-section {
+    height: 100vh;
+    position: relative;
+    /* background-image: linear-gradient(to left, rgb(59, 158, 255) 0px, rgb(25, 195, 255) 100%);
+   */
+    background-color: #000000;
+    margin-top: -50px;
+    padding-top: 50px;
+  }
 
-.menu_bar {
-  position: relative;
-  overflow: hidden;
-}
+  .my-swiper {
+    background-color: #ffff;
+    box-shadow: 0 4px 12px rgba(6, 31, 50, 0.24);
+    -webkit-box-shadow: 0 4px 12px rgba(6, 31, 50, 0.24);
+    -moz-shadow: 0 4px 12px rgba(6, 31, 50, 0.24);
+    -o-shadow: 0 4px 12px rgba(6, 31, 50, 0.24);
+  }
 
-.menu_bar .iconfont {
-  margin-right: 5px;
-  font-size: 1.6rem;
-}
+  .banner_img {
+    width: 100%;
+  }
 
-.bar_item {
-  float: left;
-  cursor: pointer;
-  padding: 0px 5px;
-  display: inline;
-  margin-left: 15px;
-}
+  .el-upload__input {
+    display: none !important;
+  }
 
-.bar_item:active {
-  color: #ffa538;
-}
+  .swiper-slide {
+    height: 100%;
+    background-position: 50% 50%;
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+  }
 
-.left_bar {
-  height: 50px;
-  background-color: #293036;
-  -webkit-app-region: drag;
-  color: #dadde5;
-  text-align: center;
-  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.44);
-  -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.44);
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.44);
-  position: relative;
-  z-index: 11;
-}
+  .bgSizeReset {
+    background-size: 100% auto !important;
+  }
 
-.swiper_box {
-  width: 70%;
-  position: relative;
-  padding: 3%;
-  margin: 0 auto;
-}
+  .toBack {
+    width: 100px;
+    cursor: pointer;
+    height: 50px;
+    display: inline-block;
+    background: #fff;
+  }
 
-.user_img {
-  position: fixed;
-  left: 100px;
-  right: 30vw;
-  top: 0;
-  bottom: 0;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  background-size: auto 100%;
-  z-index: 1;
-}
+  .toBack:active {
+    color: #ffa538;
+  }
 
-.flipx {
-  -moz-transform: scaleX(-1);
-  -webkit-transform: scaleX(-1);
-  -o-transform: scaleX(-1);
-  transform: scaleX(-1);
-}
+  .toBack>.iconfont {
+    padding-right: 5px;
+  }
 
-.right_goods {
-  width: 30%;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  background: #fff;
-  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.44);
-  -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.44);
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.44);
-  overflow: hidden;
-}
+  .menu_bar {
+    position: relative;
+    overflow: hidden;
+  }
 
-.bgBrightnessControl {
-  width: 200px;
-  background: #fff;
-  padding: 0 10px;
-  border-radius: 5px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
-  margin-left: 110px;
-}
+  .menu_bar .iconfont {
+    margin-right: 5px;
+    font-size: 1.6rem;
+  }
 
-.cover {
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 21;
-}
-
-.cover_btn {
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  z-index: -1;
-}
-
-.my_row {
-  margin: 5px 0;
-}
-
-.share_img {
-  width: 100%;
-  border-radius: 5px;
-}
-
-p.iconfont {
-  padding-bottom: 0;
-  margin-bottom: 0;
-}
-.select_scence {
-  background: #fff;
-  display: inline-block;
-  padding: 5px;
-  border-radius: 3px;
-  box-shadow: 0 1px 1px #5d5d5d;
-  margin-left: 115px;
-}
-
-.upload_warp_img_div_del {
-  position: absolute;
-  top: 6px;
-  width: 16px;
-  right: 4px;
-}
-
-.upload_warp_img_div_top {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 30px;
-  background-color: rgba(0, 0, 0, 0.4);
-  line-height: 30px;
-  text-align: left;
-  color: #fff;
-  font-size: 12px;
-  text-indent: 4px;
-  z-index: 9;
-}
-
-.upload_warp_img_div_text {
-  white-space: nowrap;
-  width: 80%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.upload_warp_img_div img {
-  max-width: 100%;
-  max-height: 100%;
-  vertical-align: middle;
-}
-
-.upload_warp_img_div {
-  height: auto;
-  width: 100%;
-  box-sizing: border-box;
-  cursor: pointer;
-  position: relative;
-}
-.homeImage {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-.cut {
-  width: 50px;
-  height: 50px;
-  line-height: 50px;
-  background-color: #20a0ff;
-  text-align: center;
-  border-radius: 50%;
-  box-shadow: 1px 2px 2px 1px #504d4d85;
-  font-weight: 600;
-  font-size: 14px;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  z-index: 9999;
-  color: white;
-  letter-spacing: 2px;
-}
-.content-r .upload_warp_left i {
-  font-size: 80px;
-}
-.main-img {
-  width: 100%;
-}
-.content-r {
-  overflow: hidden;
-}
-.plusminus{
-  position: absolute;
-    bottom: 10px;
-    right: 0px;
-    z-index: 9999;
-}
-.plusminus button{
-  border-radius: 50%;
+  .bar_item {
+    color: #9fb2b8;
+    cursor: pointer;
     padding: 0px;
-    min-width: 36px;
+    display: inline;
+    margin: 0px 10px;
+    float: right;
+  }
+
+  .bar_item:active {
+    color: #ffa538;
+  }
+
+  .head-bar {
+    height: 50px;
+    -webkit-app-region: drag;
+    color: #333333;
+    text-align: center;
+    z-index: 11;
+    background-color: #303036;
+    width: 100%;
+    position: relative;
+  }
+
+  .swiper_box {
+    position: relative;
+    margin: 0 auto;
+    height: 100%;
+  }
+
+  .user_img {
+    position: fixed;
+    left: 100px;
+    right: 30vw;
+    top: 0;
+    bottom: 0;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: auto 100%;
+    z-index: 1;
+  }
+
+  .flipx {
+    -moz-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    transform: scaleX(-1);
+  }
+
+  .right_goods {
+    width: 320px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    /* background: rgba(41, 48, 54, 0.37); */
+    background-color: #303036;
+    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.44);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.44);
+    /* overflow: hidden; */
+    position: relative;
+    height: 100%;
+    /* padding-top: 50px; */
+    -webkit-transition: all .4s linear 0s;
+    transition: all .4s linear 0s;
+
+  }
+
+  .buttom-bar {
+    position: absolute;
+    bottom: 0%;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    /* background-color: white; */
+    /* -webkit-box-shadow: 0px -1px 2px 1px rgba(0, 0, 0, 0.31); */
+    /* box-shadow: 0px -1px 2px 1px rgba(0, 0, 0, 0.31); */
+    padding: 10px 10px;
+    min-width: 80%;
+
+
+  }
+
+  .buttom-wrap {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .bg-box {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    -webkit-filter: blur(8px) contrast(0.4) brightness(1.4);
+    filter: blur(8px) contrast(0.4) brightness(1.4);
+    clip: rect(205px 572px 516px 351px);
+    z-index: 50;
+    -webkit-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+  }
+
+  .bg-box>.bg-filter {
+    background-color: #ffffff9e;
+    z-index: 9999;
+    height: 50px;
+  }
+
+  .buttom-bar .bar_item {
+    color: #fefefe;
+    min-width: 60px;
+  }
+
+  .buttom-bar .menu_bar {
+    position: absolute;
+    top: 5px;
+  }
+
+  .left-content {
+    overflow: hidden;
+    height: 100%;
+  }
+
+  .cut-button {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    z-index: 99;
+    right: -20px;
+  }
+
+  .bgBrightnessControl {
+    width: 200px;
+    background: #fff;
+    padding: 0 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+    margin-left: 110px;
+  }
+
+  .cover {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 21;
+  }
+
+  .cover_btn {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+  }
+
+  .my_row {
+    margin: 5px 0;
+  }
+
+  .share_img {
+    width: 100%;
+    border-radius: 5px;
+  }
+
+  p.iconfont {
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  .select_scence {
+    background: #fff;
+    display: inline-block;
+    padding: 5px;
+    border-radius: 3px;
+    box-shadow: 0 1px 1px #5d5d5d;
+    margin-left: 115px;
+  }
+
+  .upload_warp_img_div_del {
+    position: absolute;
+    top: 6px;
+    width: 16px;
+    right: 4px;
+  }
+
+
+
+  .homeImage {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding: 6% 3% 60px 10%;
+  }
+
+  .cut {
+    height: 30px;
+    position:absolute;
+    top: 0px;
+    right: 0px;
+    min-width: 60px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #ffffff;
+    font-weight: 600;
+    font-size: 14px;
+    z-index: 9999;
+    color: #7e8e98;
+    letter-spacing: 2px;
+    text-align: center;
+    border: 0px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  .content-r .upload_warp_left i {
+    font-size: 80px;
+  }
+
+  .main-img {
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+    padding-top: 30px;
+  }
+
+  .main-img .img-r {
+    box-shadow: 0 4px 12px rgba(6, 31, 50, .24);
+    -webkit-box-shadow: 0 4px 12px rgba(6, 31, 50, .24);
+    -moz-shadow: 0 4px 12px rgba(6, 31, 50, .24);
+    -o-shadow: 0 4px 12px rgba(6, 31, 50, .24);
+    border-radius: 10px;
+    border-top-right-radius: 0px;
+  }
+  .main-img .bootom{
+    width: auto;
+    height: 100%;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(6, 31, 50, .24);
+    -webkit-box-shadow: 0 4px 12px rgba(6, 31, 50, .24);
+    -moz-shadow: 0 4px 12px rgba(6, 31, 50, .24);
+    -o-shadow: 0 4px 12px rgba(6, 31, 50, .24);
+    border-radius: 10px;
+    border-top-right-radius: 0px;
+    overflow: hidden;
+  }
+  .main-img .bootom img{
+    width: auto;
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+
+  }
+  .content-r {
+    overflow: hidden;
+  }
+
+  .plusminus {
+    position: absolute;
+    left: 50%;
+    z-index: 999;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    width: 40%;
+    bottom: 3%;
+
+  }
+
+  .plusminus button {
+    border-radius: 50%;
+    padding: 0px;
+    width: 34px;
+    min-width: 34px;
+    height: 34px;
     margin: 0px 5px;
     font-size: 30px;
     line-height: 36px;
-    background-color: #20a0ff;
-    color: white;
+    box-sizing: border-box;
+    background-color: #eef1f6;
+    color: #8898a1;
     border: 0px;
-    -webkit-box-shadow: 1px 2px 2px 1px #504d4d85;
-    box-shadow: 1px 2px 2px 1px #504d4d85;
+    -webkit-box-shadow: 1px 1px 1px 1px #504d4d85;
+    box-shadow: 1px 1px 1px 1px #504d4d85;
+  }
+
+  .main-right-bar {}
+
+  .main-right-bar .menu_bar  li:hover{
+
+  }
+.main-img .box{
+  position: relative;
+  padding-top: 30px;
 }
+  .main-right-bar li {
+    float: none;
+    color: #7f9099;
+    margin: 10px 0px;
+    padding: 5px 0px;
+    padding-left: 15px;
+  }
+
 </style>

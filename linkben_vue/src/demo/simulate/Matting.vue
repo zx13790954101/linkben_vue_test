@@ -1,6 +1,9 @@
 <template>
-    <div class="matting-box">
-        <el-button type="text" @click="dialogTableVisible = true">抠图</el-button>
+    <div class="matting-box col-lg-4">
+
+        <div type="text" @click="dialogTableVisible = true" class="flex-y-c wrap">
+            抠图
+        </div>
         <!-- 弹出框的div -->
         <el-dialog title="图片处理"  width="100%" :visible.sync="dialogTableVisible" >
             <div class="matting-dialog">
@@ -78,11 +81,27 @@ export default {
     text-align: center;
     bottom: 0px;
     color: white;
-        background-color: #20a0ff;
+
+}
+.matting-box .wrap{
+    /* background-color: #20a0ff;
     border-color: #20a0ff;
     -webkit-box-shadow: -1px 0 0 0 #20a0ff;
-    box-shadow: -1px 0 0 0 #20a0ff;
-    width: 100%;
+    box-shadow: -1px 0 0 0 #20a0ff; */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    padding: 0px;
+    min-width: auto;
+    background-color: #20a0ff;
+    border-color: #20a0ff;
+    -webkit-box-shadow: -1px 0 0 0 #20a0ff;
+    box-shadow: -1px 0 0 0 #20a0ff; 
+}
+
+.matting-box .wrap i{
+
 }
 .matting-dialog{
     width:100%;
