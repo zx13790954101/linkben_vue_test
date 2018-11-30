@@ -1,7 +1,8 @@
 <template>
   <div class="upload">
-    <div class="upload-warp" @click="fileClick">
+    <div class="upload-warp center" @click="fileClick">
        <i class="iconfont icon-buoumaotubiao47 position-a-center"></i>
+       <h4 class="white position-a-bottom">添加图片</h4>
     </div>
     <input @change="fileChange($event)" type="file" id="upload_file" multiple style="display: none" />
   </div>
@@ -149,13 +150,14 @@
 
   .upload-warp {
     width: 100%;
-    height: 100%;
+    height: 110px;
     background: linear-gradient(to left,#3b9eff 0,#19c3ff 100%);
-    min-height: 100px;
+    min-height: 110px;
     cursor: pointer;
     border-radius: 4px;
     position: relative;
-    box-sizing: border-box
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
   }
 
 

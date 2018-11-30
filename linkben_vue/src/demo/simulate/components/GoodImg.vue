@@ -43,12 +43,9 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  img{
-
-  }
   .good-img{
     cursor: pointer;
-    background: #efefef;
+   background: #54545494;;
   }
   .good-img:active{
     background: #dfdfdf;

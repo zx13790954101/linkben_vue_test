@@ -1,114 +1,80 @@
 <template>
-    <div class="matting-box col-lg-4">
-
-        <div type="text" @click="dialogTableVisible = true" class="flex-y-c wrap">
-            抠图
-        </div>
-        <!-- 弹出框的div -->
-        <el-dialog title="图片处理"  width="100%" :visible.sync="dialogTableVisible" >
-            <div class="matting-dialog">
-                  <iframe src='http://www.aigei.com/bgremover/'></iframe>
-            </div>
-        </el-dialog>
+  <div class="matting-box">
+    <div type="text" @click="dialogTableVisible = true" class="flex-y-c wrap">
+      <i class="iconfont icon-762bianjiqi_jietu"></i>
+      <h5>抠图与剪截</h5>
     </div>
+    <!-- 弹出框的div -->
+    <el-dialog title="图片处理" width="100%" :visible.sync="dialogTableVisible">
+      <div class="matting-dialog">
+        <iframe src='http://www.aigei.com/bgremover/'></iframe>
+      </div>
+    </el-dialog>
+  </div>
 </template>
 <script>
-export default {
-  name:"matting",
-//   data: {
-//     details: {},
-//     url: '',
-//     urlsrc: 'https://www.gaoding.com/clip?id=19256635',
-//   },
-  data (){
-    return {
+  export default {
+    name: "matting",
+    data() {
+      return {
         dialogTableVisible: false,
         dialogFormVisible: false,
-    }
-  },
-  created() {
-    // this.getURL(urlsrc)
-  },
-  methods: {
-    getURL(url) {
-    //   let http = window.location.protocol === 'http:' ? 'http:' : 'https:'
-    //   let realurl = http + '//cors-anywhere.herokuapp.com/' + url
-    //   let that = this
-    //   $.ajax({
-    //     type: 'get',
-    //     url: realurl,
-    //     success: function(res) {
-    //       if (res) {
-    //         let data = res
-    //         data = data.replace(/data-src/g, 'src')
-    //         let htmlSrc = 'data:text/html;charset=utf-8,' + data // 解析码解决乱码
-    //         that.url = htmlSrc
-    //       }
-    //     },
-    //     error: function(err) {
-    //       console.log(err)
-    //       Toast('好像出错了...')
-    //     }
-    //   })
-      //            axios.get(realurl).then(res=>{
-      //                console.log(res);
-      //            },rej=>{
-      //                let data = rej.data;
-      //                data=data.replace(/data-src/g, "src");
-      //                let html_src = 'data:text/html;charset=utf-8,' + data; //解析码解决乱码
-      //                this.url = html_src;
-      //            })
+      }
+    },
+    created() {
+      // this.getURL(urlsrc)
+    },
+    methods: {
+      getURL(url) {}
     }
   }
-}
+
 </script>
 <style>
-.matting-box .el-button--text span{
+  .matting-box .el-button--text span {
     color: white;
-}
-.matting-box .el-dialog--small{
+  }
+
+  .matting-box .el-dialog--small {
     width: 90%;
-}
- iframe html{
+  }
+
+  iframe html {
     overflow: hidden;
-}
+  }
 
 </style>
 
 <style scoped>
-.matting-box{
+  .matting-box {
     position: relative;
     text-align: center;
     bottom: 0px;
     color: white;
 
-}
-.matting-box .wrap{
-    /* background-color: #20a0ff;
-    border-color: #20a0ff;
-    -webkit-box-shadow: -1px 0 0 0 #20a0ff;
-    box-shadow: -1px 0 0 0 #20a0ff; */
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
-    padding: 0px;
+  }
+
+  .matting-box .wrap {
+    width: 100%;
+    padding: 20px 0px;
     min-width: auto;
-    background-color: #20a0ff;
-    border-color: #20a0ff;
-    -webkit-box-shadow: -1px 0 0 0 #20a0ff;
-    box-shadow: -1px 0 0 0 #20a0ff; 
-}
+    line-height: 3rem;
+    background-color: #404040;
+  }
 
-.matting-box .wrap i{
+  .matting-box .wrap i {
+    font-size: 3rem;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+  }
 
-}
-.matting-dialog{
-    width:100%;
+  .matting-dialog {
+    width: 100%;
     height: 60vh;
-}
- iframe html{
+  }
+
+  iframe html {
     overflow: hidden;
-}
+  }
 
 </style>
