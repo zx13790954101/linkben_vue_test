@@ -12,9 +12,17 @@ import Matting from '@/demo/simulate/Matting'
 import CarQuery from '@/demo/pages/CarQuery'
 Vue.use(Router)
 
+function getAbsolutePath () {
+  let path = location.pathname;
+  return path.substring(0, path.lastIndexOf('/') + 1);
+
+ }
+
 export default new Router({
   mode: 'history',
+  base: getAbsolutePath(),
   routes: [
+ 
     {
       path:"/",
       name:'Home',
@@ -30,43 +38,6 @@ export default new Router({
       name: 'CarQuery',
       component: CarQuery
     },
-    {
-      path: '/Matting',
-      name: 'Matting',
-      component: Matting
-    },
-    // {
-    //   path: '/',
-    //   name: 'index',
-    //   component: Index
-    // },
-    {
-      path: '/index',
-      component: Index
-    },
-    {
-      path: '/home',
-      component: Home
-    },
-    {
-      path: '/order',
-      component: Order
-    },
-    {
-      path: '/discover',
-      component: Discover
-    },
-    {
-      path: '/my',
-      component: My
-    },
-    {
-      path: '/login',
-      component: Login
-    },
-    {
-      path: '/register',
-      component: Register
-    }
+  
   ]
 })
