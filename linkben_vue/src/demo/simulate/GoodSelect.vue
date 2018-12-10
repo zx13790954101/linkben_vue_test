@@ -5,7 +5,7 @@
     </div>
   
     
-    <el-tabs :tab-position="top" style="height: 200px;">
+    <el-tabs  style="height: 200px;">
         <el-tab-pane label="插件列表">
           <div class="flex-c box">
               <h4 class="title flex-item">
@@ -428,6 +428,21 @@
 }
 .good-select .el-tabs__item.is-active{
       color: #fdfdfd;
+}
+.good-select .el-tabs__item{
+  width: 50%;
+    text-align: center;
+}
+
+.good-select .el-tabs__active-bar{
+  width: 40% !important;
+    margin-left: 5%;
+        /* background: -webkit-gradient(linear,right top, left top,color-stop(0, #3b9eff),to(#19c3ff)); */
+    /* background: linear-gradient(to left,#3b9eff 0,#19c3ff 100%); */
+    background-color: #ffffff;
+}
+.good-select  .el-tabs__nav{
+  width: 100%;
 }
 </style>
 
