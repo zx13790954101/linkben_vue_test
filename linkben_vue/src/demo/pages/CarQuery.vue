@@ -57,7 +57,10 @@
       },
     },
     mounted() {
+      axios.get('/zhihu/api/4/news/before/20190106')
+        .then(function(res){
 
+        });
     },
     computed: {
 

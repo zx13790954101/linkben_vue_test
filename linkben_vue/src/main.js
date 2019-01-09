@@ -11,9 +11,7 @@ import 'styles/iconfont.css'
 import 'swiper/dist/css/swiper.css'
 // import 'lib-flexible/flexible'
 
-//引入bootstrap
-// import './assets/bootstrap/dist/css/bootstrap.min.css'
-// import './assets/bootstrap/dist/js/bootstrap.min'
+
 //引入mint-ui所有的组件使用下面两行
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
