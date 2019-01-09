@@ -10,6 +10,7 @@ module.exports = {
     // assetsRoot: path.resolve(__dirname,'../dist'),
 
    // env: require('./dev.env'),
+  //  env: require('./dev.env'),
     port: 8888,
     autoOpenBrowser: true,
     // Paths
@@ -21,6 +22,13 @@ module.exports = {
         changeOrigin:true,
         pathRewrite:{
           '^/api' : ''
+        }
+      },
+      '/zhihu': {
+        target : 'https://news-at.zhihu.com',
+        changeOrigin:true,
+        pathRewrite:{
+          '^/zhihu' : ''
         }
       }
     },
@@ -51,6 +59,7 @@ module.exports = {
 
   build: {
    // env: require('./prod.env'),
+    //env: require('./prod/env'),
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
 
