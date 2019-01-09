@@ -20,7 +20,8 @@ function getAbsolutePath () {
 
 export default new Router({
   mode: 'history',
-  base: getAbsolutePath(),
+  //base: getAbsolutePath(),
+  base:"lzs",
   routes: [
  
     {
