@@ -4,14 +4,18 @@
 
 const path = require('path')
 
-module.exports = {
+module.exports = { 
   dev: {
+    index: path.resolve(__dirname,'../dist/index.html'),
+    assetsRoot: path.resolve(__dirname,'../dist'),
+
+   // env: require('./dev.env'),
   //  env: require('./dev.env'),
     port: 8888,
     autoOpenBrowser: true,
     // Paths
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: './',
     proxyTable: {
       '/api': {
         target : 'https://dynamic.12306.cn',
@@ -54,6 +58,7 @@ module.exports = {
   },
 
   build: {
+   // env: require('./prod.env'),
     //env: require('./prod/env'),
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
@@ -61,8 +66,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: './',
-
+    assetsPublicPath:'./' ,
     /**
      * Source Maps
      */
