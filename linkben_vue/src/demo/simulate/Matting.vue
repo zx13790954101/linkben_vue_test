@@ -59,7 +59,7 @@
     padding: 20px 0px;
     min-width: auto;
     line-height: 3rem;
-    background-color: #404040;
+    background-color: #5f5f5f;
   }
 
   .matting-box .wrap i {

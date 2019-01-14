@@ -443,6 +443,7 @@
 }
 .good-select  .el-tabs__nav{
   width: 100%;
+  background-color: #585858;
 }
 </style>
 
@@ -558,7 +559,7 @@
   .top-bar {
     position: relative;
     width: 100%;
-    background-color: #2b2b2b;
+    background-color: #585858;
     padding: 15px;
   }
 
