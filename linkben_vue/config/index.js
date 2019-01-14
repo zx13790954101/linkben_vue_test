@@ -6,8 +6,7 @@ const path = require('path')
 
 module.exports = { 
   dev: {
-   
-
+    assetsRoot: path.resolve(__dirname,'../dist'),
    // env: require('./dev.env'),
   //  env: require('./dev.env'),
     port: 8888,

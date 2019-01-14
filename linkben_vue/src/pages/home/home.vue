@@ -13,17 +13,11 @@ export default {
     }
   },
   mounted () {
-    axios.get('/zhihu/api/4/news/before/20190106')
-        .then(function(res){
+   this.getHomeInfo();
+  },
 
-        });
-  },
-  computed: {
-    
-  },
-  methods : {
-   }
 
 }
 </script>
 
+</style>

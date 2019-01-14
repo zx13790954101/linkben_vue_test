@@ -14,8 +14,7 @@ function getAbsolutePath () {
  
 export default new Router({
   mode: 'history',
-  //base:getAbsolutePath () ,
-    base:'/dist/',
+  base: "/dist/",
   routes: [
     {
       path:"/",
