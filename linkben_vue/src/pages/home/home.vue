@@ -1,46 +1,10 @@
 <template>
-    <div>
-        <home-header></home-header>
-        <home-swiper :list="swiperList"></home-swiper>
-    </div>
     <div class="wrapper">
-    
+      <h1>sssss</h1>
     </div>
 </template>
 
 <script>
-import HomeHeader from './components/Header'
-import HomeSwiper from './components/Swiper'
-import axios from 'axios'
-export default {
-  name: 'Home',
-  components: {
-      HomeHeader,
-      HomeSwiper,
-  },
-  data () {
-    return {
-     swiperList:[]
-    }
-  },
-  methods : {
-   getHomeInfo () {
-       axios.get('/api/index.json')
-        .then(this.getHomeInfoSucc)
-   },
-   getHomeInfoSucc(res) {
-        res = res.data;
-       if(res.ret && res.data){
-           const data = res.data;
-           this.swiperList = data.swiperList;
-       }
-   }
-  },
-  mounted () {
-   this.getHomeInfo();
-  },
-  computed: {
-    
 import axios from 'axios'
 export default {
   name: 'Home',
@@ -56,15 +20,10 @@ export default {
   },
   computed: {
     
-  }
   },
   methods : {
    }
 
 }
-</script>
-
-<style>
-</style>
 </script>
 

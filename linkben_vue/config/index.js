@@ -6,8 +6,7 @@ const path = require('path')
 
 module.exports = { 
   dev: {
-    index: path.resolve(__dirname,'../dist/index.html'),
-    assetsRoot: path.resolve(__dirname,'../dist'),
+   
 
    // env: require('./dev.env'),
   //  env: require('./dev.env'),
