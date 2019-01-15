@@ -1,20 +1,13 @@
 <template>
-    <div>
-        <home-header></home-header>
-        <home-swiper :list="swiperList"></home-swiper>
+    <div class="wrapper">
+    
     </div>
 </template>
 
 <script>
-import HomeHeader from './components/Header'
-import HomeSwiper from './components/Swiper'
 import axios from 'axios'
 export default {
   name: 'Home',
-  components: {
-      HomeHeader,
-      HomeSwiper,
-  },
   data () {
     return {
      swiperList:[]
@@ -37,8 +30,8 @@ export default {
    this.getHomeInfo();
   },
   computed: {
-    
   }
+
 }
 </script>
 
