@@ -6,16 +6,7 @@
         <a href="linkben.com" class="flex-l  ">LinkBen</a>
       </span>
       <span class="flex-item">
-        <ul class="head-tab">
-          <li class=" flex-c" @click="fileClick" v-if="homeImageType">
-            <i class="iconfont icon-baocun1"></i>  <p>切换</p>
-          </li>
-          <li class=" flex-c" v-for="(item,index) in leftBarList" @click="menuBar(index,$event)">
-            <i :class="['iconfont',item.icon]"></i>
-            <p v-if="index!=3">{{item.text}}</p>
-            <a v-if="index==3" class="down" id="down" download>{{item.text}}</a>
-          </li>
-        </ul>
+         <topNav :homeImageType='homeImageType'></topNav>
       </span>
     </div>
     <!-- 场景功能 -->
@@ -161,11 +152,10 @@
   import GoodImg from './simulate/components/GoodImg.vue'
   import GoodSelect from './simulate/GoodSelect.vue'
   import ImgControl from './simulate/ImgControl.vue'
-  // import PicUpload from './simulate/PicUpload.vue'
-  // import PicUploadLess from './simulate/PicUploadLess.vue'
   import Share from './simulate/Share.vue'
   import GoodDetailCopy from './simulate/GoodDetailCopy.vue'
   import ScenceSelect from './simulate/ScenceSelect.vue'
+  import TopNav from './simulate/TopNav.vue'
   export default {
     name: 'simulate',
     components: {
@@ -174,7 +164,8 @@
       Share,
       GoodDetailCopy,
       ScenceSelect,
-      GoodImg
+      GoodImg,
+      TopNav
     },
     data() {
       var data = {
@@ -242,28 +233,6 @@
           height: $('.swiper_box').height(),
           isFlip: false
         },
-        leftBarList: [
-          {
-            icon: 'icon-lishijilu-copy',
-            text: '历史记录'
-          },
-          {
-            icon: 'icon-qingchu1',
-            text: '清除'
-          },
-          {
-            icon: 'icon-wenhao_huabanfuben',
-            text: '文档'
-          },
-          {
-            icon: 'icon-fenxiang2',
-            text: '分享'
-          },
-          {
-            icon: 'icon-quanping1',
-            text: '全屏'
-          },
-        ],
         leftBarList2: [{
             icon: 'icon-dengpao',
             text: '亮度'
@@ -861,19 +830,7 @@
   .toBack>.iconfont {
     padding-right: 5px;
   }
-  .head-tab{
-    display: inline-block;
-    height: 40px;
-    line-height: 40px;
-    margin: 0 auto;
-    background: #202026;
-    background: #505056;
-    background: rgba(255,255,255,0.3);
-    background: linear-gradient(to left, #2a2a2a,#3c3c3c);
-    padding: 0px 5%;
-    box-sizing: border-box;
-    border-radius: 20px;
-  }
+
 
   .bottom-tab {
     position: relative;
@@ -881,17 +838,7 @@
     width: 100%;
   }
 
-  .head-tab li {
-    color: #dadada;
-    cursor: pointer;
-    padding: 0px;
-    display: inline;
-    margin: 0px 10px;
-    float: left;
-  }
-  .head-tab li i{
-    margin-right: 5px;
-  }
+
   .bottom-tab li i{
     margin-right: 5px;
     font-size: 1.6rem;

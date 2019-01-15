@@ -14,12 +14,12 @@ function getAbsolutePath () {
  
 export default new Router({
   mode: 'history',
-  base: "/dist/",
+ // base: "/dist/",
   routes: [
     {
       path:"/",
       name:'Home',
-      components:Home
+      component:Home
     },
     {
       path: '/Simulate',

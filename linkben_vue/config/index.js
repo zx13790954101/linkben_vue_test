@@ -13,7 +13,7 @@ module.exports = {
     autoOpenBrowser: true,
     // Paths
     assetsSubDirectory: 'static',
-    assetsPublicPath: './',
+    assetsPublicPath: '/',
     proxyTable: {
       '/api': {
         target : 'https://dynamic.12306.cn',
