@@ -14,14 +14,13 @@ function getAbsolutePath () {
  
 export default new Router({
   mode: 'history',
-  base: "/dist/",
-  // base:getAbsolutePath () ,
-    base:'/dist',
+  //base: "/dist/",
+  //base:getAbsolutePath () ,
   routes: [
     {
       path:"/",
       name:'Home',
-      components:Home
+      component:Home
     },
     {
       path: '/Simulate',
@@ -37,7 +36,6 @@ export default new Router({
       path: '/Matting',
       name: 'Matting',
       component: Matting
-
     }
   ]
 })

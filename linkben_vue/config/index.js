@@ -1,3 +1,4 @@
+// 在这里面描述了开发和构建两种环境下的配置
 'use strict'
 // Template version: 1.3.1
 // see http://vuejs-templates.github.io/webpack for documentation.
@@ -6,16 +7,17 @@ const path = require('path')
 
 module.exports = { 
   dev: {
-    // index: path.resolve(__dirname,'../dist/index.html'),
-    // assetsRoot: path.resolve(__dirname,'../dist'),
-
-   // env: require('./dev.env'),
-  //  env: require('./dev.env'),
+    // 环境变量
+    env: require('./dev.env'),
     port: 8888,
+    // 是否自动打开浏览器
     autoOpenBrowser: true,
-    // Paths
+    // 静态资源文件夹
     assetsSubDirectory: 'static',
+    // 发布路径
     assetsPublicPath: '/',
+    // 代理配置表，在这里可以配置特定的请求代理到对应的API接口
+    // 例如将'localhost:8080/api/xxx'代理到'www.example.com/api/xxx'
     proxyTable: {
       '/api': {
         target : 'https://dynamic.12306.cn',
@@ -32,6 +34,7 @@ module.exports = {
         }
       }
     },
+    
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
@@ -53,31 +56,33 @@ module.exports = {
     // set this to false - it *may* help
     // https://vue-loader.vuejs.org/en/options.html#cachebusting
     cacheBusting: true,
-
     cssSourceMap: true
   },
-
+  // 构建生产环境使用的配置
   build: {
-   // env: require('./prod.env'),
+    // 环境变量
+    env: require('./prod.env'),
     //env: require('./prod/env'),
-    // Template for index.html
+    // html入口文件
     index: path.resolve(__dirname, '../dist/index.html'),
-
-    // Paths
+    // 上线文件的存放路径
     assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'static',
+    // 二级目录，存放静态资源文件的目录，位于dist文件夹下
+    assetsSubDirectory: 'static',// 编译输出的二级目录
+    // 设置之后构建的产品文件在注入到index.html中的时候就会带上这里的发布路径
+    assetsPublicPath: './',// 编译发布的根目录，可配置为资源服务器域名或 CDN 域名
     /**
      * Source Maps
      */
-
-    productionSourceMap: true,
+    // 是否使用source-map
+    productionSourceMap: false,
     // https://webpack.js.org/configuration/devtool/#production
     devtool: '#source-map',
-
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.
     // Before setting to `true`, make sure to:
     // npm install --save-dev compression-webpack-plugin
+    // gzip模式下需要压缩的文件的扩展名，设置js、css之后就只会对js和css文件进行压缩
     productionGzip: false,
     productionGzipExtensions: ['js', 'css'],
 
