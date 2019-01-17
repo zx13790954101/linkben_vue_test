@@ -32,6 +32,14 @@ module.exports = {
         pathRewrite:{
           '^/zhihu' : ''
         }
+      },
+     
+      '/zhihuimg': {
+        target : 'https://pic1.zhimg.com',
+        changeOrigin:true,
+        pathRewrite:{
+          '^/zhihuimg' : ''
+        }
       }
     },
     

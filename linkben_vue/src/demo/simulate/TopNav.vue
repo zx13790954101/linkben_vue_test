@@ -56,10 +56,11 @@
       //全屏
       fullScreen() {
         var that=this;
+        debugger;
         var docElm = document.documentElement; 
         if (docElm.requestFullscreen) {  
             docElm.requestFullscreen();  
-            if(  docElm.requestFullscreen()==undefined){
+            if(  document.requestFullscreen==undefined ){
               document.exitFullscreen(); 
             }
         } else if (docElm.mozRequestFullScreen) {

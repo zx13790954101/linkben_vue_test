@@ -19,7 +19,9 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  import 'viewerjs/dist/viewer.css';
+  import axios from 'axios';
+  import Viewer from 'viewerjs';
   export default {
     name: 'bottomNav',
     components: {},
@@ -30,7 +32,7 @@
       }
     },
     props: {
-      sliderValue: String
+      sliderValue: 0
     },
     methods: {
       plusminus: function (data) {
@@ -45,7 +47,30 @@
       },
 
     },
-    mounted() {},
+    mounted() {
+      // View an image
+      const viewer = new Viewer(document.getElementById('mainImg'), {
+        inline: true,
+        navbar: false,
+        viewed() {
+          viewer.zoomTo(0.9);
+        },
+        url: 'data-original',
+        toolbar: {
+            flipHorizontal: 1,
+            flipVertical: 1,
+            oneToOne: 0,
+            reset: 1,
+            prev: 0,
+            play: 0,
+            next: 0,
+            rotateLeft: 1,
+            rotateRight: 1,
+            zoomIn: 1,
+            zoomOut: 1,
+        },
+      });
+    },
     computed: {
 
     },

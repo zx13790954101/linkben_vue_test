@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/pages/home/home'
+import Item from '@/pages/home/pages/Item'
 import Simulate from '@/demo/simulate'
 import Matting from '@/demo/simulate/Matting'
 import CarQuery from '@/demo/pages/CarQuery'
@@ -21,6 +22,11 @@ export default new Router({
       path:"/",
       name:'Home',
       component:Home
+    },
+    {
+      path:"/Item",
+      name:'Item',
+      component:Item
     },
     {
       path: '/Simulate',
