@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper  ">
     <ul class="head-tab">
       <li class=" flex-c" @click="fileClick" v-if="homeImageType">
         <i class="iconfont icon-baocun1"></i>
@@ -56,10 +56,11 @@
       //全屏
       fullScreen() {
         var that=this;
+        debugger;
         var docElm = document.documentElement; 
         if (docElm.requestFullscreen) {  
             docElm.requestFullscreen();  
-            if(  docElm.requestFullscreen()==undefined){
+            if(  document.requestFullscreen==undefined ){
               document.exitFullscreen(); 
             }
         } else if (docElm.mozRequestFullScreen) {

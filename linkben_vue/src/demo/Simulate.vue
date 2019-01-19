@@ -6,7 +6,7 @@
         <a href="linkben.com" class="flex-l  ">LinkBen</a>
       </span>
       <span class="flex-item">
-         <topNav :homeImageType='homeImageType'></topNav>
+        <topNav :homeImageType='homeImageType'></topNav>
       </span>
     </div>
     <!-- 场景功能 -->
@@ -74,18 +74,20 @@
 
         <!-- 主的照片的div-->
         <div class="homeImage flex-c-y" v-show="homeImageType" v-for="(item,index) in mainImg">
-          <div class="main-img flex-c-y flex-c" id="main-img" :style="{'width':mainImgWidth}">
-              <div class="bootom img-r" :style="{'width':(mainImgSize===true?'100%':mainImgWidth),'height':(mainImgSize===true?'auto':'100%')}">
-                <img :src="item.file.url" :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true?'auto':'100%')}">
-              </div>
-              <img-control v-for="(item,index) in curGoodList" :url="item.mainImage" :key="item.id" @deleteUrl="setDeleteUrl"
-                @setCurGood="setCurGood(index)"></img-control>
+
+          <div class="main-img " id="main-img" :style="{'width':mainImgWidth,'height':(mainImgSize===true? 'auto' :'100%')}">
+            <div class="bootom " :style="{'width':(mainImgSize===true?'100%':mainImgWidth),'height':(mainImgSize===true? '100%':'100%')}">
+              <img id="mainImg" :src="item.file.url" :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true?'auto':'100%')}">
+              <!-- <img id="sub_mainImg" :src="item.file.url" :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true?'auto':'100%')}">
+          -->
+            </div>
+            <img-control v-for="(item,index) in curGoodList" :url="item.mainImage" :key="item.id" @deleteUrl="setDeleteUrl"
+              @setCurGood="setCurGood(index)"></img-control>
           </div>
 
-         <bottomNav :sliderValue="sliderValue"></bottomNav>
-
-
+          <bottomNav :sliderValue="sliderValue" ref="ref1"></bottomNav>
         </div>
+
 
         <div class="user_img" v-if="userImg!=''" :class="[box.width/box.height-userImgWidth/userImgHeight>0?'bgSizeReset':'',box.isFlip?'flipx':'']"
           :style="{backgroundImage:'url('+userImg+')',filter:'brightness('+bgBrightness+'%)'}">
@@ -187,6 +189,7 @@
       var that = this
       return {
         mainImgWidth: "auto",
+        mainImgHeight: 'auto',
         mainImgSize: true,
         sliderValue: 0,
         canvasContent: null,
@@ -196,7 +199,7 @@
         mainImg: [
 
         ],
-        isCollapse: false,
+        isCollapse: true,
         oldList: array,
         backLoading: false,
         sessionGoodUrl: url,
@@ -262,8 +265,11 @@
         document.getElementById('upload_file2').click()
       },
       fileChange(el) {
+        var that=this;
         if (!el.target.files[0].size) return
-        this.fileList(el.target)
+        that.fileList(el.target);
+        console.log("data",this.$refs.ref1)
+        this.$refs.ref1.viewerInit; 
         el.target.value = ''
       },
       fileList(fileList) {
@@ -308,7 +314,6 @@
         this.size = this.size + file.size
         //判断是否为图片文件
         if (file.type.indexOf('image') == -1) {
-          debugger
           file.src = 'wenjian.png'
           file.src = this.result
           file.thumbImage = file.src
@@ -346,7 +351,6 @@
           reader.vue = this
           reader.readAsDataURL(file)
           reader.onload = function () {
-            debugger
             file.src = this.result
             file.thumbImage = file.src
             file.url = file.src
@@ -636,7 +640,6 @@
            that.win.height = $(window).height();*/
         that.box.width = $('.swiper_box').width()
         that.box.height = $('.swiper_box').height()
-        console.log(that.box.width / that.box.height - that.userImgWidth / that.userImgHeight)
       })
       this.$message.closeAll()
       this.$message({
@@ -645,11 +648,9 @@
         duration: 3000
       })
 
-
-
-
       $(window).trigger('resize');
-      this.login()
+      this.login();
+   
     },
     computed: {
       swiper() {
@@ -666,15 +667,16 @@
       },
     },
     updated: function () {
+
       setTimeout(function () {
         this.mainImgWidth = $(".main-img .bootom img").width() + 'px';
+        this.mainImgHeight = $("#sub_mainImg").height() + 'px';
         $(".main-img .bootom").width(this.mainImgWidth);
         console.log(this.mainImgWidth);
       }, 100)
 
     }
   }
-
 </script>
 <style>
   .cut-button .el-radio-button__inner {
@@ -715,7 +717,6 @@
     width: 120px;
     margin: 0px 10px;
   }
-
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
@@ -725,7 +726,15 @@
     background-color: #2b2b2b;
     background-color: #585858;
   }
-
+  #sub_mainImg{
+    display: block;
+    width: 100%;
+    height: auto;
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
   .head-title a {
     color: #dadada;
     font-size: 23px;
@@ -816,10 +825,10 @@
 
 
 
- 
-.bttom-tab li:last-child{
-   border: 0px;
-}
+
+  .bttom-tab li:last-child {
+    border: 0px;
+  }
 
   .head-bar {
     height: 50px;
@@ -962,16 +971,19 @@
   .my_row {
     margin: 5px 0;
   }
+
   .add-minus[data-v-2a2c4c72] {
     border-radius: 15px;
     height: 35px;
     line-height: 35px;
     background: #202026;
     padding: 0px 22px;
-}
-.add-minus i:nth-of-type(1){
-  margin-right: 25px;
-}
+  }
+
+  .add-minus i:nth-of-type(1) {
+    margin-right: 25px;
+  }
+
   .share_img {
     width: 100%;
     border-radius: 5px;
@@ -1006,6 +1018,7 @@
     position: relative;
     padding: 2% 6% 60px 6%;
   }
+
   .content-r .upload_warp_left i {
     font-size: 80px;
   }
@@ -1016,7 +1029,7 @@
     overflow: hidden;
     position: relative;
   }
-
+  .main-img img{   border-radius: 10px;}
   .main-img .img-r {
     box-shadow: 0 4px 12px rgba(6, 31, 50, .24);
     -webkit-box-shadow: 0 4px 12px rgba(6, 31, 50, .24);
@@ -1070,6 +1083,7 @@
     color: #dadada;
     border: aliceblue;
   }
+
   .main-right-bar li {
     float: none;
     color: #dadada;
@@ -1077,5 +1091,4 @@
     padding: 5px 0px;
     padding-left: 15px;
   }
-
 </style>

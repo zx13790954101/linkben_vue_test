@@ -1,9 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/pages/home/home'
-import Simulate from '@/demo/simulate'
-import Matting from '@/demo/simulate/Matting'
-import CarQuery from '@/demo/pages/CarQuery'
 Vue.use(Router)
 
 function getAbsolutePath () {
@@ -14,28 +10,36 @@ function getAbsolutePath () {
  
 export default new Router({
   mode: 'history',
-  //base: "/dist/",
+  base: "/dist/",
   //base:getAbsolutePath () ,
   routes: [
     {
       path:"/",
       name:'Home',
-      component:Home
+      component:  resolve => require(['@/pages/home/home'], resolve),//懒加载
+    },
+    {
+      path:"/Item",
+      name:'Item',
+      component:  resolve => require(['@/pages/home/pages/Item'], resolve),//懒加载
     },
     {
       path: '/Simulate',
       name: 'Simulate',
-      component: Simulate
+      component:  resolve => require(['@/demo/simulate'], resolve),//懒加载
+  
     },
     {
       path: '/CarQuery',
       name: 'CarQuery',
-      component: CarQuery
+      component:  resolve => require(['@/demo/pages/CarQuery'], resolve),//懒加载
+  
     },
     {
       path: '/Matting',
       name: 'Matting',
-      component: Matting
+      component:  resolve => require(['@/demo/simulate/Matting'], resolve),//懒加载
+  
     }
   ]
 })

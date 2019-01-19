@@ -1,6 +1,6 @@
 <template>
   <div class="plusminus">
-    <ul class="bottom-tab flex-c">
+    <ul class="bottom-tab flex-c" v-if="false">
       <li class=" flex-item ">
         <i class="iconfont icon-dengpao"></i>
       </li>
@@ -19,18 +19,19 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  import 'viewerjs/dist/viewer.css';
+  import axios from 'axios';
+  import Viewer from 'viewerjs';
   export default {
     name: 'bottomNav',
     components: {},
     data() {
       return {
         title: '底部的nav',
-        // homeImageType:this.$parent.homeImageType,
       }
     },
     props: {
-      sliderValue: String
+      sliderValue: 0
     },
     methods: {
       plusminus: function (data) {
@@ -43,16 +44,65 @@
           that.sliderValue = that.sliderValue - 20
         }
       },
-
+      viewerInit() {
+        const viewer = new Viewer(document.getElementById('mainImg'), {
+          inline: true,
+          navbar: false,
+          viewed() {
+            viewer.zoomTo(0.9);
+          },
+          url: 'data-original',
+          toolbar: {
+            flipHorizontal: 1,
+            flipVertical: 1,
+            oneToOne: 0,
+            reset: 1,
+            prev: 0,
+            play: 0,
+            next: 0,
+            rotateLeft: 1,
+            rotateRight: 1,
+            zoomIn: 1,
+            zoomOut: 1,
+          },
+        })
+      }
     },
-    mounted() {},
+    mounted() {
+      var that = this;
+      that.viewerInit();
+    },
     computed: {
 
     },
-    created() {}
+    created() {
+
+    }
   }
 </script>
+<style>
+  修改viewer .viewer-toolbar ul li {
+    height: 30px;
+    width: 30px;
+  }
 
+  .viewer-zoom-in::before,
+  .viewer-zoom-out::before,
+  .viewer-one-to-one::before,
+  .viewer-reset::before,
+  .viewer-prev::before,
+  .viewer-play::before,
+  .viewer-next::before,
+  .viewer-rotate-left::before,
+  .viewer-rotate-right::before,
+  .viewer-flip-horizontal::before,
+  .viewer-flip-vertical::before,
+  .viewer-fullscreen::before,
+  .viewer-fullscreen-exit::before,
+  .viewer-close::before {
+    transform: scale(1.4);
+  }
+</style>
 <style scoped>
   .plusminus .el-slider {
     width: 120px;
