@@ -10,7 +10,7 @@
       <li class=" flex-item ">
         <i class="iconfont icon-youxuanzhuan"></i>
       </li>
-      <li class=" flex-item flex-c add-minus">
+      <li class=" flex-item   flex-c add-minus">
         <i class="iconfont icon-jia1" @click="plusminus(1)"></i>
         <i class="iconfont icon-jian" @click="plusminus(2)"></i>
       </li>
