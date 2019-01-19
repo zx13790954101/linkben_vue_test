@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper  ">
     <ul class="head-tab">
       <li class=" flex-c" @click="fileClick" v-if="homeImageType">
         <i class="iconfont icon-baocun1"></i>

@@ -75,8 +75,8 @@
         <!-- 主的照片的div-->
         <div class="homeImage flex-c-y" v-show="homeImageType" v-for="(item,index) in mainImg">
 
-          <div class="main-img flex-c-y flex-c" id="main-img" :style="{'width':mainImgWidth,'height':(mainImgSize===true? 'auto' :'100%')}">
-            <div class="bootom flex-c-y flex-c" :style="{'width':(mainImgSize===true?'100%':mainImgWidth),'height':(mainImgSize===true? '100%':'100%')}">
+          <div class="main-img " id="main-img" :style="{'width':mainImgWidth,'height':(mainImgSize===true? 'auto' :'100%')}">
+            <div class="bootom " :style="{'width':(mainImgSize===true?'100%':mainImgWidth),'height':(mainImgSize===true? '100%':'100%')}">
               <img id="mainImg" :src="item.file.url" :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true?'auto':'100%')}">
               <!-- <img id="sub_mainImg" :src="item.file.url" :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true?'auto':'100%')}">
           -->
@@ -85,7 +85,7 @@
               @setCurGood="setCurGood(index)"></img-control>
           </div>
 
-          <bottomNav :sliderValue="sliderValue"></bottomNav>
+          <bottomNav :sliderValue="sliderValue" ref="ref1"></bottomNav>
         </div>
 
 
@@ -265,8 +265,11 @@
         document.getElementById('upload_file2').click()
       },
       fileChange(el) {
+        var that=this;
         if (!el.target.files[0].size) return
-        this.fileList(el.target)
+        that.fileList(el.target);
+        console.log("data",this.$refs.ref1)
+        this.$refs.ref1.viewerInit; 
         el.target.value = ''
       },
       fileList(fileList) {
@@ -311,7 +314,6 @@
         this.size = this.size + file.size
         //判断是否为图片文件
         if (file.type.indexOf('image') == -1) {
-          debugger
           file.src = 'wenjian.png'
           file.src = this.result
           file.thumbImage = file.src
@@ -349,7 +351,6 @@
           reader.vue = this
           reader.readAsDataURL(file)
           reader.onload = function () {
-            debugger
             file.src = this.result
             file.thumbImage = file.src
             file.url = file.src
@@ -625,7 +626,6 @@
 
       const image = new Image();
       image.src = file.src;
-      debugger;
       if (image.width > (parseInt(image.height) + 50)) {
         that.mainImgSize = true;
       } else {
