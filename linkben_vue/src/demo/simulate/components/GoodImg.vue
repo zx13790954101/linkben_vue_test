@@ -1,7 +1,7 @@
 <template>
   <!-- 商品图片，在图片还没加载完成的时候显示默认图片 -->
   <div class="good-img">
-    <img v-if="!onload" src="static/images/light-store/good_default.jpg" alt="{url}">
+    <img v-if="!onload" src="../../../assets/img/img1.jpg" alt="{url}">
     <!--<img class="good_img"  v-bind:src="url" alt="" v-on:load="setBG(this)" >-->
     <transition name="el-fade-in">
       <div  v-if="onload" class="img_box" :style="{background:'url('+url+')'}" :class="widthMore?'width_more':''">

@@ -77,9 +77,7 @@
 
           <div class="main-img " id="main-img" :style="{'width':mainImgWidth,'height':(mainImgSize===true? 'auto' :'100%')}">
             <div class="bootom " :style="{'width':(mainImgSize===true?'100%':mainImgWidth),'height':(mainImgSize===true? '100%':'100%')}">
-              <img id="mainImg" :src="item.file.url" :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true?'auto':'100%')}">
-              <!-- <img id="sub_mainImg" :src="item.file.url" :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true?'auto':'100%')}">
-          -->
+              <img id="mainImg" :src="item.file.url" :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true?'auto':'100%'),'opacity':'1'}">
             </div>
             <img-control v-for="(item,index) in curGoodList" :url="item.mainImage" :key="item.id" @deleteUrl="setDeleteUrl"
               @setCurGood="setCurGood(index)"></img-control>
@@ -247,7 +245,8 @@
           onTransitionStart(swiper) {
             that.setCurIndex(swiper.activeIndex)
           }
-        }
+        },
+        defaultImg:require("../assets/img/img4.jpg")
       }
     },
     methods: {
@@ -268,9 +267,9 @@
         var that=this;
         if (!el.target.files[0].size) return
         that.fileList(el.target);
-        console.log("data",this.$refs.ref1)
-        this.$refs.ref1.viewerInit; 
-        el.target.value = ''
+        el.target.value = '';
+        console.log("data",this.$refs.ref1[0])
+        this.$refs.ref1[0].viewerInit(); 
       },
       fileList(fileList) {
         let files = fileList.files
@@ -613,11 +612,11 @@
       sessionStorage.removeItem('curRemark')
       var that = this
       var file = {};
-      file.src = "static/images/img4.jpg";
-      file.thumbImage = "static/images/img4.jpg";
-      file.url = "static/images/img4.jpg";
+      file.src = that.defaultImg;
+      file.thumbImage = that.defaultImg;
+      file.url = that.defaultImg;
       file.number = 12333;
-      file.mainImage = "static/images/img4.jpg";
+      file.mainImage = that.defaultImg;
       file.checked = false;
       file.needNum = 1;
       that.mainImg.push({

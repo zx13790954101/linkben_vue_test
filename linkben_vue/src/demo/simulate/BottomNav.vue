@@ -45,11 +45,19 @@
         }
       },
       viewerInit() {
-        const viewer = new Viewer(document.getElementById('mainImg'), {
+        if( $(".viewer-container").html() ){
+          //删除功能
+          viewer.destroy();
+          $(".viewer-container").remove();
+        }
+         viewer = new Viewer(document.getElementById('mainImg'), {
           inline: true,
           navbar: false,
           viewed() {
             viewer.zoomTo(0.9);
+          },
+          show: function (){
+            viewer.update();
           },
           url: 'data-original',
           toolbar: {
@@ -70,7 +78,7 @@
     },
     mounted() {
       var that = this;
-      that.viewerInit();
+      //that.viewerInit();
     },
     computed: {
 

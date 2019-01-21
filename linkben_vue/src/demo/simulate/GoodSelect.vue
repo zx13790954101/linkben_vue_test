@@ -119,7 +119,7 @@
       //请求商品面积类型
       //    that.GetGoodMianJis();
       var that = this
-      bus.$on('clearGoodList', function (flag) {
+      bus.$on('c  learGoodList', function (flag) {
         if (flag) {
           $(that.goodsList).each(function (index, element) {
             element.checked = false
@@ -128,11 +128,11 @@
       });
 
       var file = {};
-      file.src = "static/images/img1.jpg";
-      file.thumbImage = "static/images/img1.jpg";
-      file.url = "static/images/img1.jpg";
+      file.src = "../../assets/img/img1.jpg";
+      file.thumbImage = "./static/images/img1.jpg";
+      file.url = "./static/images/img1.jpg";
       file.number = 12333;
-      file.mainImage = "static/images/img1.jpg";
+      file.mainImage = "./static/images/img1.jpg";
       file.checked = false;
       file.needNum = 1;
 
