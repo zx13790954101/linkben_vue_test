@@ -723,7 +723,6 @@
     height: 50px;
     line-height: 50px;
     background-color: #2b2b2b;
-    background-color: #585858;
   }
   #sub_mainImg{
     display: block;
@@ -759,7 +758,6 @@
   .good-select {
     height: 100%;
     padding: 0px 0px;
-    background-color: #585858;
   }
 
   .content-r .upload_warp_left {

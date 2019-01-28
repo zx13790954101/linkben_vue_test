@@ -78,7 +78,7 @@
     },
     mounted() {
       var that = this;
-      //that.viewerInit();
+      that.viewerInit();
     },
     computed: {
 

@@ -53,7 +53,7 @@ img {
   .wrapper {}
 
   .head-img {
-    height: 15rem;
+    height: 19rem;
     width: 100%;
   }
 .item-box .content{

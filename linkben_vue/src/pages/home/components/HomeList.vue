@@ -1,16 +1,15 @@
 <template>
   <div class="wrapper">
-    <h1>知乎的内容</h1>
     <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="isMoreLoading" infinite-scroll-distance="10"
       :infinite-scroll-immediate-check="true" class="newsList">
       <li v-for="(item,index) in newsList" class="flex">
         <h3 class="num">{{item.indexnum}}</h3>
+        <router-link :to="'item'+'?id='+item.id" target="_blank" class="flex-item">
+          <h4 class=" title">{{item.title}}</h4>
+        </router-link>
         <div class="img-r item-img">
           <img :src="item.images[0]">
         </div>
-        <router-link :to="'item'+'?id='+item.id" target="_blank" >
-        <h4 class="flex-item ">{{item.title}}</h4>
-      </router-link>
       </li>
     </ul>
     <div class="loading-box tc center " v-if="isLoading">
@@ -112,15 +111,29 @@
   
   }
   .newsList  li{
+    border-bottom: 0.2rem solid #eee;
+    padding-bottom: 1.5rem;
     margin-bottom: 1.5rem;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    height: auto;
+  }
+  .newsList  li .title{
+    color: #474D58;
+    margin: 0rem 1.5rem;
+    padding-left: 0rem;
+    line-height: 2.5rem;
+    font-weight: 600;
   }
   .num{
-    width: 5rem;
+    color: #FF9607;
+    font-weight: 600;
+  
     text-align: center;
   }
   .item-img{
-    width: 5rem;
-    height: 5rem;
-    margin-right: 1rem;
+    width: 9rem;
+    height: 9rem;
+    margin-left: 1.5rem;
   }
 </style>
