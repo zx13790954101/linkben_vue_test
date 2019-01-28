@@ -268,8 +268,8 @@
         if (!el.target.files[0].size) return
         that.fileList(el.target);
         el.target.value = '';
-        console.log("data",this.$refs.ref1[0])
-        this.$refs.ref1[0].viewerInit(); 
+     
+     //   this.$refs.ref1[0].viewerInit(); 
       },
       fileList(fileList) {
         let files = fileList.files

@@ -1,6 +1,6 @@
 <template>
   <div class="plusminus">
-    <ul class="bottom-tab flex-c" v-if="false">
+    <ul class="bottom-tab flex-c">
       <li class=" flex-item ">
         <i class="iconfont icon-dengpao"></i>
       </li>
@@ -78,7 +78,7 @@
     },
     mounted() {
       var that = this;
-      that.viewerInit();
+   //   that.viewerInit();
     },
     computed: {
 
