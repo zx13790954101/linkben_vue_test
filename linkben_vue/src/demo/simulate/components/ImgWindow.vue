@@ -1,12 +1,12 @@
 <template>
   <div class="img-window">
-    <div class="img_box"
-         :style="[moving?styleObj:styleObjFinal,{zIndex:zIndex}]" >
-      <img :src="url" alt="" :style="{filter:'brightness('+brightness+'%)',transform:'rotate('+angle+'deg)'}" @mousewheel="zoom" @DOMMouseScroll="zoom" @mousemove.prevent="mouseMove" @touchmove.prevent="mouseMove"
-           @mousedown.prevent="mouseDown" @touchstart.prevent="mouseDown" @mouseup.prevent="mouseUp"
-           @touchend.prevent="mouseUp" @mouseout.prevent="mouseOut" @contextmenu.prevent="planeShow=!planeShow">
-      <transition name="animate-transition" enter-active-class="animated fadeIn"
-                  leave-active-class="animated fadeOut" :duration="200">
+    <div class="img_box" :style="[moving?styleObj:styleObjFinal,{zIndex:zIndex}]">
+      <img :src="url" alt="" :style="{filter:'brightness('+brightness+'%)',transform:'rotate('+angle+'deg)'}"
+        @mousewheel="zoom" @DOMMouseScroll="zoom" @mousemove.prevent="mouseMove" @touchmove.prevent="mouseMove"
+        @mousedown.prevent="mouseDown" @touchstart.prevent="mouseDown" @mouseup.prevent="mouseUp" @touchend.prevent="mouseUp"
+        @mouseout.prevent="mouseOut" @contextmenu.prevent="planeShow=!planeShow">
+      <transition name="animate-transition" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut"
+        :duration="200">
         <div class="control_plane" v-if="planeShow">
           <div class="block">
             <span class="demonstration">角度</span>
@@ -54,10 +54,10 @@
   export default {
     name: 'img-window',
     props: ['url'],
-    data () {
+    data() {
       return {
         planeShow: false,
-        touchShow:false,
+        touchShow: false,
         brightness: 100,
         angle: 0,
         mouseStart: {
@@ -71,38 +71,38 @@
         moving: false,
         zoomNum: 1,
         zIndex: 1,
-        width: 600,
+        width:200,
         finalLeft: ($(window).width() * 0.7 - 600) / 2,
         finalTop: ($(window).height() - 600) / 2,
-        touchLength:0
+        touchLength: 0
       }
     },
     methods: {
-      zoomChange(num){
-        this.width-=num;
-        if(this.width>1000){
-          this.width=1000;
-        }else if(this.width<100){
-          this.width=100
+      zoomChange(num) {
+        this.width -= num;
+        if (this.width > 1000) {
+          this.width = 1000;
+        } else if (this.width < 100) {
+          this.width = 100
         }
       },
-      brightnessChange(num){
-        this.brightness-=num;
-        if(this.brightness>150){
-          this.brightness=150;
-        }else if(this.brightness<50){
-          this.brightness=50
+      brightnessChange(num) {
+        this.brightness -= num;
+        if (this.brightness > 150) {
+          this.brightness = 150;
+        } else if (this.brightness < 50) {
+          this.brightness = 50
         }
       },
-      angleChange(angle){
-        this.angle-=angle;
-        if(this.angle<0){
-          this.angle+=360;
-        }else if(this.angle>360 ){
-          this.angle-=360;
+      angleChange(angle) {
+        this.angle -= angle;
+        if (this.angle < 0) {
+          this.angle += 360;
+        } else if (this.angle > 360) {
+          this.angle -= 360;
         }
       },
-      longTouch(){
+      longTouch() {
         //console.log('longTouch');
         this.touchShow = !this.touchShow;
       },
@@ -137,7 +137,7 @@
          }*/
         var that = this;
         //console.log(data);
-        if(data.changedTouches){
+        if (data.changedTouches) {
           this.timer = setTimeout(function () {
             that.longTouch();
           }, 500);
@@ -158,15 +158,17 @@
 
         //触屏缩放
         var width = this.width;
-        if (data.changedTouches&&(data.changedTouches).length > 1) {
+        if (data.changedTouches && (data.changedTouches).length > 1) {
           if (this.touchLength == 0) {
-            this.touchLength = Math.abs((data.changedTouches)[0].clientX - (data.changedTouches)[1].clientX).toFixed(2);
+            this.touchLength = Math.abs((data.changedTouches)[0].clientX - (data.changedTouches)[1].clientX).toFixed(
+              2);
           } else {
-            this.width=width*((Math.abs(((data.changedTouches)[0].clientX - (data.changedTouches)[1].clientX).toFixed(2))/this.touchLength-1)*0.1+1)
+            this.width = width * ((Math.abs(((data.changedTouches)[0].clientX - (data.changedTouches)[1].clientX).toFixed(
+              2)) / this.touchLength - 1) * 0.1 + 1)
           }
         }
 
-        if ((this.mouseStart.x - this.mouseEnd.x < 10 )&& (this.mouseStart.y - this.mouseEnd.y < 10)) {  //移动距离小于10判断为没移动
+        if ((this.mouseStart.x - this.mouseEnd.x < 10) && (this.mouseStart.y - this.mouseEnd.y < 10)) { //移动距离小于10判断为没移动
 
         } else {
           //this.tapNum=0;
@@ -207,15 +209,16 @@
       styleObj: function () {
         return {
           //transform: 'scale(' + this.zoomNum + ') translate(' + (this.finalLeft + this.mouseEnd.x - this.mouseStart.x) + 'px,' + (this.finalTop + this.mouseEnd.y - this.mouseStart.y) + 'px)'
-          transform: 'translate(' + (this.finalLeft + this.mouseEnd.x - this.mouseStart.x) + 'px,' + (this.finalTop + this.mouseEnd.y - this.mouseStart.y) + 'px)',
-          width: this.width + 'px'
+          transform: 'translate(' + (this.finalLeft + this.mouseEnd.x - this.mouseStart.x) + 'px,' + (this.finalTop +
+            this.mouseEnd.y - this.mouseStart.y) + 'px)',
+          width: this.width/4 + 'px'
         }
       },
       styleObjFinal: function () {
         return {
           //transform: 'scale(' + this.zoomNum + ') translate(' + (this.finalLeft) + 'px,' + (this.finalTop) + 'px)'
           transform: 'translate(' + (this.finalLeft) + 'px,' + (this.finalTop) + 'px)',
-          width: this.width + 'px'
+          width: this.width/4 + 'px'
         }
       }
     },
@@ -244,9 +247,11 @@
     display: block;
     z-index: 1;
   }
-  .block{
-    padding:5px;
+
+  .block {
+    padding: 5px;
   }
+
   .control_plane {
     position: absolute;
     right: 100%;

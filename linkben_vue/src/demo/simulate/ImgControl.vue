@@ -1,15 +1,20 @@
 <template>
   <div class="img-control">
-    <div class="img_box"
-         :style="[moving?styleObj:styleObjFinal,{zIndex:zIndex}]">
-
-      <img :src="url" alt=""
-           :style="{filter:'brightness('+brightness+'%)',transform:'rotate('+angle+'deg) scaleX('+filp+')'}"
-           @mousewheel="zoom" @DOMMouseScroll="zoom" @mousemove.prevent="mouseMove" @touchmove.prevent="mouseMove"
-           @mousedown.prevent="mouseDown" @touchstart.prevent="mouseDown" @mouseup.prevent="mouseUp"
-           @touchend.prevent="mouseUp" @mouseout.prevent="mouseOut" @contextmenu.prevent="planeShow=!planeShow">
-      <transition name="animate-transition" enter-active-class="animated fadeIn"
-                  leave-active-class="animated fadeOut" :duration="200">
+    <div class="img_box" :style="[moving?styleObj:styleObjFinal,{zIndex:zIndex}]">
+      <div class="main-box">
+        <img :src="url" alt="" :style="{filter:'brightness('+brightness+'%)',transform:'rotate('+angle+'deg) scaleX('+filp+')'}"
+          @mousewheel="zoom" @DOMMouseScroll="zoom" @mousemove.prevent="mouseMove" @touchmove.prevent="mouseMove"
+          @mousedown.prevent="mouseDown" @touchstart.prevent="mouseDown" @mouseup.prevent="mouseUp" @touchend.prevent="mouseUp"
+          @mouseout.prevent="mouseOut" @contextmenu.prevent="planeShow=!planeShow" @click="imgSelect($event)">
+        <div class="border-box" v-if="borderType">
+          <span class="top" @click="formState(top)"></span>
+          <span class="bottom" @click="formState(bottom)"></span>
+          <span class="left" @click="formState(left)"></span>
+          <span class="right" @click="formState(right)" id="right" ></span>
+        </div>
+      </div>
+      <transition name="animate-transition" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut"
+        :duration="200">
         <div class="control_plane" v-if="planeShow">
           <div class="block">
             <div class="action">
@@ -71,15 +76,16 @@
   </div>
 </template>
 
+<!-- //首页的添加得  -->
 <script>
   export default {
     name: 'img-control',
     props: ['url'],
-    data () {
+    data() {
       return {
         filp: 1,
         planeShow: false,
-        touchShow:false,
+        touchShow: false,
         brightness: 100,
         angle: 0,
         mouseStart: {
@@ -93,51 +99,138 @@
         moving: false,
         zoomNum: 1,
         zIndex: 1,
-        width: 400,
+        width: 200,
         finalLeft: ($(window).width() * 0.7 - 400) / 2,
         finalTop: ($(window).height()) / 5,
         /*finalTop: ($(window).height()-400)/2*/
         timer: null,
         tapNum: 0,
-        touchLength: 0
+        touchLength: 0,
+        borderType: false, //边框的状态的判断
       }
     },
+    mounted() {
+      $(document).mousemove(function (e) {
+        if ( !! this.move) {
+            var posix = !document.move_target ? {
+                'x': 0,
+                'y': 0
+            } : document.move_target.posix,
+                callback = document.call_down || function () {
+                    $(this.move_target).css({
+                        'top': e.pageY - posix.y,
+                        'left': e.pageX - posix.x
+                    });
+                };
+            callback.call(this, e, posix);
+        }
+    }).mouseup(function (e) {
+        if ( !! this.move) {
+            var callback = document.call_up || function () {};
+            callback.call(this, e);
+            $.extend(this, {
+                'move': false,
+                'move_target': null,
+                'call_down': false,
+                'call_up': false
+            });
+        }
+    });
+    var $box = $('.img-control').mousedown(function (e) {
+        var offset = $(this).offset();
+        this.posix = {
+            'x': e.pageX - offset.left,
+            'y': e.pageY - offset.top
+        };
+        $.extend(document, {
+            'move': true,
+            'move_target': this
+        });
+    }).on('mousedown', '#right', function (e) {
+        var posix = {
+            'w': $box.width(),
+            'h': $box.height(),
+            'x': e.pageX,
+            'y': e.pageY
+        };
+        $.extend(document, {
+            'move': true,
+            'call_down': function (e) {
+                $box.css({
+                    'width': Math.max(30, e.pageX - posix.x + posix.w),
+                    'height': Math.max(30, e.pageY - posix.y + posix.h)
+                });
+            }
+        });
+        return false;
+    });
+    },
     methods: {
-        zoomChange(num){
-          this.width-=num;
-          if(this.width>1000){
-            this.width=1000;
-          }else if(this.width<100){
-            this.width=100
+      //照片的点击事件的使用
+      imgSelect(event) {
+        var that = this;
+        var imgEvent = $(event);
+        $(document).mouseup(function (e) {
+          event.stopPropagation(); //这句是必须
+          if (!imgEvent.is(e.target) && imgEvent.has(e.target).length === 0) {
+            that.borderType = false;
           }
-        },
-      brightnessChange(num){
-        this.brightness-=num;
-        if(this.brightness>150){
-            this.brightness=150;
-        }else if(this.brightness<50){
-            this.brightness=50
+        });
+        that.borderType = true;
+        //设置点击外面的点击的按钮德
+      },
+      formState(name) {
+        switch (name) {
+          case 'top':
+
+            break;
+          case 'bottom':
+
+            break;
+          case 'left':
+
+            break;
+          case 'right':
+          
+
+            break;
         }
       },
-      angleChange(angle){
-          this.angle-=angle;
-          if(this.angle<0){
-              this.angle+=360;
-          }else if(this.angle>360 ){
-            this.angle-=360;
-          }
+      zoomChange(num) {
+        this.width -= num;
+        if (this.width > 1000) {
+          this.width = 1000;
+        } else if (this.width < 100) {
+          this.width = 100
+        }
       },
-      longTouch(){
+      brightnessChange(num) {
+        this.brightness -= num;
+        if (this.brightness > 150) {
+          this.brightness = 150;
+        } else if (this.brightness < 50) {
+          this.brightness = 50
+        }
+      },
+      angleChange(angle) {
+        this.angle -= angle;
+        if (this.angle < 0) {
+          this.angle += 360;
+        } else if (this.angle > 360) {
+          this.angle -= 360;
+        }
+      },
+      longTouch() {
         //console.log('longTouch');
         this.touchShow = !this.touchShow;
       },
-      toDetail(){
+      toDetail() {
         this.$emit('setCurGood', true);
       },
       zoom: function (data) {
         //console.log(data);
         //console.log(data.deltaY);
-        if (data.wheelDelta > 1 || data.detail < 0) {  //data.detail为火狐浏览器滚动事件的属性
+        if (data.wheelDelta > 1 || data.detail < 0) { //data.detail为火狐浏览器滚动事件的属性
           this.width += 20;
         } else {
           this.width -= 20;
@@ -166,7 +259,7 @@
          }*/
         var that = this;
         //console.log(data);
-        if(data.changedTouches){
+        if (data.changedTouches) {
           this.timer = setTimeout(function () {
             that.longTouch();
           }, 500);
@@ -187,15 +280,17 @@
 
         //触屏缩放
         var width = this.width;
-        if (data.changedTouches&&(data.changedTouches).length > 1) {
+        if (data.changedTouches && (data.changedTouches).length > 1) {
           if (this.touchLength == 0) {
-            this.touchLength = Math.abs((data.changedTouches)[0].clientX - (data.changedTouches)[1].clientX).toFixed(2);
+            this.touchLength = Math.abs((data.changedTouches)[0].clientX - (data.changedTouches)[1].clientX).toFixed(
+              2);
           } else {
-            this.width=width*((Math.abs(((data.changedTouches)[0].clientX - (data.changedTouches)[1].clientX).toFixed(2))/this.touchLength-1)*0.1+1)
+            this.width = width * ((Math.abs(((data.changedTouches)[0].clientX - (data.changedTouches)[1].clientX).toFixed(
+              2)) / this.touchLength - 1) * 0.1 + 1)
           }
         }
 
-        if ((this.mouseStart.x - this.mouseEnd.x < 10 )&& (this.mouseStart.y - this.mouseEnd.y < 10)) {  //移动距离小于10判断为没移动
+        if ((this.mouseStart.x - this.mouseEnd.x < 10) && (this.mouseStart.y - this.mouseEnd.y < 10)) { //移动距离小于10判断为没移动
 
         } else {
           //this.tapNum=0;
@@ -225,7 +320,7 @@
         this.finalLeft += this.mouseEnd.x - this.mouseStart.x;
         this.finalTop += this.mouseEnd.y - this.mouseStart.y;
       },
-      deleteGood(){
+      deleteGood() {
         this.$emit('deleteUrl', this.url);
       },
       formatWidth(val) {
@@ -242,7 +337,8 @@
       styleObj: function () {
         return {
           //transform: 'scale(' + this.zoomNum + ') translate(' + (this.finalLeft + this.mouseEnd.x - this.mouseStart.x) + 'px,' + (this.finalTop + this.mouseEnd.y - this.mouseStart.y) + 'px)'
-          transform: 'translate(' + (this.finalLeft + this.mouseEnd.x - this.mouseStart.x) + 'px,' + (this.finalTop + this.mouseEnd.y - this.mouseStart.y) + 'px)',
+          transform: 'translate(' + (this.finalLeft + this.mouseEnd.x - this.mouseStart.x) + 'px,' + (this.finalTop +
+            this.mouseEnd.y - this.mouseStart.y) + 'px)',
           width: this.width + 'px'
         }
       },
@@ -263,6 +359,54 @@
     position: absolute;
     left: 0;
     top: 0;
+  }
+
+  .main-box {
+    position: relative;
+  }
+
+  .border-box {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    z-index: -1;
+    width: 100%;
+    border: 2px dashed #9e9e9e;
+  }
+
+  .border-box span {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    border: 5px solid #35383f;
+    opacity: 0.8;
+    border-radius: 50px;
+  }
+
+  .border-box span:nth-of-type(1) {
+    top: -10px;
+    left: -10px;
+    cursor: se-resize;
+  }
+
+  .border-box span:nth-of-type(2) {
+    top: -10px;
+    right: -10px;
+    cursor: ne-resize;
+  }
+
+  .border-box span:nth-of-type(3) {
+    bottom: -10px;
+    left: -10px;
+    cursor: ne-resize;
+  }
+
+  .border-box span:nth-of-type(4) {
+    bottom: -10px;
+    right: -10px;
+    cursor: se-resize;
   }
 
   .img_box {
@@ -317,9 +461,11 @@
     border-radius: 3px;
     cursor: pointer;
   }
-  .plane_word{
-    padding:5px;
+
+  .plane_word {
+    padding: 5px;
   }
+
   /*.action .iconfont{
     color: #0c6eff;
     text-decoration: none;
