@@ -3,41 +3,35 @@
     <div class="top-bar">
       <Matting></Matting>
     </div>
-  
-    
-    <el-tabs  style="height: 200px;">
-        <el-tab-pane label="插件列表">
-          <div class="flex-c box">
-              <h4 class="title flex-item">
-                添加你的物件
-              </h4>
-              <h5>  全部删除 </h5>
-          </div>
-          <!-- 商品列表 -->
-          <div class="good_list  scrollbar">
-              <div class="row">
-                <article class="col-lg-6"><upload @imgList='setImgList'></upload> </article>
-                <article class="col-lg-6" v-for="(item,index) in goodsList" v-on:click="selectGood(index)">
-                  <div class="upload_warp_img_div " :class="item.checked?'bg_yellow':''">
-                    <i class="el-icon-circle-close upload_warp_img_div_del" @click="fileDel(index)"></i>
-                    <good-img :url="item.url" :noStock="item.number==0?true:false" :key="item.id"></good-img>
-                  </div>
-                </article>
+    <el-tabs style="height: 200px;">
+      <el-tab-pane label="插件列表">
+        <div class="flex-c box">
+          <h4 class="title flex-item">  添加你的物件 </h4>
+          <h5> 全部删除 </h5>
+        </div>
+        <!-- 商品列表 -->
+        <div class="good_list  scrollbar">
+          <div class="row">
+            <article class="col-lg-6">
+              <upload @imgList='setImgList'></upload>
+            </article>
+            <article class="col-lg-6" v-for="(item,index) in goodsList" v-on:click="selectGood(index)">
+              <div class="upload_warp_img_div " :class="item.checked?'bg_yellow':''">
+                <i class="el-icon-circle-close upload_warp_img_div_del" @click="fileDel(index)"></i>
+                <good-img :url="item.url" :noStock="item.number==0?true:false" :key="item.id"></good-img>
               </div>
-            </div>
-          <!-- 商品列表 -->
-        </el-tab-pane>
-        <el-tab-pane label="配置管理">
+            </article>
+          </div>
+        </div>
+        <!-- 商品列表 -->
+      </el-tab-pane>
+      <el-tab-pane label="配置管理">
 
-        </el-tab-pane>
+      </el-tab-pane>
     </el-tabs>
-
-
-
-    <div class="bottom-bar flex-c row">
+    <div class="bottom-bar flex-c">
       <button class="btn">保存 </button>
     </div>
-
   </div>
 </template>
 
@@ -145,9 +139,9 @@
       },
       setImgList(data) {
         var that = this;
-        that.goodsList=data
-      //   ( that.goodsList).concat(data);
-        
+        that.goodsList = data
+        //   ( that.goodsList).concat(data);
+
       },
       submitUpload() {
         this.$refs.upload.submit()
@@ -415,48 +409,52 @@
       }
     }
   }
-
 </script>
 <style>
- .good-select .el-upload__input {
+  .good-select .el-upload__input {
     display: none !important;
   }
 
- .good-select .el-menu {
+  .good-select .el-menu {
     height: 100%;
   }
-.good-select .el-tabs__header{
-  background-color: #2b2b2b;
-}
-.good-select .el-tabs__item.is-active{
-      color: #fdfdfd;
-}
-.good-select .el-tabs__item{
-  width: 50%;
-    text-align: center;
-}
 
-.good-select .el-tabs__active-bar{
-  width: 40% !important;
+  .good-select .el-tabs__header {
+    background-color: #2b2b2b;
+  }
+
+  .good-select .el-tabs__item.is-active {
+    color: #fdfdfd;
+  }
+
+  .good-select .el-tabs__item {
+    width: 50%;
+    text-align: center;
+  }
+
+  .good-select .el-tabs__active-bar {
+    width: 40% !important;
     margin-left: 5%;
-        /* background: -webkit-gradient(linear,right top, left top,color-stop(0, #3b9eff),to(#19c3ff)); */
+    /* background: -webkit-gradient(linear,right top, left top,color-stop(0, #3b9eff),to(#19c3ff)); */
     /* background: linear-gradient(to left,#3b9eff 0,#19c3ff 100%); */
     background-color: #ffffff;
-}
-.good-select  .el-tabs__nav{
-  width: 100%;
-  background-color: #2b2b2b;
-}
+  }
+
+  .good-select .el-tabs__nav {
+    width: 100%;
+    background-color: #2b2b2b;
+  }
 </style>
 
-<style   scoped>
+<style scoped>
   .title {
     color: white;
     font-weight: 600;
     letter-spacing: 2px;
   }
-  .box{
-    padding:15px
+
+  .box {
+    padding: 15px
   }
 
   .upload_warp_img_div_del {
@@ -581,5 +579,4 @@
     padding: 0px 15px;
     line-height: 46px;
   }
-
 </style>

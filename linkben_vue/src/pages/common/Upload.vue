@@ -1,8 +1,10 @@
 <template>
   <div class="upload">
-    <div class="upload-warp center" @click="fileClick">
-       <i class="iconfont icon-buoumaotubiao47 position-a-center"></i>
-       <h4 class="white position-a-bottom">添加图片</h4>
+    <div class="upload-warp   flex-c" @click="fileClick">
+        <span class="center">
+          <i class="iconfont icon-buoumaotubiao47 position-a-center"></i>
+          <h5 class="white position-a-bottom">添加图片</h5>
+        </span>
     </div>
     <input @change="fileChange($event)" type="file" id="upload_file" multiple style="display: none" />
   </div>
@@ -143,7 +145,7 @@
 
 
   .upload-warp i {
-    font-size: 50px;
+    font-size: 40px;
     color: white;
   }
 

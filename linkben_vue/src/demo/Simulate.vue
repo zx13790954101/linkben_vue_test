@@ -38,29 +38,13 @@
       </div>
     </transition>
     <section class="flex simulate-section">
-
-
-      <div class="right_goods" :style="{width:(isCollapse==false?'320px':'0px')}">
-        <div class="left-content" :style="{width:(isCollapse==false?'100%':'0px')}">
-          <el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
-            :collapse="isCollapse">
-
-            <good-select @curGoodList="setCurGoodList" :deleteUrl="deleteUrl" :oldList="oldList"></good-select>
-
-          </el-menu>
-        </div>
-        <div class="cut-button">
-          <el-radio-group v-model="isCollapse">
-            <el-radio-button :label="false" v-if="isCollapse">
-              <i class="el-icon-arrow-right"> </i>
-            </el-radio-button>
-            <el-radio-button :label="true" v-if="!isCollapse">
-              <i class="el-icon-arrow-left"></i>
-            </el-radio-button>
-          </el-radio-group>
-        </div>
-
-
+       <!-- 侧边栏的功能 -->
+      <div class="left-slide" :style="{'margin-left':(isCollapse==false?'0':'-320px')}">
+        <good-select @curGoodList="setCurGoodList" :deleteUrl="deleteUrl" :oldList="oldList"></good-select>
+        <span class="cut-button" v-model="isCollapse">
+          <i class="el-icon-arrow-right" v-if="isCollapse"  @click="isCollapse=false"></i>
+          <i class="el-icon-arrow-left" v-if="!isCollapse"  @click="isCollapse=true"></i>
+        </span>
       </div>
 
       <!-- 背景轮换 -->
@@ -680,39 +664,7 @@
   }
 </script>
 <style>
-  .cut-button .el-radio-button__inner {
-    background-color: #171717;
-    ;
-    color: white;
-    font-weight: 600;
-    border: 0px !important;
-    padding: 10px 2px;
-  }
 
-  .cut-button .el-radio-button__inner i {
-    font-size: 25px;
-  }
-
-  .right_goods .el-menu {
-    background-color: initial;
-    height: 100%;
-  }
-
-  .right_goods .el-radio-group {
-    width: 100%;
-  }
-
-  .right_goods .el-radio-button {
-    width: 100%;
-  }
-
-  .right_goods .active {
-    background: linear-gradient(to left, #3b9eff 0, #19c3ff 100%);
-    float: left;
-    height: 50px;
-    line-height: 50px;
-    width: 50px;
-  }
 
   .plusminus .el-slider {
     width: 120px;
@@ -843,6 +795,8 @@
     position: relative;
     margin: 0 auto;
     height: 100%;
+    background-color: #f4f4f4;
+    will-change: transform;
   }
 
   .user_img {
@@ -864,7 +818,7 @@
     transform: scaleX(-1);
   }
 
-  .right_goods {
+  .left-slide{
     width: 320px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -873,11 +827,31 @@
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.44);
     position: relative;
     height: 100%;
-    -webkit-transition: all .4s linear 0s;
-    transition: all .4s linear 0s;
+    -webkit-transition: all .4s ease-out 0s;
+    transition: all .4s ease-out 0s;
 
   }
+  .cut-button {
+    background-color: #171717;
+    border-top-right-radius: 0.4rem;
+    border-bottom-right-radius: 0.4rem;
+    color: white;
+    font-weight: 600;
+    border: 0px !important;
+    
+    -webkit-transition: all .4s ease-out 0s;
+    transition: all .4s ease-out 0s;
+  }
 
+  .cut-button  i {
+    font-size: 1.4rem;
+    -webkit-transition: all .4s ease-out 0s;
+    transition: all .4s ease-out 0s;
+    color: #9eabb3;
+    font-weight: 600;
+    padding: 1.2rem 0.3rem;
+    cursor: pointer;
+  }
   .buttom-bar {
     position: absolute;
     bottom: 0%;
@@ -914,6 +888,7 @@
     background-color: #ffffff9e;
     z-index: 9999;
     height: 50px;
+    
   }
 
   .buttom-bar .bar_item {
@@ -928,6 +903,7 @@
 
   .left-content {
     overflow: hidden;
+    width: 100%;
     height: 100%;
   }
 

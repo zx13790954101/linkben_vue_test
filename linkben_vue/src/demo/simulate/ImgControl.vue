@@ -1,17 +1,18 @@
 <template>
   <div class="img-control">
     <div class="img_box" id="img_box" :style="[moving?styleObj:styleObjFinal,{zIndex:zIndex}]">
-      <div class="main-box">
+      <div class="main-box" @click="imgSelect($event)">
         <img :src="url" alt="" :style="{filter:'brightness('+brightness+'%)',transform:'rotate('+angle+'deg) scaleX('+filp+')'}"
           @mousewheel="zoom" @DOMMouseScroll="zoom" @mousemove.prevent="mouseMove" @touchmove.prevent="mouseMove"
           @mousedown.prevent="mouseDown" @touchstart.prevent="mouseDown" @mouseup.prevent="mouseUp" @touchend.prevent="mouseUp"
-          @mouseout.prevent="mouseOut" @contextmenu.prevent="planeShow=!planeShow" @click="imgSelect($event)">
-        <div class="border-box" v-if="borderType">
-          <span class="top" @click="formState(top)"></span>
-          <span class="bottom" @click="formState(bottom)"></span>
-          <span class="left" @click="formState(left)"></span>
-          <span class="right" @click="formState(right)" id="right"></span>
-        </div>
+          @mouseout.prevent="mouseOut" @contextmenu.prevent="planeShow=!planeShow">
+        <ul class="border-box" v-if="borderType" :style="{'z-index':borderBoxStats}">
+          <li class="top" @click="formState(top)"> <span></span></li>
+          <li class="bottom" @click="formState(bottom)"> <span></span></li>
+          <li class="left" @click="formState(left)"><span></span></li>
+          <li class="right" @mousedown.prevent="downState" @mousemove.prevent="moveState" @click="clickState($event)"
+            @mouseup.prevent="upState"><span></span></li>
+        </ul>
       </div>
       <transition name="animate-transition" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut"
         :duration="200">
@@ -68,14 +69,8 @@
         </div>
       </transition>
     </div>
-
-    <!--<p>mouseStart:</p>
-    <p>{{mouseStart.x}},{{mouseStart.y}}</p>
-    <p>mouseEnd:</p>
-    <p>{{mouseEnd.x}},{{mouseEnd.y}}</p>-->
   </div>
 </template>
-
 <!-- //首页的添加得  -->
 <script>
   export default {
@@ -107,26 +102,84 @@
         tapNum: 0,
         touchLength: 0,
         borderType: false, //边框的状态的判断
+        borderBoxStats: 10 //边框的显示的层级
+          ,
+        stateMoving: false, //判断是不是在边框上面
+        stateData: null, //当前的this
       }
     },
     mounted() {
-  
+
     },
     methods: {
       //照片的点击事件的使用
       imgSelect(event) {
         var that = this;
-        var imgEvent = $(event);
-        $(document).mouseup(function (e) {
-          event.stopPropagation(); //这句是必须
+        var imgEvent = $(event.currentTarget);
+        //设置点击外面的点击的按钮德
+        that.borderType = true;
+        //阻止冒泡
+        imgEvent || (imgEvent = window.event);
+        imgEvent.stopPropagation ? event.stopPropagation() : (imgEvent.cancelBubble = true);
+        //因为点击的原因导致其他点击失败
+        $(document).click(function (e) {
+          e.stopPropagation();
           if (!imgEvent.is(e.target) && imgEvent.has(e.target).length === 0) {
             that.borderType = false;
+            that.stateMoving = false;
           }
         });
-        that.borderType = true;
-        //设置点击外面的点击的按钮德
       },
-      formState(name) {
+      clickState(event) {
+        debugger;
+        var that = this;
+        this.stateData = event;
+        console.log("$event2111", that.stateData);
+      },
+      downState(data) {
+        var that = this;
+        that.stateMoving = true;
+        switch ($(data.currentTarget)[0].className) {
+          case "right":
+            that.borderBoxStats = 10;
+            that.mouseStart.x = data.clientX || (data.changedTouches)[0].clientX;
+            that.mouseStart.y = data.clientY || (data.changedTouches)[0].clientY;
+            break;
+        }
+      },
+      moveState(data) {
+        var that = this;
+        if (!that.stateMoving) return;
+        var thatX = data.clientX || (data.changedTouches)[0].clientX;
+        var thatY = data.clientY || (data.changedTouches)[0].clientY;
+
+        if (that.mouseStart.y < thatY) {
+          that.width += 2;
+        } else {
+          that.width -= 2;
+        }
+        if (that.width < 100) {
+          that.width = 100;
+          that.$message({
+            message: '不能再小了',
+            type: 'warning',
+            showClose: true
+          })
+        } else if (that.width > 1000) {
+          that.width = 1000;
+          that.$message({
+            message: '不能再大了',
+            type: 'warning',
+            showClose: true
+          })
+        }
+
+      },
+      upState(data) {
+        debugger;
+        var that = this;
+        if (!that.stateMoving) return;
+        that.stateMoving = false;
 
       },
       zoomChange(num) {
@@ -286,12 +339,13 @@
   }
 
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-  span{
+<style>
+  .img-control span {
     color: white;
   }
+
+</style>
+<style scoped>
   .img-control {
     position: absolute;
     left: 0;
@@ -304,7 +358,7 @@
   }
 
   .main-box img {
-    z-index: 9;
+    z-index: 11;
     position: relative;
   }
 
@@ -319,39 +373,81 @@
     transform: translate(-50%, -50%);
   }
 
+  .border-box li {
+    position: absolute;
+  }
+
   .border-box span {
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 17px;
+    height: 17px;
     background-color: #fff;
-    border: 5px solid #35383f;
+    border: 4px solid #35383f;
     opacity: 0.8;
-    border-radius: 50px;
+    border-radius: 50%;
     z-index: 9;
+    outline: 10px solid #f5f5dc00;
   }
 
-  .border-box span:nth-of-type(1) {
-    top: -10px;
-    left: -10px;
+  .border-box li:nth-of-type(1) span {
+    top: 21%;
+    left: 21%;
+  }
+
+  .border-box li:nth-of-type(2) span {
+    top: 21%;
+    right: 21%;
+  }
+
+  .border-box li:nth-of-type(3) span {
+    bottom: 21%;
+    left: 21%;
+  }
+
+  .border-box li:nth-of-type(4) span {
+    bottom: 21%;
+    right: 21%;
+  }
+
+  .border-box li:nth-of-type(1) {
+    top: 0px;
+    left: 0px;
     cursor: se-resize;
+    width: 70%;
+    margin-left: -20%;
+    height: 70%;
+    margin-top: -20%;
   }
 
-  .border-box span:nth-of-type(2) {
-    top: -10px;
-    right: -10px;
+
+  .border-box li:nth-of-type(2) {
+    top: 0px;
+    right: 0px;
     cursor: ne-resize;
+    width: 70%;
+    margin-right: -20%;
+    height: 70%;
+    margin-top: -20%;
   }
 
-  .border-box span:nth-of-type(3) {
-    bottom: -10px;
-    left: -10px;
+  .border-box li:nth-of-type(3) {
+    bottom: 0px;
+    left: 0px;
     cursor: ne-resize;
+    width: 70%;
+    margin-left: -20%;
+    height: 70%;
+    margin-bottom: -20%;
   }
 
-  .border-box span:nth-of-type(4) {
-    bottom: -10px;
-    right: -10px;
+  .border-box li:nth-of-type(4) {
+    bottom: 0px;
+    right: 0px;
     cursor: se-resize;
+    width: 70%;
+    margin-right: -20%;
+    height: 70%;
+    margin-bottom: -20%;
   }
 
   .img_box {
@@ -385,7 +481,7 @@
     -ms-transform: translateY(-50%);
     -o-transform: translateY(-50%);
     transform: translateY(-50%);
-    background: #ffffff;
+    background: #0000003b;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -398,7 +494,6 @@
 
   .action {
     display: inline-block;
-    padding: 5px;
     padding-left: 0;
     text-align: center;
     margin: 5px;
