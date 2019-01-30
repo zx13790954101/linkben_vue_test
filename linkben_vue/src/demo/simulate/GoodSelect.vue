@@ -144,8 +144,10 @@
         this.goodsList.splice(index, 1)
       },
       setImgList(data) {
-        var that = this
-        that.goodsList = data
+        var that = this;
+        that.goodsList=data
+      //   ( that.goodsList).concat(data);
+        
       },
       submitUpload() {
         this.$refs.upload.submit()

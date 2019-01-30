@@ -75,8 +75,8 @@
         <!-- 主的照片的div-->
         <div class="homeImage flex-c-y" v-show="homeImageType" v-for="(item,index) in mainImg">
 
-          <div class="main-img " id="main-img" :style="{'width':mainImgWidth,'height':(mainImgSize===true? 'auto' :'100%')}">
-            <div class="bootom " :style="{'width':(mainImgSize===true?'100%':mainImgWidth),'height':(mainImgSize===true? '100%':'100%')}">
+          <div class="main-img " id="main-img" :style="{'width':'100%','height':(mainImgSize===true? 'auto' :'100%')}">
+            <div class="bootom " :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true? '100%':'100%')}">
               <img id="mainImg" :src="item.file.url" :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true?'auto':'100%'),'opacity':'1'}">
             </div>
             <img-control v-for="(item,index) in curGoodList" :url="item.mainImage" :key="item.id" @deleteUrl="setDeleteUrl"
@@ -651,6 +651,9 @@
       this.login();
    
     },
+    created() {
+      
+    },
     computed: {
       swiper() {
         return this.$refs.mySwiper.swiper
@@ -658,20 +661,19 @@
     },
     watch: {
       mainImg: function () {
-        this.mainImgWidth = $(".main-img .bootom img").width() + 'px';
+        // this.mainImgWidth = $(".main-img .bootom img").width() + 'px';
       },
       bootom: function () {
-        this.mainImgWidth = $(".main-img .bootom img").width() + 'px';
-        $(".main-img .bootom").width(this.mainImgWidth);
+        // this.mainImgWidth = $(".main-img .bootom img").width() + 'px';
+        // $(".main-img .bootom").width(this.mainImgWidth);
       },
     },
     updated: function () {
 
       setTimeout(function () {
-        this.mainImgWidth = $(".main-img .bootom img").width() + 'px';
-        this.mainImgHeight = $("#sub_mainImg").height() + 'px';
-        $(".main-img .bootom").width(this.mainImgWidth);
-        console.log(this.mainImgWidth);
+        // this.mainImgWidth = $(".main-img .bootom img").width() + 'px';
+        // this.mainImgHeight = $("#sub_mainImg").height() + 'px';
+        // $(".main-img .bootom").width(this.mainImgWidth);
       }, 100)
 
     }

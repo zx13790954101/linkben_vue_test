@@ -82,6 +82,7 @@
             file
           });
           that.imgArray.push(file);
+          console.log("data",that.imgArray)
           that.$emit('imgList', that.imgArray);
         } else {
 
@@ -89,7 +90,6 @@
           reader.vue = this;
           reader.readAsDataURL(file);
           reader.onload = function () {
-            debugger;
             file.src = this.result;
             file.thumbImage = file.src;
             file.url = file.src;
@@ -110,7 +110,6 @@
         this.imgList.splice(index, 1);
         this.imgArray.splice(index, 1);
         this.$emit('imgList', this.imgArray);
-        console.log("sss");
       },
       bytesToSize(bytes) {
         if (bytes === 0) return '0 B';

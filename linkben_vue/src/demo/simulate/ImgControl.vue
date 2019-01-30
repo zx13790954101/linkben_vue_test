@@ -1,6 +1,6 @@
 <template>
   <div class="img-control">
-    <div class="img_box" :style="[moving?styleObj:styleObjFinal,{zIndex:zIndex}]">
+    <div class="img_box" id="img_box" :style="[moving?styleObj:styleObjFinal,{zIndex:zIndex}]">
       <div class="main-box">
         <img :src="url" alt="" :style="{filter:'brightness('+brightness+'%)',transform:'rotate('+angle+'deg) scaleX('+filp+')'}"
           @mousewheel="zoom" @DOMMouseScroll="zoom" @mousemove.prevent="mouseMove" @touchmove.prevent="mouseMove"
@@ -10,7 +10,7 @@
           <span class="top" @click="formState(top)"></span>
           <span class="bottom" @click="formState(bottom)"></span>
           <span class="left" @click="formState(left)"></span>
-          <span class="right" @click="formState(right)" id="right" ></span>
+          <span class="right" @click="formState(right)" id="right"></span>
         </div>
       </div>
       <transition name="animate-transition" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut"
@@ -110,60 +110,7 @@
       }
     },
     mounted() {
-      $(document).mousemove(function (e) {
-        if ( !! this.move) {
-            var posix = !document.move_target ? {
-                'x': 0,
-                'y': 0
-            } : document.move_target.posix,
-                callback = document.call_down || function () {
-                    $(this.move_target).css({
-                        'top': e.pageY - posix.y,
-                        'left': e.pageX - posix.x
-                    });
-                };
-            callback.call(this, e, posix);
-        }
-    }).mouseup(function (e) {
-        if ( !! this.move) {
-            var callback = document.call_up || function () {};
-            callback.call(this, e);
-            $.extend(this, {
-                'move': false,
-                'move_target': null,
-                'call_down': false,
-                'call_up': false
-            });
-        }
-    });
-    var $box = $('.img-control').mousedown(function (e) {
-        var offset = $(this).offset();
-        this.posix = {
-            'x': e.pageX - offset.left,
-            'y': e.pageY - offset.top
-        };
-        $.extend(document, {
-            'move': true,
-            'move_target': this
-        });
-    }).on('mousedown', '#right', function (e) {
-        var posix = {
-            'w': $box.width(),
-            'h': $box.height(),
-            'x': e.pageX,
-            'y': e.pageY
-        };
-        $.extend(document, {
-            'move': true,
-            'call_down': function (e) {
-                $box.css({
-                    'width': Math.max(30, e.pageX - posix.x + posix.w),
-                    'height': Math.max(30, e.pageY - posix.y + posix.h)
-                });
-            }
-        });
-        return false;
-    });
+  
     },
     methods: {
       //照片的点击事件的使用
@@ -180,21 +127,7 @@
         //设置点击外面的点击的按钮德
       },
       formState(name) {
-        switch (name) {
-          case 'top':
 
-            break;
-          case 'bottom':
-
-            break;
-          case 'left':
-
-            break;
-          case 'right':
-          
-
-            break;
-        }
       },
       zoomChange(num) {
         this.width -= num;
@@ -351,10 +284,14 @@
       }
     },
   }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  span{
+    color: white;
+  }
   .img-control {
     position: absolute;
     left: 0;
@@ -363,16 +300,23 @@
 
   .main-box {
     position: relative;
+    padding: 20px;
+  }
+
+  .main-box img {
+    z-index: 9;
+    position: relative;
   }
 
   .border-box {
     position: absolute;
-    top: 0px;
-    left: 0px;
-    height: 100%;
-    z-index: -1;
-    width: 100%;
+    top: 50%;
+    left: 50%;
+    height: 92%;
+    z-index: 1;
+    width: 92%;
     border: 2px dashed #9e9e9e;
+    transform: translate(-50%, -50%);
   }
 
   .border-box span {
@@ -383,6 +327,7 @@
     border: 5px solid #35383f;
     opacity: 0.8;
     border-radius: 50px;
+    z-index: 9;
   }
 
   .border-box span:nth-of-type(1) {
@@ -470,4 +415,5 @@
     color: #0c6eff;
     text-decoration: none;
   }*/
+
 </style>
