@@ -46,7 +46,8 @@
     created() {
       var that = this;
       let i = 0;
-      var date = new Date() //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      debugger;
+      var date = new Date((new Date()).getTime()+ 24*60*60*1000) //时间戳为10位需*1000，时间戳为13位的话不需乘1000
       var Y = date.getFullYear();
       var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
       var D = (date.getDate() + 1 < 10 ? '0' + (date.getDate() + 1) : date.getDate() + 1);

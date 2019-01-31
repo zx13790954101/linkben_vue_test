@@ -102,7 +102,7 @@
         tapNum: 0,
         touchLength: 0,
         borderType: false, //边框的状态的判断
-        borderBoxStats: 10 //边框的显示的层级
+        borderBoxStats: 11 //边框的显示的层级
           ,
         stateMoving: false, //判断是不是在边框上面
         stateData: null, //当前的this
@@ -131,19 +131,18 @@
         });
       },
       clickState(event) {
-        debugger;
         var that = this;
         this.stateData = event;
-        console.log("$event2111", that.stateData);
       },
       downState(data) {
         var that = this;
         that.stateMoving = true;
         switch ($(data.currentTarget)[0].className) {
           case "right":
-            that.borderBoxStats = 10;
+            that.borderBoxStats = 1;
             that.mouseStart.x = data.clientX || (data.changedTouches)[0].clientX;
             that.mouseStart.y = data.clientY || (data.changedTouches)[0].clientY;
+            that.stateData = data.currentTarget;
             break;
         }
       },
@@ -152,11 +151,21 @@
         if (!that.stateMoving) return;
         var thatX = data.clientX || (data.changedTouches)[0].clientX;
         var thatY = data.clientY || (data.changedTouches)[0].clientY;
-
+        //判断是不是在边框里面
+        if (!$(that.stateData).is(data.target) && $(that.stateData).has(data.target).length === 0) {
+          that.borderType = false;
+          that.stateMoving = false;
+          return;
+        }
+  
         if (that.mouseStart.y < thatY) {
           that.width += 2;
+          console.log("111",that.mouseStart.x,that.mouseStart.y);
+          console.log("1sssaa",thatX,thatY)
         } else {
           that.width -= 2;
+          console.log("222",that.mouseStart.x,that.mouseStart.y);
+          console.log("2sssaa",thatX,thatY)
         }
         if (that.width < 100) {
           that.width = 100;
@@ -176,7 +185,6 @@
 
       },
       upState(data) {
-        debugger;
         var that = this;
         if (!that.stateMoving) return;
         that.stateMoving = false;
@@ -339,13 +347,16 @@
   }
 
 </script>
-<style>
-  .img-control span {
-    color: white;
+<style lang="less">
+  .img-control  {
+    span{
+      color: white;
+    }
+
   }
 
 </style>
-<style scoped>
+<style scoped lang="less">
   .img-control {
     position: absolute;
     left: 0;
@@ -354,11 +365,11 @@
 
   .main-box {
     position: relative;
-    padding: 20px;
+    padding: 16%;
   }
 
   .main-box img {
-    z-index: 11;
+    z-index: 2;
     position: relative;
   }
 
@@ -366,56 +377,76 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    height: 92%;
+    height: 84%;
     z-index: 1;
-    width: 92%;
+    width: 84%;
     border: 2px dashed #9e9e9e;
     transform: translate(-50%, -50%);
   }
 
   .border-box li {
     position: absolute;
+    z-index: 12;
+  }
+
+  .border-box li:hover {
+    cursor: pointer;
   }
 
   .border-box span {
     position: absolute;
-    width: 17px;
-    height: 17px;
+    width: 25px;
+    height: 25px;
     background-color: #fff;
-    border: 4px solid #35383f;
+    border: 6px solid #35383f;
     opacity: 0.8;
     border-radius: 50%;
-    z-index: 9;
+    z-index: 13;
     outline: 10px solid #f5f5dc00;
   }
 
   .border-box li:nth-of-type(1) span {
-    top: 21%;
-    left: 21%;
+    top: 35%;
+    left: 35%;
   }
 
   .border-box li:nth-of-type(2) span {
-    top: 21%;
-    right: 21%;
+    top: 35%;
+    right: 35%;
   }
 
   .border-box li:nth-of-type(3) span {
-    bottom: 21%;
-    left: 21%;
+    bottom: 35%;
+    left: 35%;
   }
 
   .border-box li:nth-of-type(4) span {
-    bottom: 21%;
-    right: 21%;
+    bottom: 35%;
+    right: 35%;
+  }
+
+  .border-box li:nth-of-type(1):active,.border-box li:nth-of-type(1):focus {
+    cursor: se-resize;
+  }
+
+  .border-box li:nth-of-type(2):active,.border-box li:nth-of-type(2):focus {
+    cursor: ne-resize;
+  }
+
+  .border-box li:nth-of-type(3):active,.border-box li:nth-of-type(3):focus {
+    cursor: ne-resize;
+  }
+
+  .border-box li:nth-of-type(4):active,.border-box li:nth-of-type(4):focus {
+    cursor: se-resize;
   }
 
   .border-box li:nth-of-type(1) {
     top: 0px;
     left: 0px;
-    cursor: se-resize;
-    width: 70%;
+    width: 40%;
     margin-left: -20%;
-    height: 70%;
+    height: 40%;
     margin-top: -20%;
   }
 
@@ -423,30 +454,27 @@
   .border-box li:nth-of-type(2) {
     top: 0px;
     right: 0px;
-    cursor: ne-resize;
-    width: 70%;
+    width: 40%;
     margin-right: -20%;
-    height: 70%;
+    height: 40%;
     margin-top: -20%;
   }
 
   .border-box li:nth-of-type(3) {
     bottom: 0px;
     left: 0px;
-    cursor: ne-resize;
-    width: 70%;
+    width: 40%;
     margin-left: -20%;
-    height: 70%;
+    height: 40%;
     margin-bottom: -20%;
   }
 
   .border-box li:nth-of-type(4) {
     bottom: 0px;
     right: 0px;
-    cursor: se-resize;
-    width: 70%;
+    width: 40%;
     margin-right: -20%;
-    height: 70%;
+    height: 40%;
     margin-bottom: -20%;
   }
 

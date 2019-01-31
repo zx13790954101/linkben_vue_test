@@ -54,6 +54,11 @@ module.exports = {
         }
       },
       {
+        test: /\.less$/,
+        // 执行顺序从右到左开始执行
+        loader: "style-loader!css-loader!less-loader",
+      },
+      {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
         loader: 'url-loader',
         options: {

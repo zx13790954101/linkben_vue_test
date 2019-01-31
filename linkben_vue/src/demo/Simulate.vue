@@ -636,7 +636,7 @@
    
     },
     created() {
-      
+      console.log("data",screenWidth);
     },
     computed: {
       swiper() {
@@ -1065,5 +1065,12 @@
     margin: 10px 0px;
     padding: 5px 0px;
     padding-left: 15px;
+  }
+
+  @media (max-width:768px) {
+     .left-slide{
+       position:absolute;
+       z-index: 10;
+     }
   }
 </style>

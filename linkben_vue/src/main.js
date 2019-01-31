@@ -9,6 +9,9 @@ import 'babel-polyfill'
 import 'styles/iconfont.css'
 // import 'swiper/dist/css/swiper.css'
 // import 'lib-flexible/flexible'
+// 导入css reset
+import 'normalize.css'
+// import './assets/less/public.less'
 //引入mint-ui所有的组件使用下面两行
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
