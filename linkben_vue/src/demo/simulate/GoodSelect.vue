@@ -1,21 +1,19 @@
 <template>
   <div class="good-select">
-    <div class="top-bar">
-      <Matting></Matting>
-    </div>
-    <el-tabs style="height: 200px;">
+    <Matting class="top-bar" v-if="screenWidth>=688" ></Matting>
+    <el-tabs >
       <el-tab-pane label="插件列表">
-        <div class="flex-c box">
+        <div class="flex-c box" v-if="screenWidth>=688">
           <h4 class="title flex-item">  添加你的物件 </h4>
           <h5> 全部删除 </h5>
         </div>
         <!-- 商品列表 -->
         <div class="good_list  scrollbar">
           <div class="row">
-            <article class="col-lg-6">
+            <article class="col-lg-6 col-xs-3">
               <upload @imgList='setImgList'></upload>
             </article>
-            <article class="col-lg-6" v-for="(item,index) in goodsList" v-on:click="selectGood(index)">
+            <article class="col-lg-6 col-xs-3" v-for="(item,index) in goodsList" v-on:click="selectGood(index)">
               <div class="upload_warp_img_div " :class="item.checked?'bg_yellow':''">
                 <i class="el-icon-circle-close upload_warp_img_div_del" @click="fileDel(index)"></i>
                 <good-img :url="item.url" :noStock="item.number==0?true:false" :key="item.id"></good-img>
@@ -29,9 +27,7 @@
 
       </el-tab-pane>
     </el-tabs>
-    <div class="bottom-bar flex-c">
-      <button class="btn">保存 </button>
-    </div>
+      <button class="btn bottom-bar"  v-if="screenWidth>=688">保存 </button>
   </div>
 </template>
 
@@ -54,6 +50,7 @@
     props: ['deleteUrl', 'oldList'],
     data() {
       return {
+        screenWidth:document.documentElement.clientWidth,
         fileList: [],
         searchValue: '',
         loading: false,
@@ -442,8 +439,19 @@
 
   .good-select .el-tabs__nav {
     width: 100%;
-    background-color: #2b2b2b;
+    background-color: inherit;
   }
+  @media (max-width:768px) {
+    .good-select .el-tabs__nav {
+    width: 100%;
+    background-color: white;
+    color: #333;
+  }
+  .good-select .el-tabs__item.is-active{
+    color: #333;
+  }
+  }
+
 </style>
 
 <style scoped>
@@ -567,9 +575,7 @@
     position: absolute;
     bottom: 0px;
     width: 100%;
-  }
 
-  .bottom-bar button {
     width: 100%;
     border: 0px;
     background: linear-gradient(to left, #3b9eff 0, #19c3ff 100%);
@@ -579,4 +585,21 @@
     padding: 0px 15px;
     line-height: 46px;
   }
+  @media (max-width:768px) {
+    .good_list .row{
+      overflow-y:hidden;
+      width: 100%;
+      height: 60px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling:touch;
+            display: -webkit-box;
+            margin: 0 auto;
+    }
+    .good-select{
+      background-color: white;
+    }
+    .good_list .row article{float: none;}
+    .upload_warp_img_div{ height: 55px; }
+  }
+
 </style>

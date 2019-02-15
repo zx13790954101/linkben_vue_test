@@ -37,16 +37,14 @@
         </div>
       </div>
     </transition>
-    <section class="flex simulate-section">
-       <!-- 侧边栏的功能 -->
-      <div class="left-slide" :style="{'margin-left':(isCollapse==false?'0':'-320px')}">
-        <good-select @curGoodList="setCurGoodList" :deleteUrl="deleteUrl" :oldList="oldList"></good-select>
-        <span class="cut-button" v-model="isCollapse">
-          <i class="el-icon-arrow-right" v-if="isCollapse"  @click="isCollapse=false"></i>
-          <i class="el-icon-arrow-left" v-if="!isCollapse"  @click="isCollapse=true"></i>
-        </span>
-      </div>
 
+    <section class="flex simulate-section">
+      <!-- 侧边栏的功能 -->
+      <div class="left-slide" :style="(screenWidth>=688?{'margin-left':(isCollapse==false?'0':'-320px')} :{'top':(isCollapse==false?'450px':'700px')} )">
+        <good-select @curGoodList="setCurGoodList" :deleteUrl="deleteUrl" :oldList="oldList"></good-select>
+        <i :class="(isCollapse?'el-icon-arrow-right cut-button':'el-icon-arrow-left cut-button')"
+         @click="isCollapse=!isCollapse"></i>
+      </div>
       <!-- 背景轮换 -->
       <div class="swiper_box  content-r flex-item">
         <div class="upload_warp  position-a-center" v-show="!homeImageType">
@@ -195,7 +193,7 @@
          //'transform':('scale('+imgSatus.scale+')  rotate('+imgSatus.rotate+'deg)')
         },
      
-        isCollapse: true,
+        isCollapse: false,
         oldList: array,
         backLoading: false,
         sessionGoodUrl: url,
@@ -850,21 +848,15 @@
 
   }
   .cut-button {
+    border: 0px !important;
     background-color: #171717;
     border-top-right-radius: 0.4rem;
     border-bottom-right-radius: 0.4rem;
     color: white;
     font-weight: 600;
-    border: 0px !important;
-    
     -webkit-transition: all .4s ease-out 0s;
     transition: all .4s ease-out 0s;
-  }
-
-  .cut-button  i {
     font-size: 2rem;
-    -webkit-transition: all .4s ease-out 0s;
-    transition: all .4s ease-out 0s;
     color: #9eabb3;
     font-weight: 600;
     padding: 1.8rem 0.5rem;
@@ -1086,16 +1078,25 @@
   }
 
   @media (max-width:768px) {
-    .head-bar{
-     
-    }
     .swiper_box{
       background-color: #000000;
     }
      .left-slide{
        position:absolute;
        z-index: 13;
-       margin-top: -50px;
+       bottom: 89px;
+       height: auto;
+       background-color: white;
+       box-shadow:0px 0px 0px ;
+       width: 100%;
+     }
+     .cut-button{
+       right: 20px;
+       top: -20px;
+       transform: rotate(-90deg);
+        padding: 0.8rem 0.1rem;
+        background-color: white;
+        font-size: 1.5rem;
      }
   }
 </style>

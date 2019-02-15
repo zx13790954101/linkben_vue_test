@@ -203,9 +203,6 @@
       width: 120px;
       margin: 0px 10px;
     }
-    .satellite {
-      margin: 1rem 0rem;
-    }
     .satellite  .el-slider{
       width: 95%;
     }
@@ -259,7 +256,7 @@
     @media (max-width:768px) {
       background-color: white;
       width: 100%;
-      padding: 1rem 2rem;
+      padding: 5px 1.5rem;
    }
     
   }

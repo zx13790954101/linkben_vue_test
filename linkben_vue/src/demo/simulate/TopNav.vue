@@ -104,7 +104,7 @@
     background: #202026;
     background: #505056;
     background: rgba(255, 255, 255, 0.3);
-    background: linear-gradient(to left, #2a2a2a, #3c3c3c);
+    background: linear-gradient(to left,rgb(42,42,42), rgb(60,60,60));
     padding: 0px 5%;
     box-sizing: border-box;
     border-radius: 20px;

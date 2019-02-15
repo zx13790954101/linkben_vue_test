@@ -5,7 +5,7 @@
         <img :src="url" alt="" :style="{filter:'brightness('+brightness+'%)',transform:'rotate('+angle+'deg) scaleX('+filp+')'}"
           @mousewheel="zoom" @DOMMouseScroll="zoom" @mousemove.prevent="mouseMove" @touchmove.prevent="mouseMove"
           @mousedown.prevent="mouseDown" @touchstart.prevent="mouseDown" @mouseup.prevent="mouseUp" @touchend.prevent="mouseUp"
-          @mouseout.prevent="mouseOut" @contextmenu.prevent="planeShow=!planeShow">
+          @mouseout.prevent="mouseOut" >
         <ul class="border-box" v-if="borderType" :style="{'z-index':borderBoxStats}">
           <li class="top" @click="formState(top)"> <span></span></li>
           <li class="bottom" @click="formState(bottom)"> <span></span></li>
@@ -258,6 +258,7 @@
             that.longTouch();
           }, 500);
         }
+        that.planeShow=!that.planeShow;
         this.moving = true;
         this.zIndex = 2;
         this.mouseStart.x = data.clientX || (data.changedTouches)[0].clientX;
