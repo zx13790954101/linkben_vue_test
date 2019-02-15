@@ -153,7 +153,6 @@
     width: 100%;
     height: 110px;
     background: linear-gradient(to left,#3b9eff 0,#19c3ff 100%);
-    min-height: 110px;
     cursor: pointer;
     border-radius: 4px;
     position: relative;
@@ -167,5 +166,11 @@
     box-sizing: border-box;
     border-radius: 4px;
   }
-
+  @media (max-width:768px) {
+    .upload-warp{ height: 55px; }
+    .upload-warp i {
+    font-size: 2.5rem;
+    color: white;
+   }
+  }
 </style>
