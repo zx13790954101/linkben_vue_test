@@ -50,7 +50,6 @@ img {
 }
 </style>
 <style scoped>
-  .wrapper {}
 
   .head-img {
     height: 19rem;

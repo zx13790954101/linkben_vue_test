@@ -21,7 +21,7 @@
         <i class="iconfont icon-fenxiang2"></i>
         <p>分享</p>
       </li>
-      <li class="flex-c" @click="fullScreen">
+      <li class="flex-c col-xs-0" @click="fullScreen">
         <i class="iconfont icon-quanping1"></i>
         <p>全屏</p>
       </li>
@@ -121,5 +121,11 @@
 
   .head-tab li i {
     margin-right: 5px;
+  }
+  @media (max-width:768px) {
+    .head-tab li {
+      margin: 0 5px;
+    }
+
   }
 </style>

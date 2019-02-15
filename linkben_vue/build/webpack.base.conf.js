@@ -55,7 +55,6 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        // 执行顺序从右到左开始执行
         loader: "style-loader!css-loader!less-loader",
       },
       {

@@ -2,8 +2,8 @@
   <div class="simulate">
     <!-- 右菜单 -->
     <div class="head-bar  flex-c flex-c-y">
-      <span class="head-title" :style="{width:(isCollapse==false?'320px':'0px')}">
-        <a href="linkben.com" class="flex-l  ">LinkBen</a>
+      <span class="head-title"   v-if="screenWidth>=688"  :style="{width:(isCollapse==false?'320px':'0px')}">
+        <a href="linkben.com" class="flex-l  col-xs-0">LinkBen</a>
       </span>
       <span class="flex-item">
         <topNav :homeImageType='homeImageType'></topNav>
@@ -61,13 +61,14 @@
 
           <div class="main-img " id="main-img" :style="{'width':'100%','height':(mainImgSize===true? 'auto' :'100%')}">
             <div class="bootom " :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true? '100%':'100%')}">
-              <img id="mainImg" :src="item.file.url" :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true?'auto':'100%'),'opacity':'1'}">
+              <img id="mainImg" :src="item.file.url" :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true?'auto':'100%'),'opacity':'1'
+            ,'transform':' translate(-50%, -50%)  scale('+imgSatus.scale+') scaleX('+imgSatus.scalex+')  rotate('+imgSatus.rotate+'deg'+') '}">
             </div>
             <img-control v-for="(item,index) in curGoodList" :url="item.mainImage" :key="item.id" @deleteUrl="setDeleteUrl"
               @setCurGood="setCurGood(index)"></img-control>
           </div>
 
-          <bottomNav :sliderValue="sliderValue" ref="ref1"></bottomNav>
+          <bottomNav  ref="ref1"></bottomNav>
         </div>
 
 
@@ -170,6 +171,7 @@
       }
       var that = this
       return {
+        screenWidth:document.documentElement.clientWidth,
         mainImgWidth: "auto",
         mainImgHeight: 'auto',
         mainImgSize: true,
@@ -179,8 +181,20 @@
         homeImageType: false,
         //主的照片
         mainImg: [
-
+        
         ],
+        imgSatus:{
+          scale:1,
+          rotate:0,
+          scalex:1,
+        },
+        imgStyle:{
+        //  width: (mainImgSize==true?'100%':'auto'),
+       //   height: (mainImgSize==true?'auto':'100%'),
+          opacity:1,
+         //'transform':('scale('+imgSatus.scale+')  rotate('+imgSatus.rotate+'deg)')
+        },
+     
         isCollapse: true,
         oldList: array,
         backLoading: false,
@@ -207,6 +221,9 @@
         onload: false,
         curGoodList: [],
         bgBrightness: 100,
+        mainStaus:{
+          
+        },
         box: {
           width: $('.swiper_box').width(),
           height: $('.swiper_box').height(),
@@ -789,6 +806,7 @@
     z-index: 11;
     width: 100%;
     position: relative;
+    background-color: #000000;
   }
 
   .swiper_box {
@@ -844,12 +862,12 @@
   }
 
   .cut-button  i {
-    font-size: 1.4rem;
+    font-size: 2rem;
     -webkit-transition: all .4s ease-out 0s;
     transition: all .4s ease-out 0s;
     color: #9eabb3;
     font-weight: 600;
-    padding: 1.2rem 0.3rem;
+    padding: 1.8rem 0.5rem;
     cursor: pointer;
   }
   .buttom-bar {
@@ -1068,9 +1086,16 @@
   }
 
   @media (max-width:768px) {
+    .head-bar{
+     
+    }
+    .swiper_box{
+      background-color: #000000;
+    }
      .left-slide{
        position:absolute;
-       z-index: 10;
+       z-index: 13;
+       margin-top: -50px;
      }
   }
 </style>

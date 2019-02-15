@@ -41,6 +41,9 @@ Vue.prototype.$axios = axios;
 import Vant from 'vant';
 import 'vant/lib/index.css';
 Vue.use(Vant);
+
+import vueTouch from 'kim-vue-touch'
+Vue.use(vueTouch)
 //引入UI组件 按需引入 指定引入Button组件
 // import { Button } from 'mint-ui'
 // Vue.component(Button.name, Button)
