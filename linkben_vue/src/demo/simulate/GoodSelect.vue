@@ -1,10 +1,10 @@
 <template>
   <div class="good-select">
-    <Matting class="top-bar" v-if="screenWidth>=688" ></Matting>
-    <el-tabs >
+    <Matting class="top-bar" v-if="screenWidth>=688"></Matting>
+    <el-tabs>
       <el-tab-pane label="插件列表">
         <div class="flex-c box" v-if="screenWidth>=688">
-          <h4 class="title flex-item">  添加你的物件 </h4>
+          <h4 class="title flex-item"> 添加你的物件 </h4>
           <h5> 全部删除 </h5>
         </div>
         <!-- 商品列表 -->
@@ -27,7 +27,7 @@
 
       </el-tab-pane>
     </el-tabs>
-      <button class="btn bottom-bar"  v-if="screenWidth>=688">保存 </button>
+    <button class="btn bottom-bar" v-if="screenWidth>=688">保存 </button>
   </div>
 </template>
 
@@ -50,7 +50,7 @@
     props: ['deleteUrl', 'oldList'],
     data() {
       return {
-        screenWidth:document.documentElement.clientWidth,
+        screenWidth: document.documentElement.clientWidth,
         fileList: [],
         searchValue: '',
         loading: false,
@@ -441,17 +441,36 @@
     width: 100%;
     background-color: inherit;
   }
+  .el-slider__bar{
+    background-color: #ffdb05;
+  }
   @media (max-width:768px) {
     .good-select .el-tabs__nav {
-    width: 100%;
-    background-color: white;
-    color: #333;
-  }
-  .good-select .el-tabs__item.is-active{
-    color: #333;
-  }
-  }
+      width: 100%;
+      background-color: white;
+      color: #333;
+    }
 
+    .good-select .el-tabs__active-bar {
+    //  background: linear-gradient(to left, #3b9eff 0, #19c3ff 100%);
+    }
+
+    .el-tabs__header {
+      margin-bottom: 0rem;
+    }
+
+    .good-select .el-tabs__item {
+      height: 2.2rem;
+      line-height: 2.2rem;
+      font-size: 1.2rem;
+      letter-spacing: 1px;
+    }
+
+    .good-select .el-tabs__item.is-active {
+      color: #000000;
+    font-weight: 600;
+    }
+  }
 </style>
 
 <style scoped>
@@ -585,21 +604,40 @@
     padding: 0px 15px;
     line-height: 46px;
   }
-  @media (max-width:768px) {
-    .good_list .row{
-      overflow-y:hidden;
-      width: 100%;
-      height: 60px;
-            overflow-x: auto;
-            -webkit-overflow-scrolling:touch;
-            display: -webkit-box;
-            margin: 0 auto;
-    }
-    .good-select{
-      background-color: white;
-    }
-    .good_list .row article{float: none;}
-    .upload_warp_img_div{ height: 55px; }
-  }
 
+  @media (max-width:768px) {
+    .good_list .row {
+      overflow-y: hidden;
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      display: -webkit-box;
+      margin: 0 auto;
+    }
+
+    .good-select {
+      background-color: white;
+      overflow: hidden;
+      -webkit-transition: all .2s ease-out 0s;
+      transition: all .2s ease-out 0s;
+      height: auto;
+    }
+
+    .good_list {
+      background-color: #eeeeee;
+      padding: 0.5rem 15px;
+    }
+
+    .good_list .row article {
+      float: none;
+      margin-bottom: 0px;
+
+    }
+
+    .upload_warp_img_div {
+      height: 5.2rem;
+      line-height: 5.2rem;
+      border-radius: 0px;
+    }
+  }
 </style>

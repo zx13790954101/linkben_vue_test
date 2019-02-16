@@ -2,16 +2,16 @@
   <div class="bottom-nav">
     <ul class="satellite ">
         <li class="" v-if="active===1">
-
+            <el-slider v-model="lightNum"  :min="0" :max="360"></el-slider>
         </li>
         <li class="" v-else-if="active===2">
 
         </li>
         <li class="" v-else-if="active===3">
-            <el-slider v-model="formatRotate" :format-tooltip="formatRotate" :min="0" :max="360"></el-slider>
+            <el-slider v-model="rotateNum" :format-tooltip="plusRotate"  :step="45" :min="-180" :max="180"></el-slider>
           </li>
           <li class="" v-else="active===4">
-              <el-slider v-model="formatAdd" :format-tooltip="formatAdd" :min="0" :max="360"></el-slider>
+              <el-slider v-model="addNum" :format-tooltip="formatAdd" :min="0" :max="100"></el-slider>
         </li>
     </ul>
     <ul class="bottom-tab flex-c">
@@ -22,7 +22,7 @@
         <i class="iconfont icon-jingxiang" @click="plusMinus2('mirror')"></i>
       </li>
       <li class=" flex-item "  @click="active=3" :style="{'color':(active==3?'rgb(255, 219, 5)':'')}">
-        <i class="iconfont icon-youxuanzhuan" @click="plusMinus2('rotate')"></i>
+        <i class="iconfont icon-youxuanzhuan" ></i>
       </li>
       <li class=" flex-item   flex-c flex-c-y add-minus " @click="active=4" :style="{'background-color':(active==4?'rgb(255, 219, 5)':''),'color':(active==4?'white':'')}">
         <i class="iconfont icon-jia1" @click="plusminus($event,1)" id="big"></i>
@@ -46,7 +46,10 @@
       return {
         title: '底部的nav',
         timer: "",
-        active:4,
+        active:1,
+        lightNum:0,
+        addNum:50,
+        rotateNum:0,
       }
     },
     props: {
@@ -66,6 +69,7 @@
         clearTimeout(this.Loop);
       },
       setTime(data, type) {
+        var that=this;
         if (data == 1) {
           that.$parent.imgSatus.scale = that.$parent.imgSatus.scale + 0.01
         } else if (data == 2) {
@@ -132,11 +136,20 @@
             break;
         }
 
-      }, //旋转的功能
+      },
+      formatAdd(){
+         var that = this;
+          that.$parent.imgSatus.scale=(that.addNum/20);
+      },
+       //旋转的功能
       plusRotate() {
         var that = this;
+        if( that.$parent.imgSatus.rotate>=180){
 
-        that.$parent.imgSatus.rotate = that.$parent.imgSatus.rotate + 80
+        }
+      //  that.$parent.imgSatus.rotate =  that.$parent.imgSatus.rotate + 45;
+        that.$parent.imgSatus.rotate =that.rotateNum;
+       // that.rotateNum=that.$parent.imgSatus.rotate;
       },
       viewerInit() {
         if ($(".viewer-container").html()) {
@@ -257,6 +270,10 @@
       background-color: white;
       width: 100%;
       padding: 5px 1.5rem;
+      z-index: 9;
+      left: 0px;
+    transform: translateX(0%);
+
    }
     
   }

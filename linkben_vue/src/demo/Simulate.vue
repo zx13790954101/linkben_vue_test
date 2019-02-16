@@ -40,8 +40,10 @@
 
     <section class="flex simulate-section">
       <!-- 侧边栏的功能 -->
-      <div class="left-slide" :style="(screenWidth>=688?{'margin-left':(isCollapse==false?'0':'-320px')} :{'top':(isCollapse==false?'450px':'700px')} )">
-        <good-select @curGoodList="setCurGoodList" :deleteUrl="deleteUrl" :oldList="oldList"></good-select>
+      <div class="left-slide" :style="(screenWidth>=688?{'margin-left':(isCollapse==false?'0':'-320px')} :
+        {'bottom':(isCollapse==false?'90px':'90px'),'height':(isCollapse==false?'100%':'0%')} )">
+        <good-select @curGoodList="setCurGoodList" :deleteUrl="deleteUrl" :oldList="oldList" 
+        :style="(screenWidth>=688?{} :{'height':(isCollapse==false?'100%':'0%')} )"></good-select>
         <i :class="(isCollapse?'el-icon-arrow-right cut-button':'el-icon-arrow-left cut-button')"
          @click="isCollapse=!isCollapse"></i>
       </div>
@@ -843,8 +845,8 @@
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.44);
     position: relative;
     height: 100%;
-    -webkit-transition: all .4s ease-out 0s;
-    transition: all .4s ease-out 0s;
+    -webkit-transition: all .3s ease-out 0s;
+    transition: all .3s ease-out 0s;
 
   }
   .cut-button {
@@ -1078,17 +1080,21 @@
   }
 
   @media (max-width:768px) {
+    .homeImage{
+      padding: 0% 6% 100px 6%
+    }
     .swiper_box{
       background-color: #000000;
     }
      .left-slide{
        position:absolute;
-       z-index: 13;
-       bottom: 89px;
+       z-index: 8;
+       bottom: 0px;
        height: auto;
        background-color: white;
        box-shadow:0px 0px 0px ;
        width: 100%;
+       max-height: 8.9rem;
      }
      .cut-button{
        right: 20px;

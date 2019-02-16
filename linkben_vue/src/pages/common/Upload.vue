@@ -167,10 +167,14 @@
     border-radius: 4px;
   }
   @media (max-width:768px) {
-    .upload-warp{ height: 55px; }
+    .upload-warp{ height: 5.2rem; 
+     }
     .upload-warp i {
     font-size: 2.5rem;
     color: white;
+   }
+   .upload{
+    border-radius: 0rem;
    }
   }
 </style>
