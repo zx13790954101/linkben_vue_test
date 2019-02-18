@@ -38,15 +38,18 @@ import axios from 'axios';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 Vue.prototype.$axios = axios;
 
-import Vant from 'vant';
-import 'vant/lib/index.css';
-Vue.use(Vant);
+//import Vant from 'vant';
+//import 'vant/lib/index.css';
+//Vue.use(Vant);
 
-import vueTouch from 'kim-vue-touch'
-Vue.use(vueTouch)
+//import vueTouch from 'kim-vue-touch'
+//Vue.use(vueTouch)
 //引入UI组件 按需引入 指定引入Button组件
 // import { Button } from 'mint-ui'
 // Vue.component(Button.name, Button)
+
+//import vcolorpicker from 'vcolorpicker'
+//Vue.use(vcolorpicker)
 
 Vue.config.productionTip = false
 //配置是否允许 vue-devtools 检查代码, 生产环境禁用vue-devtools

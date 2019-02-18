@@ -1,14 +1,5 @@
 <template>
   <div class="simulate">
-    <!-- 右菜单 -->
-    <div class="head-bar  flex-c flex-c-y">
-      <span class="head-title"   v-if="screenWidth>=688"  :style="{width:(isCollapse==false?'320px':'0px')}">
-        <a href="linkben.com" class="flex-l  col-xs-0">LinkBen</a>
-      </span>
-      <span class="flex-item">
-        <topNav :homeImageType='homeImageType'></topNav>
-      </span>
-    </div>
     <!-- 场景功能 -->
     <!--:class="[onload?'onload':'','cover']"-->
     <transition name="animate-transition" enter-active-class="animated fadeIn" leave-active-class="animated slideOutLeft"
@@ -39,16 +30,24 @@
     </transition>
 
     <section class="flex simulate-section">
+
       <!-- 侧边栏的功能 -->
       <div class="left-slide" :style="(screenWidth>=688?{'margin-left':(isCollapse==false?'0':'-320px')} :
         {'bottom':(isCollapse==false?'90px':'90px'),'height':(isCollapse==false?'100%':'0%')} )">
-        <good-select @curGoodList="setCurGoodList" :deleteUrl="deleteUrl" :oldList="oldList" 
-        :style="(screenWidth>=688?{} :{'height':(isCollapse==false?'100%':'0%')} )"></good-select>
-        <i :class="(isCollapse?'el-icon-arrow-right cut-button':'el-icon-arrow-left cut-button')"
-         @click="isCollapse=!isCollapse"></i>
+        <span class="head-title" v-if="screenWidth>=688" :style="{width:(isCollapse==false?'320px':'0px')}">
+          <a href="linkben.com" class="flex-l  col-xs-0">LinkBen</a>
+        </span>
+        <good-select @curGoodList="setCurGoodList" :deleteUrl="deleteUrl" :oldList="oldList" :style="(screenWidth>=688?{} :{'height':(isCollapse==false?'100%':'0%')} )"></good-select>
+        <i :class="(isCollapse?'el-icon-arrow-right cut-button':'el-icon-arrow-left cut-button')" @click="isCollapse=!isCollapse"></i>
       </div>
       <!-- 背景轮换 -->
       <div class="swiper_box  content-r flex-item">
+        <!-- 右菜单 -->
+        <div class="head-bar  flex-c flex-c-y" :style="(screenWidth>=688?{} :{'background-color':'#000000'} )">
+          <topNav :homeImageType='homeImageType' class="flex-item"></topNav>
+        </div>
+
+
         <div class="upload_warp  position-a-center" v-show="!homeImageType">
           <div class="upload_warp_left" @click="fileClick">
             <i class="iconfont icon-buoumaotubiao47 position-a-center"></i>
@@ -68,7 +67,7 @@
               @setCurGood="setCurGood(index)"></img-control>
           </div>
 
-          <bottomNav  ref="ref1"></bottomNav>
+          <bottomNav ref="ref1"></bottomNav>
         </div>
 
 
@@ -171,7 +170,7 @@
       }
       var that = this
       return {
-        screenWidth:document.documentElement.clientWidth,
+        screenWidth: document.documentElement.clientWidth,
         mainImgWidth: "auto",
         mainImgHeight: 'auto',
         mainImgSize: true,
@@ -181,20 +180,20 @@
         homeImageType: false,
         //主的照片
         mainImg: [
-        
+
         ],
-        imgSatus:{
-          scale:1,
-          rotate:0,
-          scalex:1,
+        imgSatus: {
+          scale: 1,
+          rotate: 0,
+          scalex: 1,
         },
-        imgStyle:{
-        //  width: (mainImgSize==true?'100%':'auto'),
-       //   height: (mainImgSize==true?'auto':'100%'),
-          opacity:1,
-         //'transform':('scale('+imgSatus.scale+')  rotate('+imgSatus.rotate+'deg)')
+        imgStyle: {
+          //  width: (mainImgSize==true?'100%':'auto'),
+          //   height: (mainImgSize==true?'auto':'100%'),
+          opacity: 1,
+          //'transform':('scale('+imgSatus.scale+')  rotate('+imgSatus.rotate+'deg)')
         },
-     
+
         isCollapse: false,
         oldList: array,
         backLoading: false,
@@ -221,8 +220,8 @@
         onload: false,
         curGoodList: [],
         bgBrightness: 100,
-        mainStaus:{
-          
+        mainStaus: {
+
         },
         box: {
           width: $('.swiper_box').width(),
@@ -247,7 +246,7 @@
             that.setCurIndex(swiper.activeIndex)
           }
         },
-        defaultImg:require("../assets/img/img4.jpg")
+        defaultImg: require("../assets/img/img4.jpg")
       }
     },
     methods: {
@@ -265,12 +264,12 @@
         document.getElementById('upload_file2').click()
       },
       fileChange(el) {
-        var that=this;
+        var that = this;
         if (!el.target.files[0].size) return
         that.fileList(el.target);
         el.target.value = '';
-     
-     //   this.$refs.ref1[0].viewerInit(); 
+
+        //   this.$refs.ref1[0].viewerInit(); 
       },
       fileList(fileList) {
         let files = fileList.files
@@ -650,10 +649,10 @@
 
       $(window).trigger('resize');
       this.login();
-   
+
     },
     created() {
-      console.log("data",screenWidth);
+      console.log("data", screenWidth);
     },
     computed: {
       swiper() {
@@ -681,8 +680,6 @@
   }
 </script>
 <style>
-
-
   .plusminus .el-slider {
     width: 120px;
     margin: 0px 10px;
@@ -695,15 +692,17 @@
     line-height: 50px;
     background-color: #2b2b2b;
   }
-  #sub_mainImg{
+
+  #sub_mainImg {
     display: block;
     width: 100%;
     height: auto;
-    position:absolute;
+    position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
   }
+
   .head-title a {
     color: #dadada;
     font-size: 23px;
@@ -729,6 +728,8 @@
   .good-select {
     height: 100%;
     padding: 0px 0px;
+    margin-top: -50px;
+    padding-top: 50px;
   }
 
   .content-r .upload_warp_left {
@@ -744,8 +745,6 @@
     height: 100vh;
     position: relative;
     background-color: #000000;
-    margin-top: -50px;
-    padding-top: 50px;
   }
 
   .my-swiper {
@@ -803,10 +802,11 @@
     -webkit-app-region: drag;
     color: #333333;
     text-align: center;
-    z-index: 11;
+    /* z-index: 11; */
     width: 100%;
     position: relative;
-    background-color: #000000;
+    /* background-color: #000000; */
+    background-color: #f4f4f4;
   }
 
   .swiper_box {
@@ -814,7 +814,7 @@
     margin: 0 auto;
     height: 100%;
     background-color: #f4f4f4;
-    will-change: transform;
+    /* will-change: transform; */
   }
 
   .user_img {
@@ -836,7 +836,7 @@
     transform: scaleX(-1);
   }
 
-  .left-slide{
+  .left-slide {
     width: 320px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -849,6 +849,7 @@
     transition: all .3s ease-out 0s;
 
   }
+
   .cut-button {
     border: 0px !important;
     background-color: #171717;
@@ -864,6 +865,7 @@
     padding: 1.8rem 0.5rem;
     cursor: pointer;
   }
+
   .buttom-bar {
     position: absolute;
     bottom: 0%;
@@ -900,7 +902,7 @@
     background-color: #ffffff9e;
     z-index: 9999;
     height: 50px;
-    
+
   }
 
   .buttom-bar .bar_item {
@@ -924,7 +926,7 @@
     top: 50%;
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
-    z-index: 99;
+    z-index: 9;
     right: -20px;
   }
 
@@ -1004,6 +1006,8 @@
     height: 100%;
     position: relative;
     padding: 2% 6% 60px 6%;
+    margin-top: -50px;
+    padding-top: 50px;
   }
 
   .content-r .upload_warp_left i {
@@ -1016,7 +1020,11 @@
     overflow: hidden;
     position: relative;
   }
-  .main-img img{   border-radius: 10px;}
+
+  .main-img img {
+    border-radius: 10px;
+  }
+
   .main-img .img-r {
     box-shadow: 0 4px 12px rgba(6, 31, 50, .24);
     -webkit-box-shadow: 0 4px 12px rgba(6, 31, 50, .24);
@@ -1080,29 +1088,32 @@
   }
 
   @media (max-width:768px) {
-    .homeImage{
+    .homeImage {
       padding: 0% 6% 100px 6%
     }
-    .swiper_box{
+
+    .swiper_box {
       background-color: #000000;
     }
-     .left-slide{
-       position:absolute;
-       z-index: 8;
-       bottom: 0px;
-       height: auto;
-       background-color: white;
-       box-shadow:0px 0px 0px ;
-       width: 100%;
-       max-height: 8.9rem;
-     }
-     .cut-button{
-       right: 20px;
-       top: -20px;
-       transform: rotate(-90deg);
-        padding: 0.8rem 0.1rem;
-        background-color: white;
-        font-size: 1.5rem;
-     }
+
+    .left-slide {
+      position: absolute;
+      z-index: 8;
+      bottom: 0px;
+      height: auto;
+      background-color: white;
+      box-shadow: 0px 0px 0px;
+      width: 100%;
+      max-height: 9.5rem;
+    }
+
+    .cut-button {
+      right: 20px;
+      top: -18px;
+      transform: rotate(-90deg);
+      padding: 0.8rem 0.1rem;
+      background-color: white;
+      font-size: 1.4rem;
+    }
   }
 </style>

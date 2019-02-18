@@ -167,7 +167,8 @@
     border-radius: 4px;
   }
   @media (max-width:768px) {
-    .upload-warp{ height: 5.2rem; 
+    .upload-warp{ height: 6.0rem; 
+      border-radius: 0rem;
      }
     .upload-warp i {
     font-size: 2.5rem;

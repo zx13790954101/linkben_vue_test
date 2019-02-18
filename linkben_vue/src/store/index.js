@@ -1,17 +1,30 @@
 //我们组装模块并导出 store 的地方
 import Vue from 'vue';
 import Vuex from 'vuex';
+import {mapState} from 'vuex';
 Vue.use(Vuex);
 import common from './modules/common';
 import actions from './actions';
 import mutations from './mutations';
 
+const state={
+     //要设置的全局访问的state对象
+      selectColor:"rgba(255,255,255)"
+}
 const store = new Vuex.Store({
+    state,
+    computed:mapState({
+      selectColor:state=>state.selectColor //理解为传入state对象，修改state.count属性
+    }),
     modules: {
       common,
     },
     actions,
-    mutations,
+    mutations:{
+      selectColor(state,name){
+        state.selectColor=name;
+      }
+    },
     strict: process.env.NODE_ENV !== 'production'
   });
   // console.log(process)

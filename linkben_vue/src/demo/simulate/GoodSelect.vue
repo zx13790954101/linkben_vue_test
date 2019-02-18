@@ -460,9 +460,9 @@
     }
 
     .good-select .el-tabs__item {
-      height: 2.2rem;
-      line-height: 2.2rem;
-      font-size: 1.2rem;
+      height: 2.4rem;
+      line-height: 2.4rem;
+      font-size: inherit;
       letter-spacing: 1px;
     }
 
@@ -621,6 +621,8 @@
       -webkit-transition: all .2s ease-out 0s;
       transition: all .2s ease-out 0s;
       height: auto;
+      margin: 0px;
+      padding: 0px;
     }
 
     .good_list {
@@ -635,8 +637,8 @@
     }
 
     .upload_warp_img_div {
-      height: 5.2rem;
-      line-height: 5.2rem;
+      height: 6.0rem;
+      line-height: 6.0rem;
       border-radius: 0px;
     }
   }

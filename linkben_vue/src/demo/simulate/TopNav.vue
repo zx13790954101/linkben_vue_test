@@ -1,9 +1,9 @@
 <template>
-  <div class="wrapper  ">
+  <div class="topNav"  :style="{'z-index':(dialogTableVisible===true?'inherit':'11')}">
     <ul class="head-tab">
-      <li class=" flex-c" @click="fileClick" v-if="homeImageType">
+      <li class=" flex-c" @click="dialogTableVisible = true"  v-if="homeImageType">
         <i class="iconfont icon-baocun1"></i>
-        <p>切换</p>
+        <p>背景</p>
       </li>
       <li class="flex-c" @click="">
         <i class="iconfont icon-lishijilu-copy"></i>
@@ -26,19 +26,25 @@
         <p>全屏</p>
       </li>
     </ul>
+    <el-dialog title="" width="80%" :visible.sync="dialogTableVisible">
+        <colorPicker></colorPicker>
+    </el-dialog>
   </div>
+
 </template>
 
 <script>
   import axios from 'axios'
+  import colorPicker from './ColorPicker'
   export default {
     name: 'topNav',
-    components: {},
+    components: {colorPicker},
     data() {
       return {
         title: '头部的nav',
-        // homeImageType:this.$parent.homeImageType,
-      }
+        dialogTableVisible: false,
+        selectColor: '#409EFF',
+     }
     },
     props: {
       homeImageType: Boolean
@@ -94,8 +100,40 @@
     created() {}
   }
 </script>
+<style>
+.topNav .el-dialog__wrapper{
 
+}
+ .topNav .el-dialog--small {
+    width: 75%;
+  }
+.topNav .el-dialog__header{
+  display: flex;
+  align-items: center;
+  padding: 0px;
+}
+.topNav .el-dialog__header .el-dialog__title{
+   flex: 1;
+}
+ .topNav .el-dialog__body{
+      padding: 10px 15px;
+      padding-top: 0px;
+    }
+    .topNav    .el-dialog__headerbtn .el-dialog__close{
+      padding: 1rem;
+    }
+    .topNav .el-dialog__headerbtn{
+      position: absolute;
+    right: 0px;
+    top: 0px;
+    width: auto;
+    min-width: inherit;
+    }
+</style>
 <style scoped>
+  .topNav{
+
+  }
   .head-tab {
     display: inline-block;
     height: 40px;
@@ -108,6 +146,7 @@
     padding: 0px 5%;
     box-sizing: border-box;
     border-radius: 20px;
+    z-index: 11;
   }
 
   .head-tab li {
@@ -122,6 +161,7 @@
   .head-tab li i {
     margin-right: 5px;
   }
+
   @media (max-width:768px) {
     .head-tab li {
       margin: 0 5px;

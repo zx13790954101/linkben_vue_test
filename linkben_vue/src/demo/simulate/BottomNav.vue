@@ -34,9 +34,9 @@
 
 <script>
   // import 'viewerjs/dist/viewer.css';
-  import axios from 'axios';
+  // import axios from 'axios';
   // import Viewer from 'viewerjs';
-  import Hammer from "hammerjs"
+  // import Hammer from "hammerjs"
   import bus from '../../assets/bus';
 
   export default {
@@ -199,6 +199,7 @@
     border: 0.6rem solid #ffdb05;
     background-color: white;
     }
+
 </style>
 
 <style scoped lang="less">
