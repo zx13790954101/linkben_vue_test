@@ -626,7 +626,7 @@
     }
 
     .good_list {
-      background-color: #eeeeee;
+      background-color: #f7f7f7;
       padding: 0.5rem 15px;
     }
 
@@ -637,8 +637,8 @@
     }
 
     .upload_warp_img_div {
-      height: 6.0rem;
-      line-height: 6.0rem;
+      height: 72px;
+      line-height: 72px;
       border-radius: 0px;
     }
   }

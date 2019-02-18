@@ -1,42 +1,82 @@
 <template>
   <div class="bottom-nav">
-    <ul class="satellite ">
-        <li class="" v-if="active===1">
-            <el-slider v-model="lightNum"  :min="0" :max="360"></el-slider>
-        </li>
-        <li class="" v-else-if="active===2">
-
-        </li>
-        <li class="" v-else-if="active===3">
-            <el-slider v-model="rotateNum" :format-tooltip="plusRotate"  :step="45" :min="-180" :max="180"></el-slider>
-          </li>
-          <li class="" v-else="active===4">
-              <el-slider v-model="addNum" :format-tooltip="formatAdd" :min="0" :max="100"></el-slider>
-        </li>
+    <ul class="satellite " v-if="screenWidth>=688">
+      <li class="" v-if="active===1" >
+        <el-slider v-model="lightNum" :min="0" :max="360"></el-slider>
+      </li>
+      <li class="" v-else-if="active===2">
+        <el-slider v-model="value2"></el-slider>
+      </li>
+      <li class="" v-else-if="active===3">
+        <el-slider v-model="rotateNum" :format-tooltip="plusRotate" :step="45" :min="-180" :max="180"></el-slider>
+      </li>
+      <li class="" v-else="active===4">
+        <el-slider v-model="addNum" :format-tooltip="formatAdd" :min="0" :max="100"></el-slider>
+      </li>
     </ul>
-    <ul class="bottom-tab flex-c">
+    <ul class="bottom-tab flex-c" v-if="screenWidth>=688">
       <li class=" flex-item " @click="active=1" :style="{'color':(active==1?'rgb(255, 219, 5)':'')}">
         <i class="iconfont icon-dengpao"></i>
       </li>
       <li class=" flex-item " @click="active=2" :style="{'color':(active==2?'rgb(255, 219, 5)':'')}">
         <i class="iconfont icon-jingxiang" @click="plusMinus2('mirror')"></i>
       </li>
-      <li class=" flex-item "  @click="active=3" :style="{'color':(active==3?'rgb(255, 219, 5)':'')}">
-        <i class="iconfont icon-youxuanzhuan" ></i>
+      <li class=" flex-item " @click="active=3" :style="{'color':(active==3?'rgb(255, 219, 5)':'')}">
+        <i class="iconfont icon-youxuanzhuan"></i>
       </li>
       <li class=" flex-item   flex-c flex-c-y add-minus " @click="active=4" :style="{'background-color':(active==4?'rgb(255, 219, 5)':''),'color':(active==4?'white':'')}">
         <i class="iconfont icon-jia1" @click="plusminus($event,1)" id="big"></i>
         <i class="iconfont icon-jian" @click="plusminus($event,2)" id="small"></i>
       </li>
     </ul>
+
+    <ul class="satellite "   v-if="active>0">
+      <li class="" v-if="active===1" >
+        <div class="tab-box">
+            <article class="item" v-if="tabActive1==1">
+                <el-slider v-model="lightNum" :min="0" :max="360"></el-slider>
+            </article>
+            <article class="item" v-if="tabActive1==2">
+                <el-slider v-model="lightNum" :min="0" :max="360"></el-slider>
+            </article>
+            <div class="tab-nav flex-c">
+                <i class="iconfont icon-dacha center col-lg-2" @click="active=0"></i>
+                <div class=" h4 col-lg-8 flex-c " :style="{'text-align':'center'}" >
+                   <span class="flex-item">截取</span><span class="flex-item">旋转</span>  
+                </div>
+                <i class="iconfont icon-dagou center col-lg-2"></i>
+             </div>
+        </div>
+      
+      </li>
+      <li class="" v-else-if="active===2">
+        <el-slider v-model="value2"></el-slider>
+      </li>
+      <li class="" v-else-if="active===3">
+        <el-slider v-model="rotateNum" :format-tooltip="plusRotate" :step="45" :min="-180" :max="180"></el-slider>
+      </li>
+      <li class="" v-else="active===4">
+        <el-slider v-model="addNum" :format-tooltip="formatAdd" :min="0" :max="100"></el-slider>
+      </li>
+    </ul>
+    <ul class="bottom-tab flex-c"  v-if="screenWidth<=688">
+       <li class="col-lg-3">
+         <i class="iconfont icon-winfo-icon-jietu" title="截取旋转" @click="active=1" ></i>
+       </li>
+       <li class="col-lg-3">
+        <i class="iconfont icon-hesuankemuleixing" title="调节" @click="active=2" ></i>
+      </li>
+      <li class=" col-lg-3">
+        <i class="iconfont icon-wenzi" title="文字" @click="active=3" ></i>
+      </li>
+      <li class="col-lg-3" v-if="screenWidth<=688">
+        <i class="iconfont icon-zhaopian" title="选择图片" @click="active=4" ></i>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
-  // import 'viewerjs/dist/viewer.css';
-  // import axios from 'axios';
-  // import Viewer from 'viewerjs';
-  // import Hammer from "hammerjs"
   import bus from '../../assets/bus';
 
   export default {
@@ -45,11 +85,14 @@
     data() {
       return {
         title: '底部的nav',
+        screenWidth: document.documentElement.clientWidth,
         timer: "",
-        active:1,
-        lightNum:0,
-        addNum:50,
-        rotateNum:0,
+        active: 1,
+        lightNum: 0,
+        addNum: 50,
+        rotateNum: 0,
+        value2:0,
+        tabActive1:1,
       }
     },
     props: {
@@ -69,7 +112,7 @@
         clearTimeout(this.Loop);
       },
       setTime(data, type) {
-        var that=this;
+        var that = this;
         if (data == 1) {
           that.$parent.imgSatus.scale = that.$parent.imgSatus.scale + 0.01
         } else if (data == 2) {
@@ -137,19 +180,19 @@
         }
 
       },
-      formatAdd(){
-         var that = this;
-          that.$parent.imgSatus.scale=(that.addNum/20);
+      formatAdd() {
+        var that = this;
+        that.$parent.imgSatus.scale = (that.addNum / 20);
       },
-       //旋转的功能
+      //旋转的功能
       plusRotate() {
         var that = this;
-        if( that.$parent.imgSatus.rotate>=180){
+        if (that.$parent.imgSatus.rotate >= 180) {
 
         }
-      //  that.$parent.imgSatus.rotate =  that.$parent.imgSatus.rotate + 45;
-        that.$parent.imgSatus.rotate =that.rotateNum;
-       // that.rotateNum=that.$parent.imgSatus.rotate;
+        //  that.$parent.imgSatus.rotate =  that.$parent.imgSatus.rotate + 45;
+        that.$parent.imgSatus.rotate = that.rotateNum;
+        // that.rotateNum=that.$parent.imgSatus.rotate;
       },
       viewerInit() {
         if ($(".viewer-container").html()) {
@@ -193,13 +236,12 @@
   }
 </script>
 <style>
-  .satellite  .el-slider__button {
+  .satellite .el-slider__button {
     width: 20px;
     height: 20px;
     border: 0.6rem solid #ffdb05;
     background-color: white;
-    }
-
+  }
 </style>
 
 <style scoped lang="less">
@@ -209,18 +251,19 @@
     z-index: 999;
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
-  
+
     bottom: 0px;
-   
- 
+
+
     .el-slider {
       width: 120px;
       margin: 0px 10px;
     }
-    .satellite  .el-slider{
+
+    .satellite .el-slider {
       width: 95%;
     }
-  
+
     .button {
       width: 34px;
       height: 34px;
@@ -267,16 +310,23 @@
     .add-minus i:nth-of-type(1) {
       margin-right: 25px;
     }
+
     @media (max-width:768px) {
       background-color: white;
       width: 100%;
       padding: 5px 1.5rem;
       z-index: 9;
       left: 0px;
-    transform: translateX(0%);
+      transform: translateX(0%);
+      .bottom-tab{
+        overflow-y: hidden;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        display: -webkit-box;
+      }
 
-   }
-    
+    }
+
   }
- 
 </style>

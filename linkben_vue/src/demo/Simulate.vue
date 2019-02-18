@@ -194,7 +194,7 @@
           //'transform':('scale('+imgSatus.scale+')  rotate('+imgSatus.rotate+'deg)')
         },
 
-        isCollapse: false,
+        isCollapse: true,
         oldList: array,
         backLoading: false,
         sessionGoodUrl: url,
@@ -1104,16 +1104,18 @@
       background-color: white;
       box-shadow: 0px 0px 0px;
       width: 100%;
-      max-height: 9.5rem;
+      max-height: 114px;
     }
 
     .cut-button {
-      right: 20px;
-      top: -18px;
+   
+      right:50%;
+      top: -55px;
+      margin-right: -10px;
       transform: rotate(-90deg);
-      padding: 0.8rem 0.1rem;
+      padding:40px 0px;
       background-color: white;
-      font-size: 1.4rem;
+      font-size: 18px;
     }
   }
 </style>

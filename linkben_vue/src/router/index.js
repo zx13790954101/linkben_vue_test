@@ -40,6 +40,12 @@ export default new Router({
       name: 'Matting',
       component:  resolve => require(['@/demo/simulate/Matting'], resolve),//懒加载
   
+    },
+    {
+      path: '/Cropper',
+      name: 'Cropper',
+      component:  resolve => require(['@/pages/Cropper'], resolve),//懒加载
+  
     }
   ]
 })
