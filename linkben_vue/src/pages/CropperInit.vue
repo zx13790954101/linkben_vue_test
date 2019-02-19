@@ -1,39 +1,12 @@
 <template>
-    <div>
-      <div class="upload-box">
-        <div class="image-box"
-             v-if="imageUrl"
-             :style="{'background-image': 'url('+ imageUrl +')', 'height': imageHeight}"></div>
-        <div class="upload">
-          <h6 class="upload-des">支持 jpg、png 格式大小 5M 以内的图片</h6>
-          <input type="file" @change="getFile" ref="file" id="file">
-          <label for="file">点击上传</label>
-        </div>
-      </div>
-      <!-- vueCropper 剪裁图片实现-->
-      <div class="vue-cropper-box" v-if="isShowCropper">
-        <div class="vue-cropper-content">
-          <vueCropper ref="cropper"
-                      :img="option.img"
-                      :outputSize="option.outputSize"
-                      :outputType="option.outputType"
-                      :info="option.info"
-                      :canScale="option.canScale"
-                      :autoCrop="option.autoCrop"
-                      :autoCropWidth="option.autoCropWidth"
-                      :autoCropHeight="option.autoCropHeight"
-                      :fixed="option.fixed"
-                      :fixedNumber="option.fixedNumber">
-          </vueCropper>
-        </div>
-      </div>
-      <el-button v-if="isShowCropper" type="danger" @click="onCubeImg">确定裁剪图片</el-button>
+    <div class="wrapper">
+ 
     </div>
   </template>
   <script>
-    import VueCropper from "vue-cropper"
+    import Cropper from 'cropperjs';
     export default {
-      name: 'Avatar',
+      name: 'cropperInit',
   
       data () {
         return {
@@ -54,28 +27,8 @@
         }
       },
   
-      props: {
-        // 特殊配置
-        cropperOption: {
-          type: Object,
-          default: () => {
-            return null
-          }
-        },
-        // 默认图片
-        imageUrl: {
-          type: String,
-          default: ''
-        },
-        // 图片展示高度
-        imageHeight: {
-          type: String,
-          default: '100px'
-        }
-      },
-  
       components: {
-        VueCropper
+        Cropper
       },
   
       methods: {

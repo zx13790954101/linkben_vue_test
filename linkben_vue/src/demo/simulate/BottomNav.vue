@@ -42,37 +42,37 @@
               </li>
               <li class="col-lg-2">
                 <span class="item-box flex-c flex-c-y">
-                  <h6>1:1</h6>
+                  <p>1:1</p>
                 </span>
               </li>
               <li class="col-lg-2">
                 <span class="item-box flex-c flex-c-y" :style="{'width':'21.33px'}">
-                  <h6>2:3</h6>
+                  <p>2:3</p>
                 </span>
               </li>
               <li class="col-lg-2">
                 <span class="item-box flex-c flex-c-y"  :style="{'height':'21.33px'}">
-                  <h6>3:2</h6>
+                  <p>3:2</p>
                 </span>
               </li>
               <li class="col-lg-2">
                 <span class="item-box flex-c flex-c-y"  :style="{'width':'24px'}">
-                  <h6>3:4</h6>
+                  <p>3:4</p>
                 </span>
               </li>
               <li class="col-lg-2">
                 <span class="item-box flex-c flex-c-y"  :style="{'height':'24px'}">
-                  <h6>4:3</h6>
+                  <p>4:3</p>
                 </span>
               </li>
               <li class="col-lg-2">
                 <span class="item-box flex-c flex-c-y"  :style="{'width':'18px'}">
-                  <h6>9:16</h6>
+                  <p>9:16</p>
                 </span>
               </li>
               <li class="col-lg-2">
                 <span class="item-box flex-c flex-c-y"  :style="{'height':'18px'}">
-                  <h6>16:9</h6>
+                  <p>16:9</p>
                 </span>
               </li>
             </ul>
@@ -96,11 +96,10 @@
                 <i class="iconfont icon-nishizhenxuanzhuan"></i>
               </span>
               <div class="flex-item">
-
-                <i class="iconfont icon-jingxiang" :style="{'transform':'rotate(90deg)','display':'inline-block'}"></i>
+                <i class="iconfont  icon-suofang-copy" ></i>
               </div>
               <span class="flex-item">
-                <i class="iconfont icon-jingxiang"></i>
+                <i class=" iconfont icon-suofang-copy-copy"></i>
               </span>
             </div>
           </article>
@@ -159,7 +158,7 @@
         addNum: 50,
         rotateNum: 0,
         value2: 0,
-        tabActive1: 0,
+        tabActive1: 1,
       }
     },
     props: {
