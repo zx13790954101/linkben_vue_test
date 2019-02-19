@@ -42,9 +42,9 @@ export default new Router({
   
     },
     {
-      path: '/Cropper',
-      name: 'Cropper',
-      component:  resolve => require(['@/pages/Cropper'], resolve),//懒加载
+      path: '/CropperInit',
+      name: 'CropperInit',
+      component:  resolve => require(['@/pages/CropperInit'], resolve),//懒加载
   
     }
   ]

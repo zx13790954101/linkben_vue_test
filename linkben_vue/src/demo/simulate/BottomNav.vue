@@ -1,7 +1,7 @@
 <template>
   <div class="bottom-nav">
     <ul class="satellite " v-if="screenWidth>=688">
-      <li class="" v-if="active===1" >
+      <li class="" v-if="active===1">
         <el-slider v-model="lightNum" :min="0" :max="360"></el-slider>
       </li>
       <li class="" v-else-if="active===2">
@@ -30,47 +30,114 @@
       </li>
     </ul>
 
-    <ul class="satellite "   v-if="active>0">
-      <li class="" v-if="active===1" >
+    <ul class="satellite " v-if="active>0">
+      <li class="" v-if="active===1">
         <div class="tab-box">
-            <article class="item" v-if="tabActive1==1">
-                <el-slider v-model="lightNum" :min="0" :max="360"></el-slider>
-            </article>
-            <article class="item" v-if="tabActive1==2">
-                <el-slider v-model="lightNum" :min="0" :max="360"></el-slider>
-            </article>
-            <div class="tab-nav flex-c">
-                <i class="iconfont icon-dacha center col-lg-2" @click="active=0"></i>
-                <div class=" h4 col-lg-8 flex-c " :style="{'text-align':'center'}" >
-                   <span class="flex-item">截取</span><span class="flex-item">旋转</span>  
-                </div>
-                <i class="iconfont icon-dagou center col-lg-2"></i>
-             </div>
+          <article class="item" v-if="tabActive1==1">
+            <ul class=" scrollY">
+              <li class="col-lg-2">
+                <span class="flex-c flex-c-y">
+                  <i class="iconfont icon-shouji-copy  h2" :style="{'font-size':'4rem'}"></i>
+                </span>
+              </li>
+              <li class="col-lg-2">
+                <span class="item-box flex-c flex-c-y">
+                  <h6>1:1</h6>
+                </span>
+              </li>
+              <li class="col-lg-2">
+                <span class="item-box flex-c flex-c-y" :style="{'width':'21.33px'}">
+                  <h6>2:3</h6>
+                </span>
+              </li>
+              <li class="col-lg-2">
+                <span class="item-box flex-c flex-c-y"  :style="{'height':'21.33px'}">
+                  <h6>3:2</h6>
+                </span>
+              </li>
+              <li class="col-lg-2">
+                <span class="item-box flex-c flex-c-y"  :style="{'width':'24px'}">
+                  <h6>3:4</h6>
+                </span>
+              </li>
+              <li class="col-lg-2">
+                <span class="item-box flex-c flex-c-y"  :style="{'height':'24px'}">
+                  <h6>4:3</h6>
+                </span>
+              </li>
+              <li class="col-lg-2">
+                <span class="item-box flex-c flex-c-y"  :style="{'width':'18px'}">
+                  <h6>9:16</h6>
+                </span>
+              </li>
+              <li class="col-lg-2">
+                <span class="item-box flex-c flex-c-y"  :style="{'height':'18px'}">
+                  <h6>16:9</h6>
+                </span>
+              </li>
+            </ul>
+
+            
+            <div class="buuton-array row">
+              <button class="left">重置</button>
+              <button class="right">保存</button>
+            </div>
+          </article>
+          <article class="item" v-if="tabActive1==2">
+            <el-slider v-model="lightNum" :min="0" :max="360"></el-slider>
+            <div class="flex-c center" :style="{'margin':'10px auto'}">
+              <span class="flex-item">
+                <button>重置</button>
+              </span>
+              <span class="flex-item">
+                <i class="iconfont icon-shunshizhenxuanzhuan"></i>
+              </span>
+              <span class="flex-item">
+                <i class="iconfont icon-nishizhenxuanzhuan"></i>
+              </span>
+              <div class="flex-item">
+
+                <i class="iconfont icon-jingxiang" :style="{'transform':'rotate(90deg)','display':'inline-block'}"></i>
+              </div>
+              <span class="flex-item">
+                <i class="iconfont icon-jingxiang"></i>
+              </span>
+            </div>
+          </article>
+          <div class="tab-nav flex-c">
+            <i class="iconfont icon-dacha center col-lg-2" @click="active=0"></i>
+            <div class=" h4 col-lg-8 flex-c " :style="{'text-align':'center'}">
+              <span class="flex-item" @click="tabActive1=1" :style="{'color':(tabActive1==1?'rgb(255, 219, 5)':'')}">截取</span>
+              <span class="flex-item" @click="tabActive1=2" :style="{'color':(tabActive1==2?'rgb(255, 219, 5)':'')}">旋转</span>
+            </div>
+            <i class="iconfont icon-dagou center col-lg-2"></i>
+          </div>
         </div>
-      
+
       </li>
       <li class="" v-else-if="active===2">
         <el-slider v-model="value2"></el-slider>
+
       </li>
       <li class="" v-else-if="active===3">
-        <el-slider v-model="rotateNum" :format-tooltip="plusRotate" :step="45" :min="-180" :max="180"></el-slider>
+
       </li>
       <li class="" v-else="active===4">
-        <el-slider v-model="addNum" :format-tooltip="formatAdd" :min="0" :max="100"></el-slider>
+
       </li>
     </ul>
-    <ul class="bottom-tab flex-c"  v-if="screenWidth<=688">
-       <li class="col-lg-3">
-         <i class="iconfont icon-winfo-icon-jietu" title="截取旋转" @click="active=1" ></i>
-       </li>
-       <li class="col-lg-3">
-        <i class="iconfont icon-hesuankemuleixing" title="调节" @click="active=2" ></i>
+    <ul class="bottom-tab " v-if="screenWidth<=688||active===0" v-show="active===0">
+      <li class="col-lg-3">
+        <i class="iconfont icon-winfo-icon-jietu" title="截取旋转" @click="active=1"></i>
+      </li>
+      <li class="col-lg-3">
+        <i class="iconfont icon-hesuankemuleixing" title="调节" @click="active=2"></i>
       </li>
       <li class=" col-lg-3">
-        <i class="iconfont icon-wenzi" title="文字" @click="active=3" ></i>
+        <i class="iconfont icon-wenzi" title="文字" @click="active=3"></i>
       </li>
       <li class="col-lg-3" v-if="screenWidth<=688">
-        <i class="iconfont icon-zhaopian" title="选择图片" @click="active=4" ></i>
+        <i class="iconfont icon-zhaopian" title="选择图片" @click="active=4"></i>
       </li>
     </ul>
   </div>
@@ -87,19 +154,19 @@
         title: '底部的nav',
         screenWidth: document.documentElement.clientWidth,
         timer: "",
-        active: 1,
+        active: 0,
         lightNum: 0,
         addNum: 50,
         rotateNum: 0,
-        value2:0,
-        tabActive1:1,
+        value2: 0,
+        tabActive1: 0,
       }
     },
     props: {
       imgSatus: {}
     },
     created() {
-
+     console.log(this.screenWidth);
     },
     methods: {
       showDeleteButton(e) {
@@ -251,7 +318,7 @@
     z-index: 999;
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
-
+    background-color: white;
     bottom: 0px;
 
 
@@ -291,7 +358,6 @@
       /* border-right: 2px solid #b8b8b8; */
       color: #202026;
       cursor: pointer;
-      margin: 5px 17px;
       box-sizing: border-box;
       line-height: 34px;
       height: 34px;
@@ -311,14 +377,53 @@
       margin-right: 25px;
     }
 
+    .satellite .tab-box li {
+      padding: 0px 5px;
+    }
+
+    .satellite .tab-box ul {}
+
+    .satellite .tab-box .buuton-array {
+      margin: 10px 0px;
+    }
+
+    .satellite .tab-box .item-box {
+      width: 32px;
+      height: 32px;
+      border: 1px solid #9eabb3;
+      border-radius: 4px;
+    }
+
+    .satellite article.item {
+      height: 84px;
+    }
+
+    .scrollY {
+      overflow-y: hidden;
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      display: -webkit-box;
+    }
+    .scrollY li{
+        float: none;
+        height: 38px;
+        line-height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
     @media (max-width:768px) {
       background-color: white;
       width: 100%;
-      padding: 5px 1.5rem;
+      padding: 10px 1.5rem;
       z-index: 9;
       left: 0px;
       transform: translateX(0%);
-      .bottom-tab{
+
+      .bottom-tab {
         overflow-y: hidden;
         width: 100%;
         overflow-x: auto;
