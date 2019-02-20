@@ -29,7 +29,6 @@
 
     methods: {
       click({ target }) {
-        debugger;
         const action = target.getAttribute('data-action') || target.parentElement.getAttribute('data-action');
   
         if (action) {

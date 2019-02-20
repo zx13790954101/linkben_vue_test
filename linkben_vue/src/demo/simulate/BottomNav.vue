@@ -394,7 +394,8 @@
     }
 
     .satellite article.item {
-      height: 84px;
+      min-height: 84px;
+      height: auto;
     }
 
     .scrollY {

@@ -3,7 +3,7 @@
     <!-- 遮罩层 -->  
     <div class="container" v-show="panel">  
         <div>  
-            <img id="image" :src="url" alt="Picture">  
+            <img id="image" :src="url" alt="Picture" ref="image" >  
         </div>  
         <button type="button" id="button" @click="commit">确定</button>  
         <button type="button"id="cancel" @click="cancel">取消</button> 
@@ -18,7 +18,9 @@
           <input type="file" id="change" accept="image" @change="change">  
           <label for="change"></label>  
         </div>  
-          
+        <div class="restore" @click='restore'>
+              重新选择
+        </div>
     </div>  
   </div>  
 </template>
@@ -37,26 +39,50 @@ export default {
       url: "",
       imgCropperData: {
         accept: "image/gif, image/jpeg, image/png, image/jpg"
+      },
+      //记住页面的初始化的状态的图片
+      canvasData: null,
+      cropBoxData: null,
+      croppedData: null,
+      data:{
+        panel:false,
+        url:"",
       }
     };
   },
   mounted() {
-    //初始化这个裁剪框
-    var self = this;
-    var image = document.getElementById("image");
-    this.cropper = new Cropper(image, {
-      //aspectRatio: 1,
-      aspectRatio: 16 / 9,  //设置截图的比例
-      
-      viewMode: 1,
-      background: false,
-      zoomable: false,
-      ready: function() {
-        self.croppable = true;
-      },
-    });
+     this.start();
   },
   methods: {
+    //开始加载
+    start() {
+      //初始化这个裁剪框
+      var self = this;
+      var image = document.getElementById("image");
+      this.cropper = new Cropper(image, {
+        //aspectRatio: 1,
+        aspectRatio: 16 / 8,  //设置截图的比例
+        scalable:true,
+        viewMode: 1,
+        background: false,
+        zoomable: true,
+        ready: function() {
+          self.croppable = true;
+          if (this.croppedData) {
+                this.cropper
+                  .crop()
+                  .setData(this.croppedData)
+                  .setCanvasData(this.canvasData)
+                  .setCropBoxData(this.cropBoxData);
+
+                this.croppedData = null;
+                this.canvasData = null;
+                this.cropBoxData = null;
+          }
+        },
+        zoomOnTouch:true,
+      });
+    },
     //取消上传
     cancel() {
         this.panel = false;
@@ -111,10 +137,15 @@ export default {
       // Crop
       croppedCanvas = this.cropper.getCroppedCanvas();
       // Round
-      roundedCanvas = this.getRoundedCanvas(croppedCanvas);
+      // roundedCanvas = this.getRoundedCanvas(croppedCanvas);
+      roundedCanvas = croppedCanvas;
       this.headerImage = roundedCanvas.toDataURL();
       //上传图片
       this.postImg();
+
+      this.croppedData = this.cropper.getData();
+      this.canvasData = this.cropper.getCanvasData();
+      this.cropBoxData = this.cropper.getCropBoxData();
     },
     //canvas画图
     getRoundedCanvas(sourceCanvas) {
@@ -144,7 +175,19 @@ export default {
     postImg() {
       alert("上传成功");
       //这边写图片的上传
-    }
+    },
+    //重新选择
+    restore(){ 
+        // 对象数据的替换
+        var that=this;
+        that.panel=true;
+        that.start();
+        // var data={
+        //   panel:true
+        // }
+        // Object.assign(this.data, data);
+    
+    },
   }
 };
 </script> 
@@ -162,16 +205,16 @@ export default {
 }
 #demo #cancel{left:10px;}
 #demo .show {
-  width: 100px;
-  height: 100px;
+  width: auto;
+  height: 200px;
   overflow: hidden;
   position: relative;
-  border-radius: 50%;
+  /* border-radius: 50%; //设置头像为圆形 */
   border: 1px solid #d5d5d5;
 }
 #demo .picture {
-  width: 100%;
-  height: 100%;
+  width: auto;
+  height: 200px;
   overflow: hidden;
   background-position: center center;
   background-repeat: no-repeat;
@@ -191,9 +234,12 @@ export default {
   max-width: 100%;
 }
 .cropper-view-box,
-.cropper-face {
+/* 设置头像为圆 */
+/* .cropper-face {
   border-radius: 50%;
-}
+} */
+
+
 /*! 
  * Cropper.js v1.0.0-rc 
  * https://github.com/fengyuanchen/cropperjs 

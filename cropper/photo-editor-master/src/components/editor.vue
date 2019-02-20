@@ -180,6 +180,7 @@
       },
 
       dblclick(e) {
+        debugger;
         if (e.target.className.indexOf('cropper-face') >= 0) {
           e.preventDefault();
           e.stopPropagation();
@@ -193,7 +194,7 @@
         if (data.cropped) {
           return;
         }
-
+        console.log('image', this.$refs.image);
         this.cropper = new Cropper(this.$refs.image, {
           autoCrop: false,
           dragMode: 'move',
@@ -231,8 +232,9 @@
       },
 
       crop() {
+        console.log('this', this);
         const { cropper, data } = this;
-
+        console.log('cropper', cropper);
         if (data.cropping) {
           this.croppedData = cropper.getData();
           this.canvasData = cropper.getCanvasData();
@@ -282,7 +284,12 @@
       },
 
       update(data) {
+        debugger;
+        console.log(' this.data', this.data);
+        console.log('data', data);
         Object.assign(this.data, data);
+        console.log('data', this.data);
+        console.log('data', Object);
       },
     },
 
