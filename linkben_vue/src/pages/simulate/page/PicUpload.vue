@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import bus from '../../assets/bus'
+  import bus from '../../../assets/bus'
   export default {
     name: 'pic-upload',
     data () {
@@ -31,7 +31,6 @@
       var that = this;
       $('input[name=file][type=file]').change(function (e) {
           if($(this).val()=='') return;
-        //console.log(this.files[0].name);
         that.uploadImg(this.files[0].name)
       });
     },
@@ -44,7 +43,6 @@
       },
       uploadImg(name){
         var userInfo = JSON.parse(sessionStorage.userInfo);
-        //console.log(userInfo);
         var that = this;
         that.form.key = 'temp' + userInfo.phoneNum + (new Date().getTime() + '.jpg');
         this.$http.get(globalPath+'/GetQiNiuToken?name=' + that.form.key).then(function (res) {

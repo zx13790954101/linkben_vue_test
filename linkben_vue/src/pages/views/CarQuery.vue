@@ -48,7 +48,6 @@
           '&rq=' + htmlDate +
           '&czEn=' + czEn;
           axios.post(html_url).then((response) => {
-          console.log(response);
           that.mainContent=response.data;
         }).catch((response) => {
           console.log(response);

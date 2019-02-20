@@ -65,12 +65,12 @@
 </template>
 
 <script>
-  import GoodImg from './components/GoodImg.vue'
-  import MyHeader from './components/MyHeader.vue'
-  import TypeSelect from './components/TypeSelect.vue'
-  import BtnIcon from './components/BtnIcon.vue'
-  import bus from '../../assets/bus'
-  import ImgLimitScence from './components/ImgLimitScence.vue'
+  import GoodImg from '../components/GoodImg.vue'
+  import MyHeader from '../components/MyHeader.vue'
+  import TypeSelect from '../components/TypeSelect.vue'
+  import BtnIcon from '../components/BtnIcon.vue'
+  import bus from '../../../assets/bus'
+  import ImgLimitScence from '../components/ImgLimitScence.vue'
   export default {
     name: 'scence-select',
     components: {GoodImg, MyHeader, TypeSelect,BtnIcon,ImgLimitScence},
@@ -121,15 +121,12 @@
       this.GetSceneStyles();
       //滚动看到加载图案是请求数据
       $('.scence-select').scroll(function (e) {
-          console.log('scroll');
         if (!that.showLoading) return;
         if (that.loading) return;
         if (!$('.scence-select .loader')) return;
         var loadTop = $('.scence-select .loader').offset().top || 0;
-        console.log(loadTop,$('.scence-select').scrollTop() + $('.scence-select').height());
         if (loadTop) {
           if ($('.scence-select').scrollTop() + $('.scence-select').height() - loadTop > 0) {
-            console.log('loading');
             that.loading = true;
             that.GetScenes();
           }
@@ -139,9 +136,9 @@
           contentH =$(this).get(0).scrollHeight,//内容高度
           scrollTop =$(this).scrollTop();//滚动高度
         //if(contentH - viewH - scrollTop <= 100) { //到达底部100px时,加载新内容
-        console.log(scrollTop/(contentH -viewH));
+      
         if(scrollTop/(contentH -viewH)>=0.95){ //到达底部100px时,加载新内容
-          console.log('loading');
+          
           that.loading = true;
           that.GetScenes();
         }*/
@@ -192,7 +189,6 @@
             userId: sessionStorage.userId || 0
           }
         }).then(function (res) {
-          //console.log(res);
           if (typeof(res.body) != 'object') {
             that.$message.error('没有请求到数据');
           }
@@ -212,7 +208,6 @@
             userId: sessionStorage.userId || 0
           }
         }).then(function (res) {
-          //console.log(res);
           if (typeof(res.body) != 'object') {
             that.$message.error('没有请求到数据');
           }
@@ -242,7 +237,6 @@
 
       },
       setAllscence: function (index, area, data) {
-        //console.log(index, area, data);
         var data = {
           area: area,
           list: data
@@ -254,7 +248,6 @@
          };*/
       },
       GetScenes: function (style, area) {
-        //console.log(style,area);
         var that = this;
         that.$http.get(globalPath+'/GetScenes', {
           params: {
@@ -265,7 +258,6 @@
             area: area || that.params.area
           }
         }).then(function (res) {
-          //console.log(res);
           if (typeof(res.body) != 'object') {
             //that.$message.error('没有请求到数据');
           }
@@ -275,7 +267,6 @@
           that.scenceList.push(...res.body);
 
           for (var i = 0; i < that.SceneAreasList.length; i++) {
-            //console.log(that.SceneAreasList[i].name,area)
             if (that.SceneAreasList[i].name == area) {
               that.setAllscence(i, area, res.body);
             }

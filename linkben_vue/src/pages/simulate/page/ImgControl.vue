@@ -160,12 +160,8 @@
   
         if (that.mouseStart.y < thatY) {
           that.width += 2;
-          console.log("111",that.mouseStart.x,that.mouseStart.y);
-          console.log("1sssaa",thatX,thatY)
         } else {
           that.width -= 2;
-          console.log("222",that.mouseStart.x,that.mouseStart.y);
-          console.log("2sssaa",thatX,thatY)
         }
         if (that.width < 100) {
           that.width = 100;
@@ -215,15 +211,12 @@
         }
       },
       longTouch() {
-        //console.log('longTouch');
         this.touchShow = !this.touchShow;
       },
       toDetail() {
         this.$emit('setCurGood', true);
       },
       zoom: function (data) {
-        //console.log(data);
-        //console.log(data.deltaY);
         if (data.wheelDelta > 1 || data.detail < 0) { //data.detail为火狐浏览器滚动事件的属性
           this.width += 20;
         } else {
@@ -252,7 +245,6 @@
          this.tapNum=0;
          }*/
         var that = this;
-        //console.log(data);
         if (data.changedTouches) {
           this.timer = setTimeout(function () {
             that.longTouch();
@@ -269,7 +261,6 @@
       },
       mouseMove: function (data) {
         if (!this.moving) return;
-        //console.log('mousemove');
         this.mouseEnd.x = data.clientX || (data.changedTouches)[0].clientX;
         this.mouseEnd.y = data.clientY || (data.changedTouches)[0].clientY;
 
@@ -297,7 +288,6 @@
       mouseUp: function (data) {
         this.touchLength = 0;
         clearTimeout(this.timer);
-        //console.log('mouseUp');
         if (!this.moving) return;
         this.zIndex = 1;
         this.moving = false;

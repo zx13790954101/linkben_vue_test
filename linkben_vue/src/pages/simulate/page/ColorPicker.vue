@@ -29,7 +29,7 @@
 </template>
 
 <script>
-  import bus from '../../assets/bus';
+  import bus from '../../../assets/bus';
   export default {
     name: 'colorPicker',
     components: {},
@@ -142,10 +142,17 @@
     watch:{
       selectColor:function(){
         var that=this;
-      //  this.$emit("selectColor",this.selectColor);
-      // that.$store.state.selectColor=that.selectColor;
-       that.$store.commit('selectColor',that.selectColor)
-        console.log(that.$store.state.selectColor);
+        //  this.$emit("selectColor",this.selectColor);
+        // that.$store.state.selectColor=that.selectColor;
+        // const data={
+        //   type:false,
+        //   url:"",
+        //   defaultUrl:"",
+        //   newUrl:"",
+        //   selectColor:that.selectColor,
+        // }
+        // that.$store.commit('setMainImgState',data)
+        that.$store.commit('setSelectColor',that.selectColor)
       }
     }
 
@@ -153,7 +160,7 @@
 </script>
 <style>
 .colorPicker .el-color-picker{
-
+height: auto;
 }
 .colorPicker .el-color-picker__trigger{
 float: left;
@@ -167,7 +174,7 @@ height: 8.3rem;
 .colorPicker .el-color-picker__color{
   width: 42vw;
   border: 0px;
-  height: 6.8rem;
+  height: 90px;
   
 }
 

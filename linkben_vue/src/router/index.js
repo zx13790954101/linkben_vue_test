@@ -24,27 +24,21 @@ export default new Router({
       component:  resolve => require(['@/pages/home/pages/Item'], resolve),//懒加载
     },
     {
-      path: '/Simulate',
+      path: '/Simulate',//首页加载方式，空间工具
       name: 'Simulate',
-      component:  resolve => require(['@/demo/simulate'], resolve),//懒加载
+      component:  resolve => require(['@/pages/simulate/simulate'], resolve),//懒加载
   
     },
     {
       path: '/CarQuery',
       name: 'CarQuery',
-      component:  resolve => require(['@/demo/pages/CarQuery'], resolve),//懒加载
-  
-    },
-    {
-      path: '/Matting',
-      name: 'Matting',
-      component:  resolve => require(['@/demo/simulate/Matting'], resolve),//懒加载
+      component:  resolve => require(['@/pages/views/CarQuery'], resolve),//懒加载
   
     },
     {
       path: '/CropperInit',
       name: 'CropperInit',
-      component:  resolve => require(['@/pages/CropperInit'], resolve),//懒加载
+      component:  resolve => require(['@/pages/cropper/CropperInit'], resolve),//懒加载
   
     }
   ]

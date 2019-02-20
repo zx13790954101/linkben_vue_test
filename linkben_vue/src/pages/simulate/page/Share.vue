@@ -25,7 +25,7 @@
 </template>
 
 <script>
-  import bus from '../../assets/bus'
+  import bus from '../../../assets/bus'
 export default {
   name: 'share',
   props:['url','title','img'],
@@ -62,7 +62,6 @@ export default {
   },
   watch:{
       url(val){
-          console.log('分享的url为'+val);
           if(val!=''){
             this.dialogVisible=true;
           }

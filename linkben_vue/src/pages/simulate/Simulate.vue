@@ -1,112 +1,63 @@
 <template>
-  <div class="simulate">
-    <!-- 场景功能 -->
-    <!--:class="[onload?'onload':'','cover']"-->
-    <transition name="animate-transition" enter-active-class="animated fadeIn" leave-active-class="animated slideOutLeft"
-      :duration="200">
-      <div class="cover" v-if="barShow">
-        <div class="cover_btn" @click="hideCover"></div>
-        <div class="barControl" :style="{marginTop:brightnessTop+'px'}">
-          <div class="block">
-            <div class="select_scence">
-              <el-button type="primary" @click="chooseImg">选择本机图片</el-button>
-              <el-button type="primary" @click="showSelect=true">选择场景库图片</el-button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </transition>
-    <!-- 背景滤镜滑条 -->
-    <transition name="animate-transition" enter-active-class="animated fadeIn" leave-active-class="animated slideOutLeft"
-      :duration="200">
-      <div class="cover" v-if="brightnessShow">
-        <div class="cover_btn" @click="hideCover"></div>
-        <div class="bgBrightnessControl" :style="{marginTop:brightnessTop+'px'}">
-          <div class="block">
-            <el-slider v-model="bgBrightness" :format-tooltip="formatTooltip" :min="50" :max="150" :step="5"></el-slider>
-          </div>
-        </div>
-      </div>
-    </transition>
+  <div class="simulate flex ">
 
-    <section class="flex simulate-section">
-
-      <!-- 侧边栏的功能 -->
-      <div class="left-slide" :style="(screenWidth>=688?{'margin-left':(isCollapse==false?'0':'-320px')} :
-        {'bottom':(isCollapse==false?'90px':'90px'),'height':(isCollapse==false?'100%':'0%')} )">
-        <span class="head-title" v-if="screenWidth>=688" :style="{width:(isCollapse==false?'320px':'0px')}">
-          <a href="linkben.com" class="flex-l  col-xs-0">LinkBen</a>
-        </span>
-        <good-select @curGoodList="setCurGoodList" :deleteUrl="deleteUrl" :oldList="oldList" :style="(screenWidth>=688?{} :{'height':(isCollapse==false?'100%':'0%')} )"></good-select>
-        <i :class="(isCollapse?'el-icon-arrow-right cut-button':'el-icon-arrow-left cut-button')" @click="isCollapse=!isCollapse"></i>
-      </div>
-      <!-- 背景轮换 -->
-      <div class="swiper_box  content-r flex-item">
-        <!-- 右菜单 -->
-        <div class="head-bar  flex-c flex-c-y" :style="(screenWidth>=688?{} :{'background-color':'#000000'} )">
-          <topNav :homeImageType='homeImageType' class="flex-item"></topNav>
-        </div>
-
-
-        <div class="upload_warp  position-a-center" v-show="!homeImageType">
-          <div class="upload_warp_left" @click="fileClick">
-            <i class="iconfont icon-buoumaotubiao47 position-a-center"></i>
-          </div>
-          <input @change="fileChange($event)" type="file" id="upload_file2" multiple style="display: none" />
-        </div>
-
-        <!-- 主的照片的div-->
-        <div class="homeImage flex-c-y" v-show="homeImageType" v-for="(item,index) in mainImg">
-
-          <div class="main-img " id="main-img" :style="{'width':'100%','height':(mainImgSize===true? 'auto' :'100%')}">
-            <div class="bootom " :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true? '100%':'100%')}">
-              <img id="mainImg" :src="item.file.url" :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true?'auto':'100%'),'opacity':'1'
-            ,'transform':' translate(-50%, -50%)  scale('+imgSatus.scale+') scaleX('+imgSatus.scalex+')  rotate('+imgSatus.rotate+'deg'+') '}">
-            </div>
-            <img-control v-for="(item,index) in curGoodList" :url="item.mainImage" :key="item.id" @deleteUrl="setDeleteUrl"
-              @setCurGood="setCurGood(index)"></img-control>
-          </div>
-
-          <bottomNav ref="ref1"></bottomNav>
-        </div>
-
-
-        <div class="user_img" v-if="userImg!=''" :class="[box.width/box.height-userImgWidth/userImgHeight>0?'bgSizeReset':'',box.isFlip?'flipx':'']"
-          :style="{backgroundImage:'url('+userImg+')',filter:'brightness('+bgBrightness+'%)'}">
-        </div>
-
-      </div>
-    </section>
-
-    <!-- <pic-upload @url="setUrl"></pic-upload>
-      <pic-upload-less @url="setShareInfo"></pic-upload-less> -->
-    <!-- 对话框 -->
-    <el-dialog title="提示" :visible.sync="dialogVisible" :modal="false" size="tiny">
-      <span>选择场景截图并分享，若无截图，请截图保存后再分享。</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="uploadShareImg">确 定</el-button>
+    <!-- 侧边栏的功能 -->
+    <div class="left-slide" v-if="screenWidth>=688" :style="(screenWidth>=688?{'margin-left':(isCollapse==false?'0':'-320px')} :
+      {'bottom':(isCollapse==false?'90px':'90px'),'height':(isCollapse==false?'100%':'0%')} )">
+      <span class="head-title" v-if="screenWidth>=688" :style="{width:(isCollapse==false?'320px':'0px')}">
+        <a href="linkben.com" class="flex-l  col-xs-0">LinkBen</a>
       </span>
-    </el-dialog>
-    <!-- 对话框表单 -->
-    <el-dialog title="分享设置" :visible.sync="dialogFormVisible" :modal="false">
-      <el-form :model="share">
-        <div class="my_row">
-          <img class="share_img" :src="'http://orbi0d8g8.bkt.clouddn.com/'+shareImg" alt="">
-        </div>
-        <div class="my_row">
-          <input type="title" v-model="share.title" class="form-control" placeholder="请填入标题">
-        </div>
-        <div class="my_row">
-          <textarea name="" id="" v-model="share.reason" rows="5" style="resize: none" class="form-control" placeholder="请填入内容"></textarea>
-        </div>
+      <good-select @curGoodList="setCurGoodList" :deleteUrl="deleteUrl" :oldList="oldList" :style="(screenWidth>=688?{} :{'height':(isCollapse==false?'100%':'0%')} )"></good-select>
+      <i :class="(isCollapse?'el-icon-arrow-right cut-button':'el-icon-arrow-left cut-button')" @click="isCollapse=!isCollapse"></i>
+    </div>
 
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="shareSubmit">确 定</el-button>
+    <!-- 背景轮换 -->
+    <div class="swiper_box  content-r flex-item">
+      <!-- 右菜单 -->
+      <div class="head-bar  flex-c flex-c-y" :style="(screenWidth>=688?{} :{'background-color':'#000000'} )">
+        <topNav :homeImageType='homeImageType' class="flex-item"></topNav>
       </div>
-    </el-dialog>
+
+
+      <div class="upload_warp  position-a-center" v-show="!homeImageType">
+        <div class="upload_warp_left" @click="fileClick">
+          <i class="iconfont icon-buoumaotubiao47 position-a-center"></i>
+        </div>
+        <input @change="fileChange($event)" type="file" id="upload_file2" multiple style="display: none" />
+      </div>
+
+      <!-- 主的照片的div-->
+      <div class="homeImage flex-c-y" v-if="homeImageType" v-for="(item,index) in mainImg">
+        <div class="main-img " id="main-img" :style="{'height':(mainImgSize===true? 'auto' :'100%')}">
+          <div class="bootom " :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true? '100%':'100%')}">
+            <img id="mainImg" :src="item.file.url" :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true?'auto':'100%'),'opacity':'1'
+          ,'transform':' translate(-50%, -50%)  scale('+imgSatus.scale+') scaleX('+imgSatus.scalex+')  rotate('+imgSatus.rotate+'deg'+') '}">
+          </div>
+          <img-control v-for="(item,index) in curGoodList" :url="item.mainImage" :key="item.id" @deleteUrl="setDeleteUrl"
+            @setCurGood="setCurGood(index)"></img-control>
+        </div>
+        <div class="bottom-box">
+              <!-- 侧边栏的功能 -->
+          <div class="left-slide" v-if="screenWidth<=688" :style="{'margin-bottom':(isCollapse==false?'-114px':'0px')}">
+            <good-select @curGoodList="setCurGoodList" :deleteUrl="deleteUrl" :oldList="oldList" 
+            ></good-select>
+            <i :class="(isCollapse?'el-icon-arrow-right cut-button':'el-icon-arrow-left cut-button')" @click="isCollapse=!isCollapse"></i>
+          </div>
+          <bottomNav ref="ref1" id="bottom-nav"></bottomNav>
+        </div>
+        
+
+
+      </div>
+
+
+      <div class="user_img" v-if="userImg!=''" :class="[box.width/box.height-userImgWidth/userImgHeight>0?'bgSizeReset':'',box.isFlip?'flipx':'']"
+        :style="{backgroundImage:'url('+userImg+')',filter:'brightness('+bgBrightness+'%)'}">
+      </div>
+
+    </div>
+
+
     <!-- 选择分享渠道 -->
     <share :url="shareUrl" :title="share.title" :img="'http://orbi0d8g8.bkt.clouddn.com/'+shareImg"></share>
     <!-- 商品详情 -->
@@ -124,15 +75,15 @@
 
 <script>
   import html2canvas from 'html2canvas'
-  import bus from '../assets/bus'
-  import GoodImg from './simulate/components/GoodImg.vue'
-  import GoodSelect from './simulate/GoodSelect.vue'
-  import ImgControl from './simulate/ImgControl.vue'
-  import Share from './simulate/Share.vue'
-  import GoodDetailCopy from './simulate/GoodDetailCopy.vue'
-  import ScenceSelect from './simulate/ScenceSelect.vue'
-  import TopNav from './simulate/TopNav.vue'
-  import BottomNav from './simulate/BottomNav.vue'
+  import bus from '../../assets/bus'
+  import GoodImg from './components/GoodImg.vue'
+  import GoodSelect from './page/GoodSelect.vue'
+  import ImgControl from './page/ImgControl.vue'
+  import Share from './page/Share.vue'
+  import GoodDetailCopy from './page/GoodDetailCopy.vue'
+  import ScenceSelect from './page/ScenceSelect.vue'
+  import TopNav from './page/TopNav.vue'
+  import BottomNav from './page/BottomNav.vue'
   export default {
     name: 'simulate',
     components: {
@@ -171,6 +122,8 @@
       var that = this
       return {
         screenWidth: document.documentElement.clientWidth,
+        bottomNavBottom:$(".bottom-nav").height(),
+        leftSlideBottom:'90px',
         mainImgWidth: "auto",
         mainImgHeight: 'auto',
         mainImgSize: true,
@@ -207,7 +160,6 @@
           reason: ''
         },
         dialogFormVisible: false,
-        dialogVisible: false,
         deleteUrl: '',
         shareImg: '',
         swiperIndex: data.index,
@@ -215,11 +167,8 @@
         userImgWidth: 0,
         userImgHeight: 0,
         brightnessTop: 0,
-        brightnessShow: false,
-        barShow: false,
         onload: false,
         curGoodList: [],
-        bgBrightness: 100,
         mainStaus: {
 
         },
@@ -246,7 +195,7 @@
             that.setCurIndex(swiper.activeIndex)
           }
         },
-        defaultImg: require("../assets/img/img4.jpg")
+        defaultImg: require("../../assets/img/img4.jpg")
       }
     },
     methods: {
@@ -334,8 +283,6 @@
           this.mainImg.push({
             file
           })
-
-          console.log("data", file);
           that.homeImageType = true;
 
           setTimeout(function () {
@@ -370,7 +317,6 @@
             this.vue.mainImg.push({
               file
             })
-            console.log("data", file);
             that.homeImageType = true;
             //下载的功能
             setTimeout(function () {
@@ -389,7 +335,6 @@
         this.homeImageType = false
       },
       login: function () {
-        console.log('ssss')
       },
       handleOpen(key, keyPath) {
         console.log(key, keyPath)
@@ -401,7 +346,6 @@
         this.userImg = ''
         var that = this
         this.showSelect = false
-        console.log(data)
 
         this.bgList = data.list
         setTimeout(function () {
@@ -409,8 +353,6 @@
         }, 250)
       },
       setShareInfo(url) {
-        console.log('setShareInfo')
-        console.log(url)
         this.shareImg = url
         this.dialogFormVisible = true
       },
@@ -439,14 +381,12 @@
         })
         data.goodIds = goodIds
         data.reason = encodeURIComponent(this.share.reason)
-        console.log(data)
 
         var that = this
         that.shareUrl = ''
         this.$http.post(globalPath + '/ShareScene', data, {
           emulateJSON: true
         }).then(function (res) {
-          console.log(res)
           if (res.body == 1000) {
             that.$message({
               message: '保存成功',
@@ -470,9 +410,7 @@
           })
           return false
         }
-        console.log('uploadShareImg')
         $('#uploadImgLess').click()
-        this.dialogVisible = false
       },
       handleClose(done) {
         this.$confirm('确认关闭？')
@@ -506,7 +444,6 @@
       },
       hideCover: function () {
         this.brightnessShow = false
-        this.barShow = false
       },
       toBack: function () {
         this.backLoading = true
@@ -517,10 +454,8 @@
       },
       setDeleteUrl(url) {
         var that = this
-        console.log(url)
         var deleteIndex = ''
         $(this.curGoodList).each(function (index, ele) {
-          console.log(ele)
           if (url == ele.mainImage) {
             that.curGoodList.splice(index, 1)
             return
@@ -601,7 +536,6 @@
             } else {
               data.bg = that.bgList[that.swiperIndex].mainImage
             }
-            console.log(data)
             sessionStorage.setItem('curSimulate', JSON.stringify(data))
             bus.$emit('curPage', 'remark-add')
             break
@@ -609,6 +543,10 @@
       }
     },
     mounted: function () {
+
+      $('#bottom-nav').resize(function(){
+          console.log("bottom-nav")
+      });
       sessionStorage.removeItem('curRemark')
       var that = this
       var file = {};
@@ -634,7 +572,6 @@
       //页面加载的时候滑块控件必须要可见，否则会初始化错误，故在页面加载完成之后再display：none
       //$('.cover').css({'z-index':21,'display':'none'});
       $(window).resize(function () {
-        console.log('resize')
         /* that.win.width = $(window).width();
            that.win.height = $(window).height();*/
         that.box.width = $('.swiper_box').width()
@@ -652,20 +589,22 @@
 
     },
     created() {
-      console.log("data", screenWidth);
     },
     computed: {
       swiper() {
         return this.$refs.mySwiper.swiper
       }
     },
-    watch: {
+     watch: {
       mainImg: function () {
         // this.mainImgWidth = $(".main-img .bootom img").width() + 'px';
       },
       bootom: function () {
         // this.mainImgWidth = $(".main-img .bootom img").width() + 'px';
         // $(".main-img .bootom").width(this.mainImgWidth);
+      },
+      bottomNavBottom:function(){
+         console.log($(".bottom-nav").height());
       },
     },
     updated: function () {
@@ -687,6 +626,12 @@
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .simulate{
+    height: 100vh;
+    position: relative;
+    background-color: #000000;
+  }
+
   .head-title {
     height: 50px;
     line-height: 50px;
@@ -741,11 +686,6 @@
     height: auto;
   }
 
-  .simulate-section {
-    height: 100vh;
-    position: relative;
-    background-color: #000000;
-  }
 
   .my-swiper {
     background-color: #ffff;
@@ -1086,25 +1026,42 @@
     padding: 5px 0px;
     padding-left: 15px;
   }
+  .bottom-box {
+    position: absolute;
+    left: 50%;
+    z-index: 999;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    bottom: 0px;
+
+    
+    }
 
   @media (max-width:768px) {
     .homeImage {
       padding: 0% 6% 100px 6%
     }
-
+    .bottom-box {
+      width: 100%;
+      padding: 0;
+      z-index: 9;
+      left: 0px;
+      transform: translateX(0%);
+      background-color: white;
+    }
     .swiper_box {
       background-color: #000000;
     }
 
     .left-slide {
-      position: absolute;
+      position: relative;
       z-index: 8;
       bottom: 0px;
       height: auto;
       background-color: white;
       box-shadow: 0px 0px 0px;
       width: 100%;
-      max-height: 114px;
+      /* max-height: 114px; */
     }
 
     .cut-button {

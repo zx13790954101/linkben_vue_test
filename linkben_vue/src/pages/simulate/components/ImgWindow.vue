@@ -103,11 +103,9 @@
         }
       },
       longTouch() {
-        //console.log('longTouch');
         this.touchShow = !this.touchShow;
       },
       zoom: function (data) {
-        //console.log(data.deltaY);
         if (data.wheelDelta > 1 || data.detail < 0) {
           this.width += 20;
         } else {
@@ -136,7 +134,6 @@
          this.tapNum=0;
          }*/
         var that = this;
-        //console.log(data);
         if (data.changedTouches) {
           this.timer = setTimeout(function () {
             that.longTouch();
@@ -152,7 +149,6 @@
       },
       mouseMove: function (data) {
         if (!this.moving) return;
-        //console.log('mousemove');
         this.mouseEnd.x = data.clientX || (data.changedTouches)[0].clientX;
         this.mouseEnd.y = data.clientY || (data.changedTouches)[0].clientY;
 
@@ -180,7 +176,6 @@
       mouseUp: function (data) {
         this.touchLength = 0;
         clearTimeout(this.timer);
-        //console.log('mouseUp');
         if (!this.moving) return;
         this.zIndex = 1;
         this.moving = false;

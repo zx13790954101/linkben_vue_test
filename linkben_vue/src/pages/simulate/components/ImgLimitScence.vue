@@ -33,7 +33,6 @@ export default {
   methods:{
       setBG(e){
         this.onload=!this.onload;
-        console.log(e.width,e.height);
       }
   }
 }

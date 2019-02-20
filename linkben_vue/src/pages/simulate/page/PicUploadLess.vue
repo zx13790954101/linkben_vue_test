@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import bus from '../../assets/bus'
+  import bus from '../../../assets/bus'
   export default {
     name: 'pic-upload-less',
     data () {
@@ -31,7 +31,6 @@
       var that = this;
       $('input#uploadImgLess[name=file][type=file]').change(function (e) {
         if($(this).val()=='') return;
-        //console.log(this.files[0].name);
         that.uploadImg(this.files[0].name)
       });
     },
@@ -39,7 +38,6 @@
 
       uploadImg(name){
         var userInfo = JSON.parse(sessionStorage.userInfo);
-        //console.log(userInfo);
         var that = this;
         that.form.key = 'temp' + userInfo.phoneNum + (new Date().getTime() + '.jpg');
         this.$http.get(globalPath+'/GetQiNiuToken?name=' + that.form.key).then(function (res) {
@@ -48,12 +46,10 @@
 
           setTimeout(function () {
             $('#imgUploadLess').ajaxSubmit(function (res) {
-              //console.log(res);
               /*var obj = {url: 'http://orbi0d8g8.bkt.clouddn.com/' + res.key};
               that.imgList.push(obj);
               that.imgKeys.push(res.key);
               that.$emit('imgKeys',that.imgKeys);*/
-              console.log('分享图片改变');
               that.$emit('url',res.key);
 
             });

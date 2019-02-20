@@ -193,9 +193,9 @@
 </template>
 
 <script>
-  import bus from '../../assets/bus'
-  import GoodImg from './components/GoodImg.vue'
-  import ImgWindow from './components/ImgWindow.vue'
+  import bus from '../../../assets/bus'
+  import GoodImg from '../components/GoodImg.vue'
+  import ImgWindow from '../components/ImgWindow.vue'
   import Share from './Share.vue'
   import ScenceSelect from './ScenceSelect.vue'
 
@@ -254,7 +254,6 @@
             userId: sessionStorage.userId
           }
         }).then(function (res) {
-          //console.log('GetGoodsByCode',res);
           if (res.body==0) return;
           if (typeof(res.body) != 'object') {
             this.$message.error('请求出错');
@@ -352,7 +351,6 @@
           that.collectionStatus = true;
         }
         var collection = JSON.parse(localStorage.getItem('collection'));
-        console.log('sss', collection);
         var data = [];
         var curGood = JSON.parse(sessionStorage.curGood);
         if (that.collectionStatus) {
@@ -419,7 +417,6 @@
         });
       }
       var data = JSON.parse(data);
-      //console.log(data)
       this.goodInfo = data;
       this.GetGoodsByCode();
 

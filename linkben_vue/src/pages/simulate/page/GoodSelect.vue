@@ -32,12 +32,12 @@
 </template>
 
 <script>
-  import GoodImg from './components/GoodImg.vue'
-  import MyHeader from './components/MyHeader.vue'
-  import TypeSelect from './components/TypeSelect.vue'
-  import Upload from '../../pages/common/Upload.vue'
+  import GoodImg from '../components/GoodImg.vue'
+  import MyHeader from '../components/MyHeader.vue'
+  import TypeSelect from '../components/TypeSelect.vue'
+  import Upload from '../../common/Upload.vue'
   import Matting from './Matting.vue'
-  import bus from '../../assets/bus'
+  import bus from '../../../assets/bus'
   export default {
     name: 'good-select',
     components: {
@@ -71,7 +71,6 @@
       }
     },
     mounted: function () {
-      //console.log(sessionStorage.curGoodsList);
       //初始化选中商品
       if (this.oldList) {
         this.selectList = this.oldList
@@ -87,7 +86,6 @@
       var that = this
       //滚动看到加载图案是请求数据
       $('.good_list').scroll(function (e) {
-        // console.log('sroll');
         if (!that.showLoading) return
         if (that.loading) return
         if (!$('.good-select .loader')) return
@@ -100,7 +98,6 @@
           }
         }
       })
-      console.log('sss', that.goodsList)
       //请求商品类型
       //  that.GetGoodCategorys();
       //商品区域类型
@@ -192,7 +189,6 @@
         if (add) this.selectList.push(val)
       },
       reduceGood(val) {
-        console.log('reduceGood', val)
         var reduce = false
         var deleteIndex = 0
         $(this.selectList).each(function (index, ele) {
@@ -215,35 +211,29 @@
           this.searchData.catId = ''
         }
 
-        //console.log(this.searchData);
-
         this.searchReset()
         this.getGoodsList()
       },
       setSearchStyle: function (data) {
         this.searchData.style = data
-        //console.log(this.searchData);
 
         this.searchReset()
         this.getGoodsList()
       },
       setSearchArea: function (data) {
         this.searchData.area = data
-        //console.log(this.searchData);
 
         this.searchReset()
         this.getGoodsList()
       },
       setSearchMianJis: function (data) {
         this.searchData.mainji = data
-        //console.log(this.searchData);
 
         this.searchReset()
         this.getGoodsList()
       },
       setSearchSelectType: function (data) {
         this.searchData.selectType = data
-        //console.log(this.searchData);
 
         this.searchReset()
         this.getGoodsList()
@@ -257,12 +247,10 @@
             }
           })
           .then(function (res) {
-            //console.log(res);
             if (typeof res.body != 'object') {
               that.$message.error('没有请求到数据')
             }
             $(res.body).each(function (index, element) {
-              //console.log(element)
               that.goodMianJisList.push({
                 id: element.id,
                 count: element.count,
@@ -280,12 +268,10 @@
             }
           })
           .then(function (res) {
-            //console.log(res);
             if (typeof res.body != 'object') {
               that.$message.error('没有请求到数据')
             }
             $(res.body).each(function (index, element) {
-              //console.log(element)
               that.goodStylesList.push({
                 id: element.id,
                 count: element.count,
@@ -303,13 +289,11 @@
             }
           })
           .then(function (res) {
-            //console.log(res);
             if (typeof res.body != 'object') {
               that.$message.error('没有请求到数据')
               return
             }
             $(res.body).each(function (index, element) {
-              //console.log(element)
               that.goodAreasList.push({
                 id: element.id,
                 count: element.count,
@@ -327,13 +311,11 @@
             }
           })
           .then(function (res) {
-            //console.log(res);
             if (typeof res.body != 'object') {
               that.$message.error('没有请求到数据')
               return
             }
             $(res.body).each(function (index, element) {
-              //console.log(element)
               that.goodCategorysList.push({
                 id: element.catId,
                 count: element.count,
@@ -357,7 +339,6 @@
         var that = this
 
         var res = ''
-        //console.log(res);
         if (typeof res != 'object') {
           //that.$message.error('没有请求到数据');
           that.showLoading = false
@@ -375,7 +356,6 @@
           element.mainImage = decodeURIComponent(element.mainImage)
         })
 
-        console.log(res)
         that.goodsList.push(...res)
         that.searchData.pageIndex++
         that.loading = false

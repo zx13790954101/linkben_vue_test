@@ -108,12 +108,10 @@
     },
     methods: {
       getValue(value){
-          console.log(value);
           var that=this;
           $(this.selectList).each(function (index,ele) {
             if(ele.id==value){
                 that.curLabel=ele.name;
-                console.log(ele.name);
             }
           });
         if(value==0){
