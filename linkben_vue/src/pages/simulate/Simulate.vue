@@ -1,6 +1,5 @@
 <template>
   <div class="simulate flex ">
-
     <!-- 侧边栏的功能 -->
     <div class="left-slide" v-if="screenWidth>=688" :style="(screenWidth>=688?{'margin-left':(isCollapse==false?'0':'-320px')} :
       {'bottom':(isCollapse==false?'90px':'90px'),'height':(isCollapse==false?'100%':'0%')} )">
@@ -10,14 +9,12 @@
       <good-select @curGoodList="setCurGoodList" :deleteUrl="deleteUrl" :oldList="oldList" :style="(screenWidth>=688?{} :{'height':(isCollapse==false?'100%':'0%')} )"></good-select>
       <i :class="(isCollapse?'el-icon-arrow-right cut-button':'el-icon-arrow-left cut-button')" @click="isCollapse=!isCollapse"></i>
     </div>
-
     <!-- 背景轮换 -->
     <div class="swiper_box  content-r flex-item">
       <!-- 右菜单 -->
       <div class="head-bar  flex-c flex-c-y" :style="(screenWidth>=688?{} :{'background-color':'#000000'} )">
         <topNav :homeImageType='homeImageType' class="flex-item"></topNav>
       </div>
-
 
       <div class="upload_warp  position-a-center" v-show="!homeImageType">
         <div class="upload_warp_left" @click="fileClick">
@@ -28,24 +25,23 @@
 
       <!-- 主的照片的div-->
       <div class="homeImage flex-c-y" v-if="homeImageType" v-for="(item,index) in mainImg">
-        <div class="main-img " id="main-img" :style="{'height':(mainImgSize===true? 'auto' :'100%')}">
+        <div class="main-img "  :style="{'height':(mainImgSize===true? 'auto' :'100%')}">
           <div class="bootom " :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true? '100%':'100%')}">
-            <img id="mainImg" :src="item.file.url" :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true?'auto':'100%'),'opacity':'1'
-          ,'transform':' translate(-50%, -50%)  scale('+imgSatus.scale+') scaleX('+imgSatus.scalex+')  rotate('+imgSatus.rotate+'deg'+') '}">
+            <img id="main-img" :src="item.file.url" 
+            :style="imgStyle">
           </div>
           <img-control v-for="(item,index) in curGoodList" :url="item.mainImage" :key="item.id" @deleteUrl="setDeleteUrl"
             @setCurGood="setCurGood(index)"></img-control>
         </div>
         <div class="bottom-box">
-              <!-- 侧边栏的功能 -->
+          <!-- 侧边栏的功能 -->
           <div class="left-slide" v-if="screenWidth<=688" :style="{'margin-bottom':(isCollapse==false?'-114px':'0px')}">
-            <good-select @curGoodList="setCurGoodList" :deleteUrl="deleteUrl" :oldList="oldList" 
-            ></good-select>
+            <good-select @curGoodList="setCurGoodList" :deleteUrl="deleteUrl" :oldList="oldList"></good-select>
             <i :class="(isCollapse?'el-icon-arrow-right cut-button':'el-icon-arrow-left cut-button')" @click="isCollapse=!isCollapse"></i>
           </div>
           <bottomNav ref="ref1" id="bottom-nav"></bottomNav>
         </div>
-        
+
 
 
       </div>
@@ -122,8 +118,8 @@
       var that = this
       return {
         screenWidth: document.documentElement.clientWidth,
-        bottomNavBottom:$(".bottom-nav").height(),
-        leftSlideBottom:'90px',
+        bottomNavBottom: $(".bottom-nav").height(),
+        leftSlideBottom: '90px',
         mainImgWidth: "auto",
         mainImgHeight: 'auto',
         mainImgSize: true,
@@ -132,21 +128,9 @@
         //主的界面的状态
         homeImageType: false,
         //主的照片
-        mainImg: [
-
-        ],
-        imgSatus: {
-          scale: 1,
-          rotate: 0,
-          scalex: 1,
-        },
-        imgStyle: {
-          //  width: (mainImgSize==true?'100%':'auto'),
-          //   height: (mainImgSize==true?'auto':'100%'),
-          opacity: 1,
-          //'transform':('scale('+imgSatus.scale+')  rotate('+imgSatus.rotate+'deg)')
-        },
-
+        mainImg: [],
+        imgStyle: {},//初始化主的图片的样式
+        imgSatus: { scale: 1, rotate: 0, scalex: 1,},
         isCollapse: true,
         oldList: array,
         backLoading: false,
@@ -334,8 +318,7 @@
         this.mainImg.splice(index, 1)
         this.homeImageType = false
       },
-      login: function () {
-      },
+      login: function () {},
       handleOpen(key, keyPath) {
         console.log(key, keyPath)
       },
@@ -543,10 +526,15 @@
       }
     },
     mounted: function () {
-
-      $('#bottom-nav').resize(function(){
-          console.log("bottom-nav")
-      });
+      var that=this;
+      that.imgStyle= {
+          'width':(that.mainImgSize===true?'100%':'auto'),
+          'height': (that.mainImgSize==true?'auto':'100%'),
+          'opacity': 1,
+          'transform':('translate(-50%, -50%)'+ 
+          'scale('+that.imgSatus.scale+') scaleX('+that.imgSatus.scalex+') rotate('+that.imgSatus.rotate+'deg)')
+      }
+      
       sessionStorage.removeItem('curRemark')
       var that = this
       var file = {};
@@ -588,14 +576,13 @@
       this.login();
 
     },
-    created() {
-    },
+    created() {},
     computed: {
       swiper() {
         return this.$refs.mySwiper.swiper
       }
     },
-     watch: {
+    watch: {
       mainImg: function () {
         // this.mainImgWidth = $(".main-img .bootom img").width() + 'px';
       },
@@ -603,8 +590,8 @@
         // this.mainImgWidth = $(".main-img .bootom img").width() + 'px';
         // $(".main-img .bootom").width(this.mainImgWidth);
       },
-      bottomNavBottom:function(){
-         console.log($(".bottom-nav").height());
+      bottomNavBottom: function () {
+        console.log($(".bottom-nav").height());
       },
     },
     updated: function () {
@@ -626,7 +613,7 @@
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .simulate{
+  .simulate {
     height: 100vh;
     position: relative;
     background-color: #000000;
@@ -1026,6 +1013,7 @@
     padding: 5px 0px;
     padding-left: 15px;
   }
+
   .bottom-box {
     position: absolute;
     left: 50%;
@@ -1034,13 +1022,16 @@
     transform: translateX(-50%);
     bottom: 0px;
 
-    
-    }
 
+  }
+  #main-img{
+
+  }
   @media (max-width:768px) {
     .homeImage {
       padding: 0% 6% 100px 6%
     }
+
     .bottom-box {
       width: 100%;
       padding: 0;
@@ -1049,6 +1040,7 @@
       transform: translateX(0%);
       background-color: white;
     }
+
     .swiper_box {
       background-color: #000000;
     }
@@ -1065,12 +1057,12 @@
     }
 
     .cut-button {
-   
-      right:50%;
+
+      right: 50%;
       top: -55px;
       margin-right: -10px;
       transform: rotate(-90deg);
-      padding:40px 0px;
+      padding: 40px 0px;
       background-color: white;
       font-size: 18px;
     }
