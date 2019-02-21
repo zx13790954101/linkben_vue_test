@@ -56,6 +56,7 @@ export default {
   methods: {
     //开始加载
     start() {
+      console.log("start");
       //初始化这个裁剪框
       var self = this;
       var image = document.getElementById("image");
@@ -74,7 +75,6 @@ export default {
                   .setData(this.croppedData)
                   .setCanvasData(this.canvasData)
                   .setCropBoxData(this.cropBoxData);
-
                 this.croppedData = null;
                 this.canvasData = null;
                 this.cropBoxData = null;
@@ -106,6 +106,7 @@ export default {
     },
     //input框change事件，获取到上传的文件
     change(e) {
+      console.log("change");
       let files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
       let type = files[0].type; //文件的类型，判断是否是图片

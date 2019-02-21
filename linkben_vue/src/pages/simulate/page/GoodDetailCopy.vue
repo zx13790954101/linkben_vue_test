@@ -27,7 +27,7 @@
     </header>
     <!-- 商品大图 -->
     <div class="good_img_window">
-      <img-window :url="goodInfo.mainImage"></img-window>
+      <img-window :url="goodInfo.defaultImg"></img-window>
     </div>
     <!-- 商品详情 -->
     <div class="good_info">

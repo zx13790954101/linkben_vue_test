@@ -89,7 +89,6 @@ export default {
               this.size = this.size + file.size;
               //判断是否为图片文件
               if (file.type.indexOf('image') == -1) {
-                  file.src = 'wenjian.png';
                   this.imgList.push({
                       file
                   });

@@ -72,12 +72,9 @@
         this.size = this.size + file.size;
         //判断是否为图片文件
         if (file.type.indexOf('image') == -1) {
-          file.src = 'wenjian.png';
-          file.src = this.result;
-          file.thumbImage = file.src;
+          flie.src=this.result;
           file.url = file.src;
           file.number = file.size;
-          file.mainImage = file.src;
           file.checked = false;
           file.needNum = 1;
           this.imgList.push({
@@ -92,11 +89,10 @@
           reader.vue = this;
           reader.readAsDataURL(file);
           reader.onload = function () {
-            file.src = this.result;
-            file.thumbImage = file.src;
+            flie.src=this.result;
             file.url = file.src;
             file.number = file.size;
-            file.mainImage = file.src;
+            file.defaultUrl = file.src;
             file.checked = false;
             file.needNum = 1;
             this.vue.imgList.push({

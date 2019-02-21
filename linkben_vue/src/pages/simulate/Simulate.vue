@@ -25,14 +25,16 @@
 
       <!-- 主的照片的div-->
       <div class="homeImage flex-c-y" v-if="homeImageType" v-for="(item,index) in mainImg">
-        <div class="main-img "  :style="{'height':(mainImgSize===true? 'auto' :'100%')}">
-          <div class="bootom " :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true? '100%':'100%')}">
-            <img id="main-img" :src="item.file.url" 
-            :style="imgStyle">
+        <transition name="el-zoom-in-center">
+          <div class="main-img "  :style="{'height':(mainImgSize===true? 'auto' :'100%')}">
+            <div class="bootom " :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true? '':'100%')}">
+              <img id="main-img" :src="item.file.src" :style="imgStyle">
+            </div>
+            <img-control v-for="(item,index) in curGoodList" :url="item.defaultImg" :key="item.id" @deleteUrl="setDeleteUrl"
+              @setCurGood="setCurGood(index)"></img-control>
           </div>
-          <img-control v-for="(item,index) in curGoodList" :url="item.mainImage" :key="item.id" @deleteUrl="setDeleteUrl"
-            @setCurGood="setCurGood(index)"></img-control>
-        </div>
+        </transition>
+
         <div class="bottom-box">
           <!-- 侧边栏的功能 -->
           <div class="left-slide" v-if="screenWidth<=688" :style="{'margin-bottom':(isCollapse==false?'-114px':'0px')}">
@@ -41,12 +43,7 @@
           </div>
           <bottomNav ref="ref1" id="bottom-nav"></bottomNav>
         </div>
-
-
-
       </div>
-
-
       <div class="user_img" v-if="userImg!=''" :class="[box.width/box.height-userImgWidth/userImgHeight>0?'bgSizeReset':'',box.isFlip?'flipx':'']"
         :style="{backgroundImage:'url('+userImg+')',filter:'brightness('+bgBrightness+'%)'}">
       </div>
@@ -105,7 +102,7 @@
       if (sessionStorage.simulateRe) {
         simulateRe = JSON.parse(sessionStorage.simulateRe)
         data.list.push({
-          mainImage: simulateRe.bg
+          defaultImg: simulateRe.bg
         })
       }
       var url = ''
@@ -122,15 +119,17 @@
         leftSlideBottom: '90px',
         mainImgWidth: "auto",
         mainImgHeight: 'auto',
-        mainImgSize: true,
         sliderValue: 0,
         canvasContent: null,
         //主的界面的状态
         homeImageType: false,
         //主的照片
         mainImg: [],
+        mainImgSize: true,
         imgStyle: {},//初始化主的图片的样式
-        imgSatus: { scale: 1, rotate: 0, scalex: 1,},
+        imgStyleStatus: { scale: 1, rotate: 0, scalex: 1,},
+				imgStatus: {},//初始化的图片的信息
+				defaultImgStatus:{},//初始化的图片的内容
         isCollapse: true,
         oldList: array,
         backLoading: false,
@@ -196,17 +195,18 @@
       fileClick() {
         document.getElementById('upload_file2').click()
       },
+      //点击主的图片的上传的，传的图片和这个input的对象值
       fileChange(el) {
+        console.log("上传的时候图片的信息el",el);
         var that = this;
-        if (!el.target.files[0].size) return
+        if (!el.target.files[0].size) return;
         that.fileList(el.target);
         el.target.value = '';
-
-        //   this.$refs.ref1[0].viewerInit(); 
+        //this.$refs.ref1[0].viewerInit(); //初始化viewer 的功能实现照片的变形
       },
+      //添加到对象组里面去
       fileList(fileList) {
         let files = fileList.files
-
         for (let i = 0; i < files.length; i++) {
           //判断是否为文件夹
           if (files[i].type != '') {
@@ -243,15 +243,13 @@
       fileAdd(file) {
         var that = this
         //总大小
-        this.size = this.size + file.size
+        this.size = this.size + file.size;
+      
         //判断是否为图片文件
         if (file.type.indexOf('image') == -1) {
-          file.src = 'wenjian.png'
-          file.src = this.result
-          file.thumbImage = file.src
+          file.src=this.result;
           file.url = file.src
           file.number = file.size
-          file.mainImage = file.src
           file.checked = false
           file.needNum = 1
           if (that.mainImg.length > 0) {
@@ -268,7 +266,6 @@
             file
           })
           that.homeImageType = true;
-
           setTimeout(function () {
             html2canvas(document.querySelector('#main-img')).then(function (canvas) {
               //document.body.appendChild(canvas);
@@ -281,12 +278,11 @@
           reader.vue = this
           reader.readAsDataURL(file)
           reader.onload = function () {
-            file.src = this.result
-            file.thumbImage = file.src
-            file.url = file.src
-            file.number = file.size
-            file.mainImage = file.src
-            file.checked = false
+            file.src=this.result;
+            file.url = file.src;
+            file.number = file.size;
+            file.defaultImg = file.src;
+            file.checked = false;
             file.needNum = 1;
             if (that.mainImg.length > 0) {
               that.mainImg.splice(0, 1)
@@ -439,7 +435,7 @@
         var that = this
         var deleteIndex = ''
         $(this.curGoodList).each(function (index, ele) {
-          if (url == ele.mainImage) {
+          if (url == ele.defaultImg) {
             that.curGoodList.splice(index, 1)
             return
           }
@@ -517,7 +513,7 @@
             if (that.userImg) {
               data.bg = that.userImg
             } else {
-              data.bg = that.bgList[that.swiperIndex].mainImage
+              data.bg = that.bgList[that.swiperIndex].defaultImg
             }
             sessionStorage.setItem('curSimulate', JSON.stringify(data))
             bus.$emit('curPage', 'remark-add')
@@ -527,35 +523,33 @@
     },
     mounted: function () {
       var that=this;
-      that.imgStyle= {
-          'width':(that.mainImgSize===true?'100%':'auto'),
-          'height': (that.mainImgSize==true?'auto':'100%'),
-          'opacity': 1,
-          'transform':('translate(-50%, -50%)'+ 
-          'scale('+that.imgSatus.scale+') scaleX('+that.imgSatus.scalex+') rotate('+that.imgSatus.rotate+'deg)')
-      }
-      
       sessionStorage.removeItem('curRemark')
       var that = this
       var file = {};
       file.src = that.defaultImg;
-      file.thumbImage = that.defaultImg;
       file.url = that.defaultImg;
-      file.number = 12333;
-      file.mainImage = that.defaultImg;
+      file.defaultUrl = that.defaultImg;
+      file.number = 500;
       file.checked = false;
       file.needNum = 1;
       that.mainImg.push({
         file
       });
-
-      const image = new Image();
-      image.src = file.src;
-      if (image.width > (parseInt(image.height) + 50)) {
+      var image = new Image();
+      image.src = that.defaultImg;
+      if (parseInt(image.width) > parseInt(image.height)) {
         that.mainImgSize = true;
       } else {
         that.mainImgSize = false;
       }
+      that.imgStyle= {
+          'width':(that.mainImgSize===true?'100%':'auto'),
+          'height': (that.mainImgSize==true?'auto':'100%'),
+          'opacity': 1,
+          'transform':('translate(-50%, -50%)'+ 
+          'scale('+that.imgStyleStatus.scale+') scaleX('+that.imgStyleStatus.scalex+') rotate('+that.imgStyleStatus.rotate+'deg)')
+      }
+   
       that.homeImageType = true;
       //页面加载的时候滑块控件必须要可见，否则会初始化错误，故在页面加载完成之后再display：none
       //$('.cover').css({'z-index':21,'display':'none'});
@@ -932,7 +926,6 @@
     width: 100%;
     height: 100%;
     position: relative;
-    padding: 2% 6% 60px 6%;
     margin-top: -50px;
     padding-top: 50px;
   }
@@ -944,20 +937,14 @@
   .main-img {
     width: 100%;
     text-align: center;
-    overflow: hidden;
     position: relative;
+    margin: 0px 5% 50px 5%;
   }
-
-  .main-img img {
-    border-radius: 10px;
-  }
-
   .main-img .img-r {
     box-shadow: 0 4px 12px rgba(6, 31, 50, .24);
     -webkit-box-shadow: 0 4px 12px rgba(6, 31, 50, .24);
     -moz-shadow: 0 4px 12px rgba(6, 31, 50, .24);
     -o-shadow: 0 4px 12px rgba(6, 31, 50, .24);
-    border-radius: 10px;
   }
 
   .main-img .bootom {
@@ -1021,17 +1008,8 @@
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
     bottom: 0px;
-
-
-  }
-  #main-img{
-
   }
   @media (max-width:768px) {
-    .homeImage {
-      padding: 0% 6% 100px 6%
-    }
-
     .bottom-box {
       width: 100%;
       padding: 0;
@@ -1061,10 +1039,14 @@
       right: 50%;
       top: -55px;
       margin-right: -10px;
-      transform: rotate(-90deg);
+      transform: rotate(90deg);
       padding: 40px 0px;
       background-color: white;
       font-size: 18px;
+      border-radius: 0px;
+      width: 15px;
+      border-top-left-radius: 0.4rem;
+      border-bottom-left-radius: 0.4rem;
     }
   }
 </style>

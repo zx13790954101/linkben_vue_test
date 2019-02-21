@@ -1,12 +1,11 @@
 <template>
   <div class="colorPicker">
     <div class="head-box flex-c">
-      <span class="flex-item item active">纯色背景</span>
-      <span class="flex-item item" @click="fileClick()">图片背景</span>
+      <h4 class="flex-item item active">纯色背景</h4>
+      <h4 class="flex-item item" @click="fileClick()">图片背景</h4>
     </div>
     <div class="main-box">
       <div class="flex-c head  ">
-        <!-- <span class="flex-item" :style="{'background-color':selectColor,'height':'10rem'}"></span> -->
         <el-color-picker v-model="selectColor" class="flex-item"></el-color-picker>
         <h5 v-model="selectColor">{{selectColor}}</h5>
       </div>
@@ -132,7 +131,8 @@
     },
     methods: {
       fileClick() {
-        document.getElementById('upload_file2').click()
+        document.getElementById('upload_file2').click();
+        
       },
     },
     mounted() {

@@ -16,7 +16,8 @@
             <article class="col-lg-6 col-xs-3" v-for="(item,index) in goodsList" v-on:click="selectGood(index)">
               <div class="upload_warp_img_div " :class="item.checked?'bg_yellow':''">
                 <i class="el-icon-circle-close upload_warp_img_div_del" @click="fileDel(index)"></i>
-                <good-img :url="item.url" :noStock="item.number==0?true:false" :key="item.id"></good-img>
+                <good-img :url="item
+                " :noStock="item.number==0?true:false" :key="item.id"></good-img>
               </div>
             </article>
           </div>
@@ -24,7 +25,9 @@
         <!-- 商品列表 -->
       </el-tab-pane>
       <el-tab-pane label="配置管理">
+        <div class="good_list">
 
+        </div>
       </el-tab-pane>
     </el-tabs>
     <button class="btn bottom-bar" v-if="screenWidth>=688">保存 </button>
@@ -116,11 +119,10 @@
       });
 
       var file = {};
-      file.src = "../../assets/img/img1.jpg";
-      file.thumbImage = "./static/images/img1.jpg";
+      file.src = "./static/images/img1.jpg";
       file.url = "./static/images/img1.jpg";
       file.number = 12333;
-      file.mainImage = "./static/images/img1.jpg";
+      file.defaultImg = "./static/images/img1.jpg";
       file.checked = false;
       file.needNum = 1;
 
@@ -352,8 +354,7 @@
         $(res).each(function (index, element) {
           element.checked = false
           element.needNum = 1
-          element.thumbImage = decodeURIComponent(element.thumbImage)
-          element.mainImage = decodeURIComponent(element.mainImage)
+          element.defaultImg = decodeURIComponent(element.defaultImg)
         })
 
         that.goodsList.push(...res)
@@ -373,7 +374,7 @@
         var reduce = false
         var deleteIndex = 0
         $(this.selectList).each(function (index, ele) {
-          if (ele.mainImage == url) {
+          if (ele.defaultImg == url) {
             reduce = true
             deleteIndex = index
             return false
@@ -440,8 +441,8 @@
     }
 
     .good-select .el-tabs__item {
-      height: 2.4rem;
-      line-height: 2.4rem;
+      height: 2.6rem;
+      line-height: 2.6rem;
       font-size: inherit;
       letter-spacing: 1px;
     }
@@ -529,7 +530,7 @@
   .good_list {
     position: relative;
     padding: 0px 15px;
-
+  
   }
 
   .good_list>.row>div {
@@ -608,6 +609,8 @@
     .good_list {
       background-color: #f7f7f7;
       padding: 0.5rem 15px;
+      height: 84px;
+      box-sizing: border-box;
     }
 
     .good_list .row article {

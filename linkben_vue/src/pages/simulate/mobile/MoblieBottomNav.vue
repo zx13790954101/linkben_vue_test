@@ -1,88 +1,8 @@
 <template>
-    <div class="wrapper">
+    <div class="moblie-bottom-nav">
       <ul class="satellite " v-if="screenWidth<=688 && active>0">
         <li class="" v-if="active===1">
-          <div class="tab-box">
-            <article class="item" v-if="tabActive1==1">
-              <ul class="scrollbar scrollY">
-                <li class="col-lg-2">
-                  <span class="flex-c flex-c-y">
-                    <i class="iconfont icon-shouji-copy  h2" :style="{'font-size':'4rem'}"></i>
-                  </span>
-                </li>
-                <li class="col-lg-2">
-                  <span class="item-box flex-c flex-c-y">
-                    <p>1:1</p>
-                  </span>
-                </li>
-                <li class="col-lg-2">
-                  <span class="item-box flex-c flex-c-y" :style="{'width':'21.33px'}">
-                    <p>2:3</p>
-                  </span>
-                </li>
-                <li class="col-lg-2">
-                  <span class="item-box flex-c flex-c-y"  :style="{'height':'21.33px'}">
-                    <p>3:2</p>
-                  </span>
-                </li>
-                <li class="col-lg-2">
-                  <span class="item-box flex-c flex-c-y"  :style="{'width':'24px'}">
-                    <p>3:4</p>
-                  </span>
-                </li>
-                <li class="col-lg-2">
-                  <span class="item-box flex-c flex-c-y"  :style="{'height':'24px'}">
-                    <p>4:3</p>
-                  </span>
-                </li>
-                <li class="col-lg-2">
-                  <span class="item-box flex-c flex-c-y"  :style="{'width':'18px'}">
-                    <p>9:16</p>
-                  </span>
-                </li>
-                <li class="col-lg-2">
-                  <span class="item-box flex-c flex-c-y"  :style="{'height':'18px'}">
-                    <p>16:9</p>
-                  </span>
-                </li>
-              </ul>
-  
-              
-              <div class="buuton-array row">
-                <button class="left">重置</button>
-                <button class="right">保存</button>
-              </div>
-            </article>
-            <article class="item" v-if="tabActive1==2">
-              <el-slider v-model="lightNum" :min="0" :max="360"></el-slider>
-              <div class="flex-c center" :style="{'margin':'10px auto'}">
-                <span class="flex-item">
-                  <button>重置</button>
-                </span>
-                <span class="flex-item">
-                  <i class="iconfont icon-shunshizhenxuanzhuan"></i>
-                </span>
-                <span class="flex-item">
-                  <i class="iconfont icon-nishizhenxuanzhuan"></i>
-                </span>
-                <div class="flex-item">
-                  <i class="iconfont  icon-suofang-copy" ></i>
-                </div>
-                <span class="flex-item">
-                  <i class=" iconfont icon-suofang-copy-copy"></i>
-                </span>
-              </div>
-            </article>
-            <div class="tab-nav flex-c">
-              <i class="iconfont icon-dacha center col-lg-2" @click="active=0"></i>
-              <div class=" h4 col-lg-8 flex-c " :style="{'text-align':'center'}">
-                <span class="flex-item" @click="tabActive1=1" :style="{'color':(tabActive1==1?'rgb(255, 219, 5)':'')}">截取</span>
-                <span class="flex-item" @click="tabActive1=2" :style="{'color':(tabActive1==2?'rgb(255, 219, 5)':'')}">旋转</span>
-              </div>
-              <i class="iconfont icon-dagou center col-lg-2"></i>
-            </div>
-          </div>
-  
+            <cutOutRotate></cutOutRotate>
         </li>
         <li class="" v-else-if="active===2">
           <el-slider v-model="value2"></el-slider>
@@ -114,9 +34,10 @@
   
   <script>
     import bus from '../../../assets/bus';
+    import cutOutRotate from "./CutOutRotate.vue"
     export default {
       name: 'monlieBottomNav',
-      components: {},
+      components: {cutOutRotate},
       data() {
         return {
           title: '移动端的底部的nav',
@@ -130,24 +51,24 @@
         }
       },
       props: {
-        imgSatus: {}
+        imgStyleStatus: {}
       },
       created() {
       },
       methods: {
         formatAdd() {
           var that = this;
-          that.$parent.imgSatus.scale = (that.addNum / 20);
+          that.$parent.imgStyleStatus.scale = (that.addNum / 20);
         },
         //旋转的功能
         plusRotate() {
           var that = this;
-          if (that.$parent.imgSatus.rotate >= 180) {
+          if (that.$parent.imgStyleStatus.rotate >= 180) {
   
           }
-          //  that.$parent.imgSatus.rotate =  that.$parent.imgSatus.rotate + 45;
-          that.$parent.imgSatus.rotate = that.rotateNum;
-          // that.rotateNum=that.$parent.imgSatus.rotate;
+          //  that.$parent.imgStyleStatus.rotate =  that.$parent.imgStyleStatus.rotate + 45;
+          that.$parent.imgStyleStatus.rotate = that.rotateNum;
+          // that.rotateNum=that.$parent.imgStyleStatus.rotate;
         },
       },
       mounted() {
@@ -171,7 +92,7 @@
   
   <style scoped lang="less">
 
-  
+  .moblie-bottom-nav{
       .el-slider {
         width: 120px;
         margin: 0px 10px;
@@ -214,44 +135,7 @@
         text-align: center;
         margin: 0px 10px;
       }
-  
-  
-      .satellite .tab-box li {
-        padding: 0px 5px;
-      }
-      .satellite .tab-box .buuton-array {
-        margin: 10px 0px;
-      }
-  
-      .satellite .tab-box .item-box {
-        width: 32px;
-        height: 32px;
-        border: 1px solid #9eabb3;
-        border-radius: 4px;
-      }
-  
-      .satellite article.item {
-        min-height: 84px;
-        height: auto;
-      }
-  
-      .scrollY {
-        overflow-y: hidden;
-        width: 100%;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        display: -webkit-box;
-      }
-      .scrollY li{
-          float: none;
-          height: 38px;
-          line-height: 38px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-      }
-  
+
       @media (max-width:768px) {
         .bottom-tab {
           overflow-y: hidden;
@@ -264,7 +148,7 @@
           margin: 0px 0px;
         }
       }
-  
+  }
   
   </style>
   

@@ -54,7 +54,7 @@
       }
     },
     props: {
-      imgSatus: {}
+      imgStyleStatus: {}
     },
     created() {
     },
@@ -70,9 +70,9 @@
       setTime(data, type) {
         var that = this;
         if (data == 1) {
-          that.$parent.imgSatus.scale = that.$parent.imgSatus.scale + 0.01
+          that.$parent.imgStyleStatus.scale = that.$parent.imgStyleStatus.scale + 0.01
         } else if (data == 2) {
-          that.$parent.imgSatus.scale = that.$parent.imgSatus.scale - 0.01
+          that.$parent.imgStyleStatus.scale = that.$parent.imgStyleStatus.scale - 0.01
         }
         if (type == true) {
           this.setTime();
@@ -89,7 +89,7 @@
             // that.timer = setInterval(function () {
             //   ev.preventDefault();
             //   if (data == 1) {
-            //       if(that.$parent.imgSatus.scale==2.5){
+            //       if(that.$parent.imgStyleStatus.scale==2.5){
             //           that.$message({
             //             message: '已经是最大了',
             //             type: 'error'
@@ -97,9 +97,9 @@
             //           clearInterval( that.timer);
             //           return;
             //       }
-            //       that.$parent.imgSatus.scale= that.$parent.imgSatus.scale + 0.01
+            //       that.$parent.imgStyleStatus.scale= that.$parent.imgStyleStatus.scale + 0.01
             //     } else if(data==2){
-            //       if(that.$parent.imgSatus.scale==0.5){
+            //       if(that.$parent.imgStyleStatus.scale==0.5){
             //           that.$message({
             //             message: '已经是最小了',
             //             type: 'error'
@@ -107,7 +107,7 @@
             //           clearInterval( that.timer);
             //           return;
             //       }
-            //       that.$parent.imgSatus.scale= that.$parent.imgSatus.scale - 0.01
+            //       that.$parent.imgStyleStatus.scale= that.$parent.imgStyleStatus.scale - 0.01
             //    }
             // }, 50);
           } else if (ev.type == "pressup") {
@@ -115,9 +115,9 @@
           } else if (ev.type == "tap") {
             clearInterval(that.timer);
             if (data == 1) {
-              that.$parent.imgSatus.scale = that.$parent.imgSatus.scale + 0.01
+              that.$parent.imgStyleStatus.scale = that.$parent.imgStyleStatus.scale + 0.01
             } else if (data == 2) {
-              that.$parent.imgSatus.scale = that.$parent.imgSatus.scale - 0.01
+              that.$parent.imgStyleStatus.scale = that.$parent.imgStyleStatus.scale - 0.01
             }
           }
 
@@ -131,24 +131,24 @@
             that.plusRotate();
             break;
           case 'mirror':
-            that.$parent.imgSatus.scalex = -that.$parent.imgSatus.scalex
+            that.$parent.imgStyleStatus.scalex = -that.$parent.imgStyleStatus.scalex
             break;
         }
 
       },
       formatAdd() {
         var that = this;
-        that.$parent.imgSatus.scale = (that.addNum / 20);
+        that.$parent.imgStyleStatus.scale = (that.addNum / 20);
       },
       //旋转的功能
       plusRotate() {
         var that = this;
-        if (that.$parent.imgSatus.rotate >= 180) {
+        if (that.$parent.imgStyleStatus.rotate >= 180) {
 
         }
-        //  that.$parent.imgSatus.rotate =  that.$parent.imgSatus.rotate + 45;
-        that.$parent.imgSatus.rotate = that.rotateNum;
-        // that.rotateNum=that.$parent.imgSatus.rotate;
+        //  that.$parent.imgStyleStatus.rotate =  that.$parent.imgStyleStatus.rotate + 45;
+        that.$parent.imgStyleStatus.rotate = that.rotateNum;
+        // that.rotateNum=that.$parent.imgStyleStatus.rotate;
       },
       viewerInit() {
         if ($(".viewer-container").html()) {
@@ -205,7 +205,7 @@
   .bottom-nav {
     position: relative;
      z-index: 9;
-     padding: 10px 15px;
+     padding: 8px 15px;
      background-color: white;
 
     .el-slider {
