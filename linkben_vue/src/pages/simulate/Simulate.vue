@@ -20,7 +20,7 @@
         <div class="upload_warp_left" @click="fileClick">
           <i class="iconfont icon-buoumaotubiao47 position-a-center"></i>
         </div>
-        <input @change="fileChange($event)" type="file" id="upload_file2" multiple style="display: none" />
+        <input @change="fileChange($event)" ref="uploadRef" type="file" id="upload_file2" multiple style="display: none" />
       </div>
 
       <!-- 主的照片的div-->
@@ -130,7 +130,7 @@
         imgStyleStatus: { scale: 1, rotate: 0, scalex: 1,},
 				imgStatus: {},//初始化的图片的信息
 				defaultImgStatus:{},//初始化的图片的内容
-        isCollapse: true,
+        isCollapse: false,
         oldList: array,
         backLoading: false,
         sessionGoodUrl: url,
@@ -543,6 +543,7 @@
         that.mainImgSize = false;
       }
       that.imgStyle= {
+        "display":"none",
           'width':(that.mainImgSize===true?'100%':'auto'),
           'height': (that.mainImgSize==true?'auto':'100%'),
           'opacity': 1,
@@ -574,6 +575,7 @@
     computed: {
       swiper() {
         return this.$refs.mySwiper.swiper
+
       }
     },
     watch: {

@@ -192,7 +192,7 @@ export default {
   }
 };
 </script> 
-  
+
 <style>
 #demo #button,#demo #cancel {
   position: absolute;
