@@ -180,7 +180,6 @@
       },
 
       dblclick(e) {
-        debugger;
         if (e.target.className.indexOf('cropper-face') >= 0) {
           e.preventDefault();
           e.stopPropagation();
@@ -262,6 +261,7 @@
 
       restore() {
         if (this.data.cropped) {
+  
           this.update({
             cropped: false,
             previousUrl: '',
@@ -284,12 +284,7 @@
       },
 
       update(data) {
-        debugger;
-        console.log(' this.data', this.data);
-        console.log('data', data);
         Object.assign(this.data, data);
-        console.log('data', this.data);
-        console.log('data', Object);
       },
     },
 

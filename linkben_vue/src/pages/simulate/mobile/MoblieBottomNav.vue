@@ -1,12 +1,11 @@
 <template>
     <div class="moblie-bottom-nav">
       <ul class="satellite " v-if="screenWidth<=688 && active>0">
-        <li class="" v-if="active===1">
+        <li class="" v-if="active===1"  >
             <cutOutRotate></cutOutRotate>
         </li>
         <li class="" v-else-if="active===2">
           <el-slider v-model="value2"></el-slider>
-  
         </li>
         <li class="" v-else-if="active===3">
   

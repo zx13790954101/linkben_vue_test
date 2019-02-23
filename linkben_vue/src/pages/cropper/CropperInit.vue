@@ -2,7 +2,7 @@
     <div id="demo">  
       <!-- 遮罩层 -->  
       <div class="container" v-show="panel">  
-          <div>  
+          <div class="" :style="{'height':'70vh'}">  
               <img id="image" :src="url" alt="Picture" ref="image" >  
           </div>  
           <button type="button" id="button" @click="commit">确定</button>  
@@ -68,22 +68,14 @@
       start() {
         //初始化这个裁剪框
         var that = this;
-        debugger;
         var image = document.getElementById("image");
-        if(that.url!=''){
-          const imageUrl=new Image();
-          imageUrl.src=that.url;
-          that.imageStatus.width=imageUrl.width();
-          that.imageStatus.height=imageUrl.height();
-        }
-       
-
         that.cropper = new Cropper(image, {
           aspectRatio: that.number,  //设置截图的比例
           scalable:true,
           viewMode: 1,
           background: false,
           zoomable: true,
+          autoCropArea:1,//设置图片的截取框的占比，默认值为0.8
           restore:this.restoreStatus,//在调整窗口大小后恢复裁剪的区域
           ready: function(e) {
             console.log("cropper")
@@ -129,7 +121,7 @@
       },
       //input框change事件，获取到上传的文件
       change(e) {
-        console.log("change");
+        var that=this;
         let files = e.target.files || e.dataTransfer.files;
         if (!files.length) return;
         let type = files[0].type; //文件的类型，判断是否是图片
@@ -144,10 +136,27 @@
         }
         this.picValue = files[0];
         this.url = this.getObjectURL(this.picValue);
+
+        if(that.url!=''){
+         
+          const imageUrl=new Image();
+          imageUrl.src=this.url;
+          imageUrl.onload=function(e){
+            that.imageStatus.width=imageUrl.width;
+            that.imageStatus.height=imageUrl.height;
+            //console.log("imageurl",that.imageStatus.width,that.imageStatus.height);
+            let aspectRatio=parseFloat(that.imageStatus.width/that.imageStatus.height)
+            that.cropper.setAspectRatio(aspectRatio);//修改截取框的比例
+          };
+
+         
+        }
         //每次替换图片要重新得到新的url
         if (this.cropper) {
-          this.cropper.replace(this.url);
+          this.cropper.replace(this.url);//重新替换cropper
         }
+        
+
         this.panel = true;
       },
       //确定提交
@@ -259,6 +268,7 @@
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 1);
+    height: 100vh;
   }
   #demo #image {
     max-width: 100%;

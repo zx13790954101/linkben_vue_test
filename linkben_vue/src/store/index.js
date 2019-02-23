@@ -16,10 +16,10 @@ const state={
       },
 }
 const store = new Vuex.Store({
-  state,
+//  state,
   modules: {imgState},
   actions,
-  mutations,
+  //mutations,
   strict: process.env.NODE_ENV !== 'production'
 });
 if (module.hot) {

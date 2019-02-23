@@ -21,9 +21,7 @@
 
     methods: {
       read(files) {
-        debugger;
         return new Promise((resolve, reject) => {
-          debugger;
           if (!files || files.length === 0) {
             resolve();
             return;
@@ -49,9 +47,7 @@
       },
 
       change({ target }) {
-        debugger;
         this.read(target.files).then((data) => {
-          debugger;
           target.value = '';
           this.update(data);
         }).catch((e) => {

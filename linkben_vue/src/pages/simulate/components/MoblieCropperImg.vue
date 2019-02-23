@@ -6,15 +6,14 @@
                 <i class="iconfont icon-shouji-copy  h2" :style="{'color':(active==0?'#F44336':''),'font-size':'4rem'}"></i>
             </span>
             <span v-if="index!=0" :class="{active:index==active}" class="item-box flex-c flex-c-y" 
-            :style="{'width':item.width,'height':item.height}"
-              @click="selectSize(item.num,index)" >
-                  {{item.content}}
+               :style="{'width':item.width,'height':item.height}"   @click="selectSize(item.num,index)" >
+                   {{item.content}}
             </span>
           </li>
       </ul>
       <div class="buuton-array row">
-        <button class="left">重置</button>
-        <button class="right">保存</button>
+        <button class="left" @click="reset" >重置</button>
+        <button class="right" @click="save">保存</button>
       </div>
   </div>
 </template>
@@ -25,7 +24,7 @@
     data() {
       return {
         title: 'cropper的移动端的截图',
-        active:null,
+        active:0,
         dataList:[
             { 
               content:'',  height:'', width:'', num:'', 
@@ -55,54 +54,130 @@
           croppedData:"",
           canvasData:"",
           cropBoxData:"",
+          croppedCanvas:"",
+          roundedCanvas:"",
+          headerImage:"",
+          restore:false,
+          aspectRatio:1,
+          active:0,
+          croppable: false,
+          oldUrl:"",
+          thisUrl:"",//当前的URL是
+          newUrl:"",
+          updateType:false,
         },
-        croppable: false,
+        cropperNewStatus:{
+          aspectRatio:1
+        },
+       
       }
     },
     props: {},
     components: { Cropper },
-    created() { },
-    mounted() {
+    created() { 
 
+    },
+    mounted() {
+      //this.initCropper();
     },
     methods: {
       //选择截取的图片的大小
-      selectSize(num,num2) {
+      selectSize(num,index) {
         const that=this;
-        that.active=parseInt(num2);
-        
-        //初始化这个
-        that.initCropper(num)
+        that.active=parseInt(index);
+        that.cropperDefaultStatus.aspectRatio=parseFloat(num);
+        if(that.cropperDefaultStatus.updateType){
+          var image = document.getElementById("main-img");//首页的图片的对象结构
+          image.src=that.cropperDefaultStatus.oldUrl;
+          var loadImage=new Image();
+          loadImage.src=that.cropperDefaultStatus.oldUrl;
+          loadImage.onload=function(){
+             that.initCropper();
+             that.active=that.cropperDefaultStatus.active;
+          };
+       
+          return;
+        }
+        that.cropper.setAspectRatio(parseFloat(num));//修改截取框的比例
+      
       },
       //初始化截图工具
-      initCropper(num){
-        debugger;
-        let number=1;
-        if(num) number=num;
+      initCropper(){
         const that=this;
         var image = document.getElementById("main-img");//首页的图片的对象结构
+        that.cropperDefaultStatus.thisUrl=image.src;
+        that.cropperDefaultStatus.aspectRatio=parseFloat(image.width/image.height);
         that.cropper=new Cropper(image,{
-          aspectRatio: number,  //设置截图的比例
+          aspectRatio:  that.cropperDefaultStatus.aspectRatio,  //设置截图的比例
           scalable:true,
           viewMode: 1,
           background: false,
           zoomable: true,
+          autoCropArea:0.8,//设置图片的截取框的占比，默认值为0.8
+          restore:that.cropperDefaultStatus.restore,//在调整窗口大小后恢复裁剪的区域
           ready: function() {
-            self.croppable = true;
+            console.log("cropper")
+            that.cropperDefaultStatus.croppable = true;
             if (this.croppedData) {
                   //获取原来的截图的位置
-                  this.cropper
+                  that.cropper
                     .crop()
-                    .setData(this.cropperDefaultStatus.croppedData)
-                    .setCanvasData(this.cropperDefaultStatus.canvasData)
-                    .setCropBoxData(this.cropperDefaultStatus.cropBoxData);
-                  this.cropperDefaultStatus.croppedData = null;
-                  this.cropperDefaultStatus.canvasData = null;
-                  this.cropperDefaultStatus.cropBoxData = null;
+                    .setData(that.cropperDefaultStatus.croppedData)
+                    .setCanvasData(that.cropperDefaultStatus.canvasData)
+                    .setCropBoxData(that.cropperDefaultStatus.cropBoxData);
+                    that.cropperDefaultStatus.croppedData = null;
+                    that.cropperDefaultStatus.canvasData = null;
+                    that.cropperDefaultStatus.cropBoxData = null;
+            }
+            if(that.cropperDefaultStatus.updateType){
+              that.cropper.setAspectRatio(parseFloat(that.cropperDefaultStatus.aspectRatio));//修改截取框的比例
             }
           },
           zoomOnTouch:true, 
         })
+      },
+      //重置截取的功能
+      reset(){
+        
+      },
+      //更新最新的保存
+      update(){
+
+      },
+      //保存的功能,其实没有初始化
+      save(){
+         const that=this;
+         let croppedCanvas;
+         let roundedCanvas;
+         if (!that.cropperDefaultStatus.croppable) {
+            return;
+         }
+        // Crop
+        croppedCanvas = this.cropper.getCroppedCanvas();
+        // Round
+        // roundedCanvas = this.getRoundedCanvas(croppedCanvas);
+        roundedCanvas = croppedCanvas;
+        this.cropperDefaultStatus.active=this.active;
+        this.active=null;
+        this.cropperDefaultStatus.croppedData = this.cropper.getData();
+        this.cropperDefaultStatus.canvasData = this.cropper.getCanvasData();
+        this.cropperDefaultStatus.cropBoxData = this.cropper.getCropBoxData();
+
+        that.cropperDefaultStatus.oldUrl=this.cropperDefaultStatus.thisUrl;
+        this.cropperDefaultStatus.thisUrl = roundedCanvas.toDataURL();
+        var image = document.getElementById("main-img");//首页的图片的对象结构
+        image.src=this.cropperDefaultStatus.thisUrl;
+        if (this.cropper) {
+          this.cropper.destroy();
+          this.cropper = null;
+          that.cropperDefaultStatus.updateType=true;
+        }
+        this.$message({
+          message:'截取成功',
+          type: 'success'
+        });
+        
+
       },
     },
 
