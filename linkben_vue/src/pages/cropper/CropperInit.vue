@@ -18,7 +18,7 @@
             <input type="file" id="change" accept="image" @change="change">  
             <label for="change"></label>  
           </div>  
-          <div class="restore" @click='restore(0.6)'>
+          <div class="restore" @click='restore(1)'>
                 重新选择
           </div>
 
@@ -54,6 +54,10 @@
         },
         number:1,
         restoreStatus:false,
+        imageStatus:{
+          width:"",
+          height:"",
+        }
       };
     },
     mounted() {
@@ -62,30 +66,42 @@
     methods: {
       //开始加载
       start() {
-        console.log("start",this.number);
         //初始化这个裁剪框
-        var self = this;
+        var that = this;
+        debugger;
         var image = document.getElementById("image");
-        this.cropper = new Cropper(image, {
-          //aspectRatio: 1,
-          aspectRatio: this.number,  //设置截图的比例
+        if(that.url!=''){
+          const imageUrl=new Image();
+          imageUrl.src=that.url;
+          that.imageStatus.width=imageUrl.width();
+          that.imageStatus.height=imageUrl.height();
+        }
+       
+
+        that.cropper = new Cropper(image, {
+          aspectRatio: that.number,  //设置截图的比例
           scalable:true,
           viewMode: 1,
           background: false,
           zoomable: true,
           restore:this.restoreStatus,//在调整窗口大小后恢复裁剪的区域
-          ready: function() {
-            self.croppable = true;
-            if (this.croppedData) {
-                  this.cropper
+          ready: function(e) {
+            console.log("cropper")
+            that.croppable = true;
+            if (that.croppedData) {
+              console.log("cropper222")
+              that.cropper
                     .crop()
-                    .setData(this.croppedData)
-                    .setCanvasData(this.canvasData)
-                    .setCropBoxData(this.cropBoxData);
-                  this.croppedData = null;
-                  this.canvasData = null;
-                  this.cropBoxData = null;
+                    .setData(that.croppedData)
+                    .setCanvasData(that.canvasData)
+                    .setCropBoxData(that.cropBoxData);
+                    that.croppedData = null;
+                    that.canvasData = null;
+                    that.cropBoxData = null;
             }
+          },
+          crop:function(e){
+
           },
           zoomOnTouch:true,
         });
@@ -191,9 +207,11 @@
           var that=this;
           that.panel=true;
           that.number=num;
-
-          that.restoreStatus=true;
-          that.start();
+          that.cropper.setAspectRatio(num);//修改截取框的比例
+        //  that.cropper.reset();
+        //  that.cropper.canvasData.aspectRatio=num
+        //  that.cropper.replace(that.url);
+     //     that.start();
           // var data={
           //   panel:true
           // }
@@ -514,5 +532,12 @@
   .cropper-disabled .cropper-line,
   .cropper-disabled .cropper-point {
     cursor: not-allowed;
+  }
+
+
+  .restore{
+height: 50px;
+margin-top: 20px;
+background-color: blueviolet;
   }
   </style>

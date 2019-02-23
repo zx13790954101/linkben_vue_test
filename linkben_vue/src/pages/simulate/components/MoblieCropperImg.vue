@@ -60,13 +60,17 @@
       }
     },
     props: {},
-    created() { },
     components: { Cropper },
+    created() { },
+    mounted() {
+
+    },
     methods: {
       //选择截取的图片的大小
       selectSize(num,num2) {
         const that=this;
         that.active=parseInt(num2);
+        
         //初始化这个
         that.initCropper(num)
       },
@@ -101,9 +105,7 @@
         })
       },
     },
-    mounted() {
 
-    },
     computed: {
 
     },

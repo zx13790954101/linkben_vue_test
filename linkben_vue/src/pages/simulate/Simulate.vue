@@ -543,7 +543,7 @@
         that.mainImgSize = false;
       }
       that.imgStyle= {
-        "display":"none",
+    //    "display":"none",
           'width':(that.mainImgSize===true?'100%':'auto'),
           'height': (that.mainImgSize==true?'auto':'100%'),
           'opacity': 1,
