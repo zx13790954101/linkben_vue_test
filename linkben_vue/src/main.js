@@ -8,7 +8,7 @@ import router from '@/router'
 //apphxsapp-act-feimport 'babel-polyfill'
 import 'styles/iconfont.css'
 // 导入css reset
-import 'normalize.css'
+//import 'normalize.css'
 //引入mint-ui所有的组件使用下面两行
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'

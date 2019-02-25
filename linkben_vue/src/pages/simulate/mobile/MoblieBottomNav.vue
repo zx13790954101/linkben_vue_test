@@ -2,7 +2,7 @@
     <div class="moblie-bottom-nav">
       <ul class="satellite " v-if="screenWidth<=688 && active>0">
         <li class="" v-if="active===1"  >
-            <cutOutRotate></cutOutRotate>
+            <cutOutRotate  v-on:cutOutRotateEmit="cutOutRotateEmit"></cutOutRotate>
         </li>
         <li class="" v-else-if="active===2">
           <el-slider v-model="value2"></el-slider>
@@ -69,6 +69,10 @@
           that.$parent.imgStyleStatus.rotate = that.rotateNum;
           // that.rotateNum=that.$parent.imgStyleStatus.rotate;
         },
+        //接受第一个插件的传值
+        cutOutRotateEmit(cutOutRotateEmit){
+           this.active=cutOutRotateEmit;
+        },
       },
       mounted() {
   
@@ -120,7 +124,7 @@
   
       .bottom-tab li i {
         margin-right: 5px;
-        font-size: 2.0rem;
+        font-size: 1.34rem;
         font-weight: 600;
       }
   

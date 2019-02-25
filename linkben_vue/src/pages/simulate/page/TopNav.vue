@@ -2,28 +2,28 @@
   <div class="topNav"  :style="{'z-index':(dialogTableVisible===true?'inherit':'11')}">
     <ul class="head-tab">
       <li class=" flex-c" @click="dialogTableVisible = true"  v-if="homeImageType">
-        <i class="iconfont icon-baocun1"></i>
-        <p>背景</p>
+        <i class="iconfont icon-buoumaotubiao47"></i>
+        <h5>背景</h5>
       </li>
-      <li class="flex-c" @click="">
+      <li class="flex-c" v-if="screenWidth>=688" @click="">
         <i class="iconfont icon-lishijilu-copy"></i>
-        <p>历史记录</p>
+        <h5>历史记录</h5>
       </li>
       <li class="flex-c" @click="">
         <i class="iconfont icon-qingchu1"></i>
-        <p>清除</p>
+        <h5>清除</h5>
       </li>
       <li class="flex-c" @click="">
         <i class="iconfont icon-wenhao_huabanfuben"></i>
-        <p>文档</p>
+        <h5>文档</h5>
       </li>
       <li class="flex-c" @click="">
         <i class="iconfont icon-fenxiang2"></i>
-        <p>分享</p>
+        <h5>分享</h5>
       </li>
       <li class="flex-c col-xs-0" @click="fullScreen">
         <i class="iconfont icon-quanping1"></i>
-        <p>全屏</p>
+        <h5>全屏</h5>
       </li>
     </ul>
     <el-dialog title="" width="80%" :visible.sync="dialogTableVisible">
@@ -44,6 +44,7 @@
         title: '头部的nav',
         dialogTableVisible: false,
         selectColor: '#409EFF',
+        screenWidth: document.documentElement.clientWidth,
      }
     },
     props: {
@@ -143,7 +144,7 @@
     background: #505056;
     background: rgba(255, 255, 255, 0.3);
     background: linear-gradient(to left,rgb(42,42,42), rgb(60,60,60));
-    padding: 0px 5%;
+    padding: 0px  20px;
     box-sizing: border-box;
     border-radius: 20px;
     z-index: 11;
@@ -164,7 +165,8 @@
 
   @media (max-width:768px) {
     .head-tab li {
-      margin: 0 5px;
+      margin: 0px 2px;
+      padding: 0 10px;
     }
 
   }

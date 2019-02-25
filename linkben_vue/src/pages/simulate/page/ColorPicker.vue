@@ -1,22 +1,22 @@
 <template>
   <div class="colorPicker">
     <div class="head-box flex-c">
-      <h4 class="flex-item item active">纯色背景</h4>
-      <h4 class="flex-item item" @click="fileClick()">图片背景</h4>
+      <h5 class="flex-item item active">纯色背景</h5>
+      <h5 class="flex-item item" @click="fileClick()">图片背景</h5>
     </div>
     <div class="main-box">
-      <div class="flex-c head  ">
-        <el-color-picker v-model="selectColor" class="flex-item"></el-color-picker>
+      <div class="head  ">
+        <el-color-picker v-model="selectColor" ></el-color-picker>
         <h5 v-model="selectColor">{{selectColor}}</h5>
       </div>
       <div class="bottom-box  scrollbar">
-        <h4 class=" title">标准颜色</h4>
+        <h5 class=" title">标准颜色</h5>
         <ul>
           <li class="col-lg-1 col-xs-3" v-for="(item,index) in standColor">
             <span class="item" :style="{'background-color':item}" @click="selectColor=item"></span>
           </li>
         </ul>
-        <h4 class="title">主题颜色</h4>
+        <h5 class="title">主题颜色</h5>
         <ul v-for="(itemlist,index) in themeColor" class="col-lg-1 col-xs-3">
           <li v-for="(item,index2) in itemlist">
             <span class="item" :style="{'background-color':item}" @click="selectColor=item"></span>
@@ -121,8 +121,11 @@
             "rgb(193, 137, 96)",
             "rgb(173, 105, 55)",
           ],
-
-        ]
+        ],
+        mainBgStatus:{
+          color:"",
+          type:false,
+        }
       }
     },
     props: {},
@@ -152,7 +155,20 @@
         //   selectColor:that.selectColor,
         // }
         // that.$store.commit('setMainImgState',data)
-        that.$store.commit('setSelectColor',that.selectColor)
+
+        that.mainBgStatus={
+          color:that.selectColor,
+          type:true
+        }
+        that.$parent.$parent.$parent.mainBgStatus=that.mainBgStatus
+        //提供吧东西变成字符串再变成对象可以暂时解决深拷贝的问题
+        var data3={
+          selectColor:that.selectColor,
+        }
+        var object2=Object.assign(
+          JSON.parse( JSON.stringify(this.$store.state.mainImgState) ),data3);
+        that.$store.commit('setMainImgState',object2);
+ 
       }
     }
 
@@ -161,20 +177,23 @@
 <style>
 .colorPicker .el-color-picker{
 height: auto;
+width: 100%
 }
 .colorPicker .el-color-picker__trigger{
-float: left;
-border-radius: 0px;
-border: 0px;
-height: 8.3rem;
+ width: 100%
+}
+.colorPicker .el-color-picker__trigger{
+    border-radius: 0px;
+    border: 0px;
+    height: 100px;
+    box-sizing: border-box;
 }
 .colorPicker .el-color-picker__icon{
-  top: -2.8rem;
+  top: -28px;
 }
 .colorPicker .el-color-picker__color{
-  width: 42vw;
   border: 0px;
-  height: 90px;
+  height: 100%;
   
 }
 
@@ -182,30 +201,28 @@ height: 8.3rem;
 <style scoped lang="less">
   .main-box li {
     padding: 0px 0rem;
-    margin-bottom: 1rem;
   }
   .main-box ul{
     padding: 0px 0rem;
   }
   .main-box .item {
-    height: 5.3rem;
-    width: 5.3rem;
+    height: 50px;
+    width: 50px;
     -webkit-transition: all .3s ease;
     transition: all .3s ease;
     position: relative;
   }
 .main-box .head{
-  margin: 1rem 0rem;
+  margin: 10px 0rem;
   //border: 1px solid #bfcbd9;
-    padding-right: 1rem;
+    padding-right: 10px;
 }
 .head-box .active{
    color: #333;
    font-weight: 600;
 }
 .head-box  .item{
-  padding: 1rem 0rem;
-  font-size: 1.5rem;
+  padding: 10px 0rem;
   cursor: pointer;
 }
   .main-box .item:hover {
@@ -216,9 +233,9 @@ height: 8.3rem;
   }
   .main-box .bottom-box  .title{
     text-align: left;
-    margin-bottom: 1rem;
+    margin-bottom: 10px;
   }
   .main-box .bottom-box {
-    max-height: 32rem;
+    max-height: 320px;
   }
 </style>

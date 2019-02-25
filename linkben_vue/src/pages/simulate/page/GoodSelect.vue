@@ -444,7 +444,7 @@
     .good-select .el-tabs__item {
       height: 2.6rem;
       line-height: 2.6rem;
-      font-size: inherit;
+      font-size: 1.17rem;
       letter-spacing: 1px;
     }
 
@@ -609,8 +609,8 @@
 
     .good_list {
       background-color: #f7f7f7;
-      padding: 0.5rem 15px;
-      height: 84px;
+      padding: 5px 15px;
+      height: auto;
       box-sizing: border-box;
     }
 
@@ -621,8 +621,8 @@
     }
 
     .upload_warp_img_div {
-      height: 72px;
-      line-height: 72px;
+      height: 74px;
+      line-height: 74px;
       border-radius: 0px;
     }
   }

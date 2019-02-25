@@ -25,8 +25,8 @@
               </div>
             </article>
           <div class="tab-nav flex-c">
-            <i class="iconfont icon-dacha center col-lg-2" @click="active=0"></i>
-            <div class=" h4 col-lg-8 flex-c " :style="{'text-align':'center'}">
+            <i class="iconfont icon-dacha center col-lg-2" @click="back"></i>
+            <div class=" h5 col-lg-8 flex-c " :style="{'text-align':'center'}">
               <span class="flex-item" @click="active=1" :style="{'color':(active==1?'rgb(255, 219, 5)':'')}">截取</span>
               <span class="flex-item" @click="active=2" :style="{'color':(active==2?'rgb(255, 219, 5)':'')}">旋转</span>
             </div>
@@ -45,6 +45,9 @@
       return {
         title: '移动端的底部的旋转与截取',
         active:1,//判断是tab的选择事件
+        rotateStatus:{
+          num:0
+        }
       }
     },
     props: {},
@@ -52,7 +55,12 @@
      
     },
     methods: {
-
+      //关闭上面的按钮
+      back(){
+        var that=this;
+        that.active=0;
+        that.$emit("cutOutRotateEmit",that.active);
+      }
     },
     mounted() {
 
@@ -72,7 +80,9 @@
         -webkit-transition: all .4s ease-out 0s;
          transition: all .4s ease-out 0s;
       }
-  
+      .tab-nav .flex-item{
+        cursor: default;
+      }
 
   }
 </style>

@@ -12,6 +12,7 @@ const imgState = {
           defaultUrl:"",
           newUrl:"",
           selectColor:"rgba(255,255,255)",
+          startColorBg:false,
       },
     },
     //激发事件改变state 改变store中的数据使用mutations

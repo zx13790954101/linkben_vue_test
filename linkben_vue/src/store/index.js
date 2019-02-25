@@ -13,13 +13,14 @@ const state={
          defaultUrl:"",
          newUrl:"",
          selectColor:"rgba(255,255,255)",
+         startColorBg:false,
       },
 }
 const store = new Vuex.Store({
-//  state,
-  modules: {imgState},
+  state,
+ // modules: {imgState},
   actions,
-  //mutations,
+  mutations,
   strict: process.env.NODE_ENV !== 'production'
 });
 if (module.hot) {

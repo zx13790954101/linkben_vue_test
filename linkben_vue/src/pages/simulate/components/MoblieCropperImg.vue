@@ -3,7 +3,7 @@
     <ul class=" scrollY" >
         <li class="col-lg-2"   v-for="(item,index) in dataList"  >
             <span v-if="index==0" class="flex-c flex-c-y"  @click="selectSize(item.num,index)" >
-                <i class="iconfont icon-shouji-copy  h2" :style="{'color':(active==0?'#F44336':''),'font-size':'4rem'}"></i>
+                <i class="iconfont icon-shouji-copy  h2" :style="{'color':(active==0?'#F44336':''),'font-size':'2.5rem'}"></i>
             </span>
             <span v-if="index!=0" :class="{active:index==active}" class="item-box flex-c flex-c-y" 
                :style="{'width':item.width,'height':item.height}"   @click="selectSize(item.num,index)" >
@@ -478,6 +478,7 @@
       -webkit-overflow-scrolling: touch;
       display: -webkit-box;
       vertical-align: middle;
+      margin: 5px 0px;
     }
     .scrollY li{
         float: none;

@@ -1,13 +1,13 @@
 <template>
   <div class="simulate flex ">
     <!-- 侧边栏的功能 -->
-    <div class="left-slide" v-if="screenWidth>=688" :style="(screenWidth>=688?{'margin-left':(isCollapse==false?'0':'-320px')} :
+    <div class="left-slide" v-if="screenWidth>=688" :style="(screenWidth>=688?{'margin-left':(isCollapse==true?'0':'-320px')} :
       {'bottom':(isCollapse==false?'90px':'90px'),'height':(isCollapse==false?'100%':'0%')} )">
-      <span class="head-title" v-if="screenWidth>=688" :style="{width:(isCollapse==false?'320px':'0px')}">
+      <span class="head-title" v-if="screenWidth>=688" :style="{width:(isCollapse==true?'320px':'0px')}">
         <a href="linkben.com" class="flex-l  col-xs-0">LinkBen</a>
       </span>
-      <good-select @curGoodList="setCurGoodList" :deleteUrl="deleteUrl" :oldList="oldList" :style="(screenWidth>=688?{} :{'height':(isCollapse==false?'100%':'0%')} )"></good-select>
-      <i :class="(isCollapse?'el-icon-arrow-right cut-button':'el-icon-arrow-left cut-button')" @click="isCollapse=!isCollapse"></i>
+      <good-select @curGoodList="setCurGoodList" :deleteUrl="deleteUrl" :oldList="oldList" :style="(screenWidth>=688?{} :{'height':(isCollapse==true?'100%':'0%')} )"></good-select>
+      <i :class="(!isCollapse?'el-icon-arrow-right cut-button':'el-icon-arrow-left cut-button')" @click="isCollapse=!isCollapse"></i>
     </div>
     <!-- 背景轮换 -->
     <div class="swiper_box  content-r flex-item">
@@ -28,7 +28,8 @@
         <transition name="el-zoom-in-center">
           <div class="main-img "  :style="{'height':(mainImgSize===true? 'auto' :'100%')}">
             <div class="bootom " :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true? '':'100%')}">
-              <img id="main-img" :src="item.file.src" :style="imgStyle">
+              <img id="main-img" :src="item.file.src" :style="imgStyle" v-show="!(mainBgStatus.type)">
+              <div id="main-bg" class="main-bg" v-if="mainBgStatus.type" :style="{'background-color':mainBgStatus.color}"></div>
             </div>
             <img-control v-for="(item,index) in curGoodList" :url="item.defaultImg" :key="item.id" @deleteUrl="setDeleteUrl"
               @setCurGood="setCurGood(index)"></img-control>
@@ -129,7 +130,11 @@
         imgStyle: {},//初始化主的图片的样式
         imgStyleStatus: { scale: 1, rotate: 0, scalex: 1,},
 				imgStatus: {},//初始化的图片的信息
-				defaultImgStatus:{},//初始化的图片的内容
+        defaultImgStatus:{},//初始化的图片的内容
+        mainBgStatus:{
+          type:false,//判断是否使用图片背景
+          color:"",//颜色的
+        },//主的背景状态
         isCollapse: false,
         oldList: array,
         backLoading: false,
@@ -940,7 +945,10 @@
     width: 100%;
     text-align: center;
     position: relative;
-    margin: 0px 5% 50px 5%;
+    margin: 0px 5% 0px 5%;
+    margin-bottom: 50px;
+    box-sizing: border-box;
+    padding-bottom: 50px;
   }
   .main-img .img-r {
     box-shadow: 0 4px 12px rgba(6, 31, 50, .24);
@@ -957,7 +965,6 @@
     -webkit-box-shadow: 0 4px 12px rgba(6, 31, 50, .24);
     -moz-shadow: 0 4px 12px rgba(6, 31, 50, .24);
     -o-shadow: 0 4px 12px rgba(6, 31, 50, .24);
-    border-radius: 10px;
     overflow: hidden;
   }
 
@@ -1010,6 +1017,18 @@
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
     bottom: 0px;
+  }
+  #main-bg{
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
+    -webkit-transition: all .4s ease-out 0s;
+    transition: all .4s ease-out 0s;
   }
   @media (max-width:768px) {
     .bottom-box {
