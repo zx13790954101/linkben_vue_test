@@ -1,7 +1,7 @@
 <template>
   <div class="img-control">
     <div class="img_box" id="img_box" :style="[moving?styleObj:styleObjFinal,{zIndex:zIndex}]">
-      <div class="main-box" @click="imgSelect($event)">
+      <div class="main-box" >
         <img :src="url" alt="" :style="{filter:'brightness('+brightness+'%)',transform:'rotate('+angle+'deg) scaleX('+filp+')'}"
           @mousewheel="zoom" @DOMMouseScroll="zoom" @mousemove.prevent="mouseMove" @touchmove.prevent="mouseMove"
           @mousedown.prevent="mouseDown" @touchstart.prevent="mouseDown" @mouseup.prevent="mouseUp" @touchend.prevent="mouseUp"
@@ -16,7 +16,7 @@
       </div>
       <transition name="animate-transition" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut"
         :duration="200">
-        <div class="control_plane" v-if="planeShow">
+        <div class="control_plane" v-if="planeShow && screenWidth>=768">
           <div class="block">
             <div class="action">
               <el-button type="primary" @click="toDetail">详情</el-button>
@@ -37,7 +37,7 @@
             <el-slider v-model="width" :format-tooltip="formatWidth" :min="300" :max="1000"></el-slider>
           </div>-->
         </div>
-        <div class="control_plane" v-if="touchShow">
+        <div class="control_plane" v-if="touchShow  && screenWidth>=768">
           <div class="block">
             <div class="action">
               <el-button type="primary" @click="toDetail">详情</el-button>
@@ -69,6 +69,61 @@
         </div>
       </transition>
     </div>
+
+    <transition name="animate-transition" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut"
+    :duration="200">
+    <div class="control_plane" v-if="planeShow && screenWidth<=768">
+      <div class="block">
+        <div class="action">
+          <el-button type="primary" @click="toDetail">详情</el-button>
+          <el-button type="primary" @click="filp=-filp">镜像</el-button>
+          <el-button type="primary" @click="deleteGood">删除</el-button>
+        </div>
+      </div>
+      <div class="block">
+        <span class="demonstration">角度</span>
+        <el-slider v-model="angle" :format-tooltip="formatAngle" :min="0" :max="360"></el-slider>
+      </div>
+      <div class="block">
+        <span class="demonstration">曝光</span>
+        <el-slider v-model="brightness" :format-tooltip="formatBrightness" :min="50" :max="150"></el-slider>
+      </div>
+      <!--<div class="block">
+        <span class="demonstration">大小</span>
+        <el-slider v-model="width" :format-tooltip="formatWidth" :min="300" :max="1000"></el-slider>
+      </div>-->
+    </div>
+    <div class="control_plane" v-if="touchShow  && screenWidth<=768">
+      <div class="block">
+        <div class="action">
+          <el-button type="primary" @click="toDetail">详情</el-button>
+          <el-button type="primary" @click="filp=-filp">镜像</el-button>
+          <el-button type="primary" @click="deleteGood">删除</el-button>
+        </div>
+      </div>
+      <div class="block">
+        <div class="action">
+          <el-button type="default" @click="angleChange(10)">-</el-button>
+          <span class="plane_word"><i class="iconfont icon-weibiaoti-"></i>角度</span>
+          <el-button type="default" @click="angleChange(-10)">+</el-button>
+        </div>
+      </div>
+      <div class="block">
+        <div class="action">
+          <el-button type="default" @click="brightnessChange(10)">-</el-button>
+          <span class="plane_word"><i class="iconfont icon-puguang"></i>曝光</span>
+          <el-button type="default" @click="brightnessChange(-10)">+</el-button>
+        </div>
+      </div>
+      <div class="block">
+        <div class="action">
+          <el-button type="default" @click="zoomChange(20)">-</el-button>
+          <span class="plane_word"><i class="iconfont icon-suofang"></i>缩放</span>
+          <el-button type="default" @click="zoomChange(-20)">+</el-button>
+        </div>
+      </div>
+    </div>
+  </transition>
   </div>
 </template>
 <!-- //首页的添加得  -->
@@ -79,6 +134,7 @@
     data() {
       return {
         filp: 1,
+        screenWidth: document.documentElement.clientWidth,
         planeShow: false,
         touchShow: false,
         brightness: 100,
