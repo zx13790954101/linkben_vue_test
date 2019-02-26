@@ -1,5 +1,5 @@
 <template>
-  <div class="img-control">
+  <div class="img-control" :style="{'z-index':boxZindex}">
     <div class="img_box" id="img_box" :style="[moving?styleObj:styleObjFinal,{zIndex:zIndex}]">
       <div class="main-box" >
         <img :src="url" alt="" :style="{filter:'brightness('+brightness+'%)',transform:'rotate('+angle+'deg) scaleX('+filp+')'}"
@@ -72,28 +72,61 @@
 
     <transition name="animate-transition" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut"
     :duration="200">
-    <div class="control_plane" v-if="planeShow && screenWidth<=768">
-      <div class="block">
-        <div class="action">
-          <el-button type="primary" @click="toDetail">详情</el-button>
-          <el-button type="primary" @click="filp=-filp">镜像</el-button>
-          <el-button type="primary" @click="deleteGood">删除</el-button>
+    <div class="control_plane control_plane_1" v-if="planeShow && screenWidth<=768">
+        <div class="block ">
+            <span class="demonstration">角度</span>
+            <el-slider v-model="angle" :format-tooltip="formatAngle" :min="0" :max="360"></el-slider>
+          </div>
+          <div class="block">
+            <span class="demonstration">曝光</span>
+            <el-slider v-model="brightness" :format-tooltip="formatBrightness" :min="50" :max="150"></el-slider>
+          </div>
+      <div class="block button-array">
+        <div class="action flex-c">
+          <button @click="toDetail" class="center h5 flex-item">
+            <i class="iconfont icon-baocun2"></i>
+             <h6>详情</h6>
+          </button>
+          <button  @click="filp=-filp" class="center h5 flex-item">
+              <i class="iconfont icon-jingxiang"></i>
+              <h6>镜像</h6>
+          </button>
+          <button  @click="deleteGood" class="center h5 flex-item">
+              <i class="iconfont icon-qingchu1"></i>
+              <h6> 删除</h6>
+
+          </button>
         </div>
       </div>
-      <div class="block">
-        <span class="demonstration">角度</span>
-        <el-slider v-model="angle" :format-tooltip="formatAngle" :min="0" :max="360"></el-slider>
-      </div>
-      <div class="block">
-        <span class="demonstration">曝光</span>
-        <el-slider v-model="brightness" :format-tooltip="formatBrightness" :min="50" :max="150"></el-slider>
-      </div>
+ 
       <!--<div class="block">
         <span class="demonstration">大小</span>
         <el-slider v-model="width" :format-tooltip="formatWidth" :min="300" :max="1000"></el-slider>
       </div>-->
     </div>
-    <div class="control_plane" v-if="touchShow  && screenWidth<=768">
+    <div class="control_plane control_plane_2" v-if="touchShow  && screenWidth<=768">
+      <div class="block">
+          <div class="action">
+            <el-button type="default" @click="angleChange(10)">-</el-button>
+            <span class="plane_word"><i class="iconfont icon-weibiaoti-"></i>角度</span>
+            <el-button type="default" @click="angleChange(-10)">+</el-button>
+          </div>
+      </div>
+      <div class="block">
+          <div class="action">
+            <el-button type="default" @click="brightnessChange(10)">-</el-button>
+            <span class="plane_word"><i class="iconfont icon-puguang"></i>曝光</span>
+            <el-button type="default" @click="brightnessChange(-10)">+</el-button>
+          </div>
+      </div>
+      <div class="block">
+          <div class="action">
+            <el-button type="default" @click="zoomChange(20)">-</el-button>
+            <span class="plane_word"><i class="iconfont icon-suofang"></i>缩放</span>
+            <el-button type="default" @click="zoomChange(-20)">+</el-button>
+          </div>
+      </div>
+
       <div class="block">
         <div class="action">
           <el-button type="primary" @click="toDetail">详情</el-button>
@@ -101,27 +134,7 @@
           <el-button type="primary" @click="deleteGood">删除</el-button>
         </div>
       </div>
-      <div class="block">
-        <div class="action">
-          <el-button type="default" @click="angleChange(10)">-</el-button>
-          <span class="plane_word"><i class="iconfont icon-weibiaoti-"></i>角度</span>
-          <el-button type="default" @click="angleChange(-10)">+</el-button>
-        </div>
-      </div>
-      <div class="block">
-        <div class="action">
-          <el-button type="default" @click="brightnessChange(10)">-</el-button>
-          <span class="plane_word"><i class="iconfont icon-puguang"></i>曝光</span>
-          <el-button type="default" @click="brightnessChange(-10)">+</el-button>
-        </div>
-      </div>
-      <div class="block">
-        <div class="action">
-          <el-button type="default" @click="zoomChange(20)">-</el-button>
-          <span class="plane_word"><i class="iconfont icon-suofang"></i>缩放</span>
-          <el-button type="default" @click="zoomChange(-20)">+</el-button>
-        </div>
-      </div>
+
     </div>
   </transition>
   </div>
@@ -162,6 +175,7 @@
           ,
         stateMoving: false, //判断是不是在边框上面
         stateData: null, //当前的this
+        boxZindex:1
       }
     },
     mounted() {
@@ -307,6 +321,7 @@
           }, 500);
         }
         that.planeShow=!that.planeShow;
+
         this.moving = true;
         this.zIndex = 2;
         this.mouseStart.x = data.clientX || (data.changedTouches)[0].clientX;
@@ -391,24 +406,35 @@
         }
       }
     },
+    watch: {
+      //监听
+      planeShow:function(){
+
+          if(this.screenWidth>=768) return;
+          
+          if(this.planeShow){
+            this.boxZindex=13;
+          }else{
+            this.boxZindex=1;
+          }
+     
+          this.$parent.imgControlType=this.planeShow;
+      }
+    },
   }
 
 </script>
 <style lang="less">
-  .img-control  {
-    span{
-      color: white;
-    }
-
-  }
-
+  .img-control span{ color: white; }
 </style>
 <style scoped lang="less">
   .img-control {
     position: absolute;
     left: 0;
     top: 0;
-  }
+    span{
+      color: white;
+    }
 
   .main-box {
     position: relative;
@@ -561,7 +587,7 @@
     -moz-border-radius: 5px;
     border-radius: 5px;
     padding: 10px;
-    width: 250px;
+    width: 270px;
     -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.42);
     -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.42);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.42);
@@ -571,16 +597,36 @@
     display: inline-block;
     padding-left: 0;
     text-align: center;
-    margin: 5px;
+    padding: 5px;
+    margin: 0px;
     margin-left: 0;
     border-radius: 3px;
     cursor: pointer;
+    color: #272727
   }
-
+  .action i{ font-size:1.67rem}
+  .action button{ display: inline-block;
+  line-height: inherit }
   .plane_word {
     padding: 5px;
   }
-
+  .control_plane_1,.control_plane_2{
+      top: 65vh;
+      left: 0px;
+      right: 0px;
+      transform: translateY(0%);
+      width: 90vw;
+      padding: 0px;
+      z-index: 98;
+      box-shadow: 0px 0px 0px;
+      background-color: rgba(0,0,0,0);
+     
+    }
+    .control_plane_1  .button-array{
+      background-color: #dededc;
+      border-radius: 10px;
+    }
+  }
   /*.action .iconfont{
     color: #0c6eff;
     text-decoration: none;

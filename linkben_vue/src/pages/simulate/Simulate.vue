@@ -11,6 +11,9 @@
     </div>
     <!-- 背景轮换 -->
     <div class="swiper_box  content-r flex-item">
+      <!-- 幕布的功能 -->
+      <transition name="el-fade-in"><div class="img-control-box" v-if="imgControlType&&screenWidth<=688"></div></transition>
+
       <!-- 右菜单 -->
       <div class="head-bar  flex-c flex-c-y" :style="(screenWidth>=688?{} :{'background-color':'#000000'} )">
         <topNav :homeImageType='homeImageType' class="flex-item"></topNav>
@@ -28,11 +31,19 @@
         <transition name="el-zoom-in-center">
           <div class="main-img "  :style="{'height':(mainImgSize===true? 'auto' :'100%')}">
             <div class="bootom " :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true? '':'100%')}">
-              <img id="main-img" :src="item.file.src" :style="imgStyle" v-show="!(mainBgStatus.type)">
-              <div id="main-bg" class="main-bg" v-if="mainBgStatus.type" :style="{'background-color':mainBgStatus.color}"></div>
+              <img id="main-img" title="主的图片" :src="item.file.src"
+               :style="{
+                 'z-index':imgStyleStatus.zIndex,
+                'width':(mainImgSize===true?'100%':'auto'),
+                'height': (mainImgSize==true?'auto':'100%'),
+                'opacity': 1,
+                'transform':'translate(-50%, -50%)  scale('+imgStyleStatus.scale+') scaleX('+imgStyleStatus.scalex+') rotate('+imgStyleStatus.rotate+'deg)'
+               }" 
+              v-show="!(mainBgStatus.type)">
+              <div id="main-bg" title="纯色的背景" class="main-bg" v-if="mainBgStatus.type" :style="{'background-color':mainBgStatus.color,'z-index':imgStyleStatus.zIndex}"></div>
             </div>
             <img-control v-for="(item,index) in curGoodList" :url="item.defaultImg" :key="item.id" @deleteUrl="setDeleteUrl"
-              @setCurGood="setCurGood(index)"></img-control>
+              @setCurGood="setCurGood(index)" ></img-control>
           </div>
         </transition>
 
@@ -118,6 +129,7 @@
         screenWidth: document.documentElement.clientWidth,
         bottomNavBottom: $(".bottom-nav").height(),
         leftSlideBottom: '90px',
+        imgControlType:false,//子图片或者插入图片的遮罩层的判断条件，imgcontrol的
         mainImgWidth: "auto",
         mainImgHeight: 'auto',
         sliderValue: 0,
@@ -127,8 +139,15 @@
         //主的照片
         mainImg: [],
         mainImgSize: true,
-        imgStyle: {},//初始化主的图片的样式
-        imgStyleStatus: { scale: 1, rotate: 0, scalex: 1,},
+        imgStyleStatus: { scale: 1, rotate: 0, scalex: 1,zIndex:1 },
+        imgStyle: {   
+          'z-index':1,
+          'width':'100%',
+          'height':'auto' ,
+          'opacity': 1,
+          'transform':null
+      
+        },//初始化主的图片的样式
 				imgStatus: {},//初始化的图片的信息
         defaultImgStatus:{},//初始化的图片的内容
         mainBgStatus:{
@@ -547,14 +566,6 @@
       } else {
         that.mainImgSize = false;
       }
-      that.imgStyle= {
-    //    "display":"none",
-          'width':(that.mainImgSize===true?'100%':'auto'),
-          'height': (that.mainImgSize==true?'auto':'100%'),
-          'opacity': 1,
-          'transform':('translate(-50%, -50%)'+ 
-          'scale('+that.imgStyleStatus.scale+') scaleX('+that.imgStyleStatus.scalex+') rotate('+that.imgStyleStatus.rotate+'deg)')
-      }
    
       that.homeImageType = true;
       //页面加载的时候滑块控件必须要可见，否则会初始化错误，故在页面加载完成之后再display：none
@@ -576,7 +587,8 @@
       this.login();
 
     },
-    created() {},
+    created() {
+    },
     computed: {
       swiper() {
         return this.$refs.mySwiper.swiper
@@ -594,6 +606,18 @@
       bottomNavBottom: function () {
         console.log($(".bottom-nav").height());
       },
+      //监听小图片的点击事件
+      imgControlType:function(){
+        var that=this;
+        if(that.screenWidth>=768) return;
+        if(that.imgControlType){
+          that.imgStyleStatus.zIndex=13;
+
+        }else{
+          that.imgStyleStatus.zIndex=1;
+        }
+    
+      }
     },
     updated: function () {
 
@@ -949,6 +973,7 @@
     margin-bottom: 50px;
     box-sizing: border-box;
     padding-bottom: 50px;
+   
   }
   .main-img .img-r {
     box-shadow: 0 4px 12px rgba(6, 31, 50, .24);
@@ -1018,6 +1043,7 @@
     transform: translateX(-50%);
     bottom: 0px;
   }
+  #main-img{ z-index: 13 }
   #main-bg{
     box-sizing: border-box;
     position: absolute;
@@ -1027,6 +1053,18 @@
     width: 100%;
     height: 0;
     padding-bottom: 100%;
+    -webkit-transition: all .4s ease-out 0s;
+    transition: all .4s ease-out 0s;
+    z-index: 13;
+  }
+  .img-control-box{
+    height: 100vh;
+    background-color: rgba(0,0,0,0.4);
+    width: 100vw;
+    position: absolute;
+    z-index: 12;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    background-clip: border-box;
     -webkit-transition: all .4s ease-out 0s;
     transition: all .4s ease-out 0s;
   }
