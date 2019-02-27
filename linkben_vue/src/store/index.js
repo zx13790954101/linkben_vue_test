@@ -15,6 +15,7 @@ const state={
          selectColor:"rgba(255,255,255)",
          startColorBg:false,
       },
+      screenWidth: document.documentElement.clientWidth,
 }
 const store = new Vuex.Store({
   state,

@@ -138,7 +138,7 @@
       },
       formatAdd() {
         var that = this;
-        that.$parent.imgStyleStatus.scale = (that.addNum / 20);
+        that.$parent.imgStyleStatus.scale = (that.addNum / 50);
       },
       //旋转的功能
       plusRotate() {
@@ -205,7 +205,7 @@
   .bottom-nav {
     position: relative;
      z-index: 9;
-     padding: 8px 15px;
+     padding: 4.5px 15px;
      background-color: white;
 
     .el-slider {
@@ -305,7 +305,7 @@
 
     @media (max-width:768px) {
 
-
+       background-color: #272727;
 
       .bottom-tab {
         overflow-y: hidden;
@@ -316,6 +316,7 @@
       }
       .bottom-tab li {
         margin: 0px 0px;
+     
       }
     }
 

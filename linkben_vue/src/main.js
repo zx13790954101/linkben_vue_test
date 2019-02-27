@@ -6,7 +6,7 @@ import store from '@/store'
 import router from '@/router'
 //import fastClick from 'fastclick'
 //apphxsapp-act-feimport 'babel-polyfill'
-import 'styles/iconfont.css'
+//$RECYCLE.BINimport 'styles/iconfont.css'
 // 导入css reset
 //import 'normalize.css'
 //引入mint-ui所有的组件使用下面两行
@@ -24,7 +24,8 @@ Vue.use(VueAwesomeSwiper);
 import VueLazyload from 'vue-lazyload'
 Vue.use(VueLazyload, {
   preLoad: 1.3,
-  // loading: require("@/assets/img/bg_750_230@3x.png"),
+  loading: require("../static/images/main/loading.png"),
+  error:require('../static/images/main/Error.png'),
   attempt: 1
 })
 

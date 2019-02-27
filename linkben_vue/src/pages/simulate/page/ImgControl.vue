@@ -14,8 +14,7 @@
             @mouseup.prevent="upState"><span></span></li>
         </ul>
       </div>
-      <transition name="animate-transition" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut"
-        :duration="200">
+      <transition name="el-fade-in">
         <div class="control_plane" v-if="planeShow && screenWidth>=768">
           <div class="block">
             <div class="action">
@@ -37,102 +36,47 @@
             <el-slider v-model="width" :format-tooltip="formatWidth" :min="300" :max="1000"></el-slider>
           </div>
         </div>
-        <div class="control_plane" v-if="touchShow  && screenWidth>=768">
-          <div class="block">
-            <div class="action">
-              <el-button type="primary" @click="toDetail">详情</el-button>
-              <el-button type="primary" @click="filp=-filp">镜像</el-button>
-              <el-button type="primary" @click="deleteGood">删除</el-button>
-            </div>
-          </div>
-          <div class="block">
-            <div class="action">
-              <el-button type="default" @click="angleChange(10)">-</el-button>
-              <span class="plane_word"><i class="iconfont icon-weibiaoti-"></i>角度</span>
-              <el-button type="default" @click="angleChange(-10)">+</el-button>
-            </div>
-          </div>
-          <div class="block">
-            <div class="action">
-              <el-button type="default" @click="brightnessChange(10)">-</el-button>
-              <span class="plane_word"><i class="iconfont icon-puguang"></i>曝光</span>
-              <el-button type="default" @click="brightnessChange(-10)">+</el-button>
-            </div>
-          </div>
-          <div class="block">
-            <div class="action">
-              <el-button type="default" @click="zoomChange(20)">-</el-button>
-              <span class="plane_word"><i class="iconfont icon-suofang"></i>缩放</span>
-              <el-button type="default" @click="zoomChange(-20)">+</el-button>
-            </div>
-          </div>
-        </div>
       </transition>
+
+      
     </div>
-
-    <transition name="animate-transition" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut"
-      :duration="200">
-      <div class="control_plane control_plane_1" v-if="planeShow && screenWidth<=768">
-
-        <div class="block button-array" v-if="active==0">
-          <div class="action flex-c">
-            <button @click="planeShow=false" class="center h5 flex-item">
-              <i class="iconfont icon-fanhui11"></i>
-              <h6>返回</h6>
-            </button>
-            <button @click="active=1" class="center h5 flex-item">
-              <i class="iconfont icon-762bianjiqi_jietu"></i>
-              <h6>截取</h6>
-            </button>
-            <button @click="active=2" class="center h5 flex-item">
-              <i class="iconfont icon-icon_rotate"></i>
-              <h6>旋转</h6>
-            </button>
-            <button @click="active=3" class="center h5 flex-item">
-              <i class="iconfont icon-lvjing"></i>
-              <h6>滤镜</h6>
-            </button>
-            <button @click="active=4" class="center h5 flex-item">
-              <i class="iconfont icon-zhaopian"></i>
-              <h6>替换</h6>
-            </button>
-            <button @click="deleteGood" class="center h5 flex-item">
-              <i class="iconfont icon-qingchu1"></i>
-              <h6> 删除</h6>
-            </button>
-          </div>
-        </div>
-
-        <div class="block tab-item white" v-if="active==1">
-             <h1>截取</h1>
-        </div>
-        <div class="block tab-item " v-if="active==2">
-            <h5 class="demonstration">角度</h5>
-            <el-slider v-model="angle" :format-tooltip="formatAngle" :min="0" :max="360"></el-slider>
-            <h5 class="demonstration">曝光</h5>
-            <el-slider v-model="brightness" :format-tooltip="formatBrightness" :min="50" :max="150"></el-slider>
-            <h5 class="demonstration">大小</h5>
-            <el-slider v-model="width" :format-tooltip="formatWidth" :min="300" :max="1000"></el-slider>
-        </div>
-        <div class="block tab-item white" v-if="active==3">
-            <h1>滤镜</h1>
-         </div>
-         <div class="block tab-item white" v-if="active==4">
-            <h1>替换</h1>
-         </div>
-        <div class="flex-c tab-item" v-if="active!=0">
-            <i class="iconfont icon-dacha center col-lg-2" title="关闭" @click="active=0"></i>
-            <h5 class="center flex-item">{{tabName}}</h5>
-            <i class="iconfont icon-dagou center col-lg-2" title="保存"></i>
-        </div>
+    <div class="control_plane control_plane_1" :style="planeStyle" v-if="planeShow && screenWidth<=768">
+      <div class="block button-array flex-c" v-if="active==0||active==1">
+          <button v-for="(item,index) in tabNavList" @click="selectNav($event,item.name,index)" class="center h5 flex-item">
+            <i :class="item.icon"></i>
+            <h6>{{item.name}}</h6>
+          </button>
       </div>
-    </transition>
+   
+     
+      <div class="block tab-item " v-if="active==2">
+          <h5 class="demonstration">大小</h5>
+          <el-slider v-model="width" :format-tooltip="formatWidth" :min="300" :max="1000"></el-slider>
+        <h5 class="demonstration">角度</h5>
+        <el-slider v-model="angle" :format-tooltip="formatAngle" :min="0" :max="360"></el-slider>
+      </div>
+      <div class="block tab-item white" v-if="active==3">
+        <h5 class="demonstration">曝光</h5>
+        <el-slider v-model="brightness" :format-tooltip="formatBrightness" :min="50" :max="150"></el-slider>
+      </div>
+      <div class="block tab-item white" v-if="active==4">
+        <h1>替换</h1>
+      </div>
+      <div class="flex-c tab-item" v-if="active==2||active==3||active==4">
+        <i class="iconfont icon-dacha center col-lg-2" title="关闭" @click="active=0"></i>
+        <h5 class="center flex-item">{{ tabNavList[active].name }}</h5>
+        <i class="iconfont icon-dagou center col-lg-2" title="保存"></i>
+      </div>
+    </div>
+    <dealWithImg :tabNavActive="active" v-if="active==1"></dealWithImg>
   </div>
 </template>
 <!-- //首页的添加得  -->
 <script>
+  import dealWithImg from "../mobile/DealWithImg.vue"
   export default {
     name: 'img-control',
+    components: {dealWithImg},
     props: ['url'],
     data() {
       return {
@@ -164,16 +108,56 @@
         borderBoxStats: 11 //边框的显示的层级
           ,
         stateMoving: false, //判断是不是在边框上面
-        stateData: null, //当前的this
-        boxZindex: 1,
-        active:0,
-        tabName:"截取"
+        stateData: null,
+        boxZindex: 1, //当前的this
+        active: 0,
+        tabName: "截取",
+        planeStyle: {
+          'margin-top': '-120px',
+          'margin-left': '3vw',
+          'width': '84vw'
+        },
+        tabNavList: [{
+            name: '返回',
+            icon: "iconfont icon-fanhui11"
+          },
+          {
+            name: '截取',
+            icon: "iconfont icon-762bianjiqi_jietu"
+          },
+          {
+            name: '旋转',
+            icon: "iconfont icon-icon_rotate"
+          },
+          {
+            name: '滤镜',
+            icon: "iconfont icon-lvjing"
+          },
+          {
+            name: '替换',
+            icon: "iconfont icon-zhaopian"
+          },
+          {
+            name: '删除',
+            icon: "iconfont icon-qingchu1"
+          }
+        ]
+
       }
     },
     mounted() {
 
     },
     methods: {
+      selectNav(event, name, index) {
+        if (index == 0) {
+          this.planeShow = false
+        } else if (index == 5) {
+          this.deleteGood();
+        } else {
+          this.active = index;
+        }
+      },
       //照片的点击事件的使用
       imgSelect(event) {
         var that = this;
@@ -400,25 +384,35 @@
     },
     watch: {
       //监听
-      planeShow: function () {
-
+      planeShow: function (newData, oldData) {
         if (this.screenWidth >= 768) return;
-
         if (this.planeShow) {
           this.boxZindex = 13;
         } else {
           this.boxZindex = 1;
         }
-
         this.$parent.imgControlType = this.planeShow;
+      },
+      active: function (newData, oldData) {
+        if (this.active != 0) {
+          this.planeStyle['margin-left'] = '-5vw';
+          this.planeStyle['margin-top'] = '-166px';
+          this.planeStyle['width'] = '100vw';
+        } else {
+          this.planeStyle['margin-left'] = '3vw';
+          this.planeStyle['margin-top'] = '-120px';
+          this.planeStyle['width'] = '84vw';
+        }
       }
     },
   }
+
 </script>
 <style lang="less">
   .img-control span {
     color: white;
   }
+
 </style>
 <style scoped lang="less">
   .img-control {
@@ -590,10 +584,12 @@
       -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.42);
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.42);
     }
-    .control_plane  .tab-item{
+
+    .control_plane .tab-item {
       background-color: white;
       padding: 10px 15px;
     }
+
     .action {
       display: inline-block;
       padding-left: 0;
@@ -606,17 +602,17 @@
       color: #272727
     }
 
-    .action i {
+    .button-array i {
       font-size: 1.67rem
     }
 
-    .action button {
+    .button-array button {
       display: inline-block;
       min-width: auto;
       line-height: inherit
     }
 
-    .action button h6 {
+    .button-array button h6 {
       font-size: 0.9rem;
       padding-top: 2px;
     }
@@ -644,6 +640,9 @@
     .control_plane_1 .button-array {
       background-color: #dededc;
       border-radius: 12px;
+      padding: 4px 8px;
+      text-align: center;
     }
   }
+
 </style>

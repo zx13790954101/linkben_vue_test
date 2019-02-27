@@ -467,7 +467,8 @@
     .item-box {
       width: 32px;
       height: 32px;
-      border: 1px solid #9eabb3;
+      border: 1px solid white;
+      color: white;
       border-radius: 4px;
     }
 

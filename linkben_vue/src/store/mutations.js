@@ -6,5 +6,8 @@ export default {
   },
   [types.setMainImgState](state, data){
     state.mainImgState = data;
+  },
+  [types.screenWidth](state){
+    return state.screenWidth;
   }
 }

@@ -1,31 +1,32 @@
 <template>
     <div class="moblie-bottom-nav">
       <ul class="satellite " v-if="screenWidth<=688 && active>0">
-        <li class="" v-if="active===1"  >
+        <li class="tab-item" v-if="active===1"  >
             <cutOutRotate  v-on:cutOutRotateEmit="cutOutRotateEmit"></cutOutRotate>
         </li>
-        <li class="" v-else-if="active===2">
+        <li class="tab-item" v-else-if="active===2">
           <el-slider v-model="value2"></el-slider>
         </li>
-        <li class="" v-else-if="active===3">
-  
-        </li>
-        <li class="" v-else="active===4">
+        <li class="tab-item" v-else-if="active===3">
   
         </li>
       </ul>
-      <ul class="bottom-tab " v-if="screenWidth<=688 && active===0" v-show="active===0">
-        <li class="col-lg-3">
-          <i class="iconfont icon-winfo-icon-jietu" title="截取旋转" @click="active=1"></i>
+      <ul class="bottom-tab center" v-if="screenWidth<=688 && active===0" v-show="active===0">
+        <li class="col-lg-3 center" @click="active=1"  :style="{'opacity':(active==1?'1':'0.7')}">
+          <i class="iconfont icon-winfo-icon-jietu" title="截取旋转" ></i>
+          <h6 class="">截取</h6>
         </li>
-        <li class="col-lg-3">
-          <i class="iconfont icon-hesuankemuleixing" title="调节" @click="active=2"></i>
+        <li class="col-lg-3" @click="active=2"  :style="{'opacity':(active==2?'1':'0.7')}">
+          <i class="iconfont icon-hesuankemuleixing" title="调节" ></i>
+          <h6 class="">调节</h6>
         </li>
-        <li class=" col-lg-3">
-          <i class="iconfont icon-wenzi" title="文字" @click="active=3"></i>
+        <li class=" col-lg-3" @click="active=3"  :style="{'opacity':(active==3?'1':'0.7')}">
+          <i class="iconfont icon-wenzi" title="文字" ></i>
+          <h6 class="">文字</h6>
         </li>
-        <li class="col-lg-3" v-if="screenWidth<=688">
-          <i class="iconfont icon-zhaopian" title="选择图片" @click="active=4"></i>
+        <li class="col-lg-3"   @click="isCollapse" :style="{'opacity':(active==4?'1':'0.7')}">
+          <i class="iconfont icon-zhaopian" title="选择图片" ></i>
+          <h6 class="">图库</h6>
         </li>
       </ul>
     </div>
@@ -47,7 +48,7 @@
           rotateNum: 0,
           value2: 0,
           tabActive1: 1,
-        }
+         }
       },
       props: {
         imgStyleStatus: {}
@@ -57,28 +58,34 @@
       methods: {
         formatAdd() {
           var that = this;
-          that.$parent.imgStyleStatus.scale = (that.addNum / 20);
+          that.$parent.$parent.imgStyleStatus.scale = (that.addNum / 20);
         },
         //旋转的功能
         plusRotate() {
           var that = this;
-          if (that.$parent.imgStyleStatus.rotate >= 180) {
+          if (that.$parent.$parent.imgStyleStatus.rotate >= 180) {
   
           }
           //  that.$parent.imgStyleStatus.rotate =  that.$parent.imgStyleStatus.rotate + 45;
-          that.$parent.imgStyleStatus.rotate = that.rotateNum;
+          that.$parent.$parent.imgStyleStatus.rotate = that.rotateNum;
           // that.rotateNum=that.$parent.imgStyleStatus.rotate;
         },
         //接受第一个插件的传值
         cutOutRotateEmit(cutOutRotateEmit){
            this.active=cutOutRotateEmit;
         },
+        isCollapse(){
+          var that=this;
+          that.$parent.$parent.isCollapse =  !(that.$parent.$parent.isCollapse);
+        },
       },
       mounted() {
   
       },
-      computed: {
-  
+      watch: {
+        active:function(newData,oldDate){
+           
+        }
       },
   
     }
@@ -101,10 +108,10 @@
         margin: 0px 10px;
       }
   
-      .satellite .el-slider {
-        width: 95%;
+      .satellite  {
+        min-height: 90px;
       }
-  
+      
       .button {
         width: 34px;
         height: 34px;
@@ -123,7 +130,7 @@
   
   
       .bottom-tab li i {
-        margin-right: 5px;
+        /* margin-right: 5px; */
         font-size: 1.34rem;
         font-weight: 600;
       }
@@ -133,13 +140,14 @@
         color: #202026;
         cursor: pointer;
         box-sizing: border-box;
-        line-height: 34px;
-        height: 34px;
+         line-height: 20px;
+      /*  height: 34px; */
         text-align: center;
         margin: 0px 10px;
       }
-
+      
       @media (max-width:768px) {
+        
         .bottom-tab {
           overflow-y: hidden;
           width: 100%;
@@ -149,6 +157,9 @@
         }
         .bottom-tab li {
           margin: 0px 0px;
+          color: white;
+          opacity: 0.7;
+          float: none;
         }
       }
   }

@@ -73,12 +73,15 @@
 </script>
 <style scoped lang="less">
   .cutOutRotate{
-
+       color: white;
        article.item {
         min-height: 84px;
         height: auto;
         -webkit-transition: all .4s ease-out 0s;
          transition: all .4s ease-out 0s;
+      }
+      .tab-nav{
+        background-color: #272727;
       }
       .tab-nav .flex-item{
         cursor: default;

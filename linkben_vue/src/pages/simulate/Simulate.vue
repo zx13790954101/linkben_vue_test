@@ -12,7 +12,8 @@
     <!-- 背景轮换 -->
     <div class="swiper_box  content-r flex-item">
       <!-- 幕布的功能 -->
-      <transition name="el-fade-in"><div class="img-control-box" v-if="imgControlType&&screenWidth<=688"></div></transition>
+    
+        <div class="img-control-box" v-if="imgControlType&&screenWidth<=688"></div>
 
       <!-- 右菜单 -->
       <div class="head-bar  flex-c flex-c-y" :style="(screenWidth>=688?{} :{'background-color':'#000000'} )">
@@ -31,7 +32,7 @@
         <transition name="el-zoom-in-center">
           <div class="main-img "  :style="{'height':(mainImgSize===true? 'auto' :'100%')}">
             <div class="bootom " :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true? '':'100%')}">
-              <img id="main-img" title="主的图片" :src="item.file.src"
+              <img id="main-img" title="主的图片" v-lazy="item.file.src"
                :style="{
                  'z-index':imgStyleStatus.zIndex,
                 'width':(mainImgSize===true?'100%':'auto'),
@@ -1067,7 +1068,8 @@
       z-index: 9;
       left: 0px;
       transform: translateX(0%);
-      background-color: white;
+      /* background-color: white; */
+      background-color: #272727;
     }
 
     .swiper_box {
@@ -1092,7 +1094,8 @@
       margin-right: -10px;
       transform: rotate(90deg);
       padding: 40px 0px;
-      background-color: white;
+      /* background-color: white; */
+      background-color: #272727;
       font-size: 18px;
       border-radius: 0px;
       width: 15px;

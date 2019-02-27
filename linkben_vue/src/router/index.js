@@ -40,6 +40,12 @@ export default new Router({
       name: 'CropperInit',
       component:  resolve => require(['@/pages/cropper/CropperInit'], resolve),//懒加载
   
+    },
+    {
+      path: '/HomePopup',
+      name: 'HomePopup',
+      component:  resolve => require(['@/pages/simulate/mobile/HomePopup'], resolve),//懒加载
+  
     }
   ]
 })
