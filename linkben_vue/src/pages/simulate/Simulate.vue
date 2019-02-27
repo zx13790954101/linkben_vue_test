@@ -65,10 +65,7 @@
 
     <!-- 选择分享渠道 -->
     <share :url="shareUrl" :title="share.title" :img="'http://orbi0d8g8.bkt.clouddn.com/'+shareImg"></share>
-    <!-- 商品详情 -->
-    <transition name="animate-transition" enter-active-class="animated slideInRight" leave-active-class="animated slideOutRight">
-      <good-detail-copy v-if="showDetail" @close="showDetail=false"></good-detail-copy>
-    </transition>
+
     <!-- 选择配灯场景 -->
     <transition name="animate-transition" enter-active-class="animated slideInRight" leave-active-class="animated slideOutRight">
       <scence-select v-if="showSelect" @closeSelect="showSelect=false" @bgListChange="bgListChange"></scence-select>
@@ -160,7 +157,6 @@
         sessionGoodUrl: url,
         bgList: data.list,
         showSelect: false,
-        showDetail: false,
         shareUrl: '',
         share: {
           title: '',
@@ -434,10 +430,6 @@
           that.userImgWidth = img.width
           that.userImgHeight = img.height
         }
-      },
-      setCurGood(index) {
-        sessionStorage.setItem('curGood', JSON.stringify(this.curGoodList[index]))
-        this.showDetail = true
       },
       setCurGoodList(data) {
         this.curGoodList = data
@@ -1059,7 +1051,7 @@
   }
   .img-control-box{
     height: 100vh;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0,0,0,0.8);
     width: 100vw;
     position: absolute;
     z-index: 12;

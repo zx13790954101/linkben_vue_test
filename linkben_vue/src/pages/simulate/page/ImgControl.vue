@@ -1,11 +1,11 @@
 <template>
   <div class="img-control" :style="{'z-index':boxZindex}">
     <div class="img_box" id="img_box" :style="[moving?styleObj:styleObjFinal,{zIndex:zIndex}]">
-      <div class="main-box" >
+      <div class="main-box">
         <img :src="url" alt="" :style="{filter:'brightness('+brightness+'%)',transform:'rotate('+angle+'deg) scaleX('+filp+')'}"
           @mousewheel="zoom" @DOMMouseScroll="zoom" @mousemove.prevent="mouseMove" @touchmove.prevent="mouseMove"
           @mousedown.prevent="mouseDown" @touchstart.prevent="mouseDown" @mouseup.prevent="mouseUp" @touchend.prevent="mouseUp"
-          @mouseout.prevent="mouseOut" >
+          @mouseout.prevent="mouseOut">
         <ul class="border-box" v-if="borderType" :style="{'z-index':borderBoxStats}">
           <li class="top" @click="formState(top)"> <span></span></li>
           <li class="bottom" @click="formState(bottom)"> <span></span></li>
@@ -32,10 +32,10 @@
             <span class="demonstration">曝光</span>
             <el-slider v-model="brightness" :format-tooltip="formatBrightness" :min="50" :max="150"></el-slider>
           </div>
-          <!--<div class="block">
+          <div class="block">
             <span class="demonstration">大小</span>
             <el-slider v-model="width" :format-tooltip="formatWidth" :min="300" :max="1000"></el-slider>
-          </div>-->
+          </div>
         </div>
         <div class="control_plane" v-if="touchShow  && screenWidth>=768">
           <div class="block">
@@ -71,72 +71,62 @@
     </div>
 
     <transition name="animate-transition" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut"
-    :duration="200">
-    <div class="control_plane control_plane_1" v-if="planeShow && screenWidth<=768">
-        <div class="block ">
-            <span class="demonstration">角度</span>
-            <el-slider v-model="angle" :format-tooltip="formatAngle" :min="0" :max="360"></el-slider>
-          </div>
-          <div class="block">
-            <span class="demonstration">曝光</span>
-            <el-slider v-model="brightness" :format-tooltip="formatBrightness" :min="50" :max="150"></el-slider>
-          </div>
-      <div class="block button-array">
-        <div class="action flex-c">
-          <button @click="toDetail" class="center h5 flex-item">
-            <i class="iconfont icon-baocun2"></i>
-             <h6>详情</h6>
-          </button>
-          <button  @click="filp=-filp" class="center h5 flex-item">
-              <i class="iconfont icon-jingxiang"></i>
-              <h6>镜像</h6>
-          </button>
-          <button  @click="deleteGood" class="center h5 flex-item">
+      :duration="200">
+      <div class="control_plane control_plane_1" v-if="planeShow && screenWidth<=768">
+
+        <div class="block button-array" v-if="active==0">
+          <div class="action flex-c">
+            <button @click="planeShow=false" class="center h5 flex-item">
+              <i class="iconfont icon-fanhui11"></i>
+              <h6>返回</h6>
+            </button>
+            <button @click="active=1" class="center h5 flex-item">
+              <i class="iconfont icon-762bianjiqi_jietu"></i>
+              <h6>截取</h6>
+            </button>
+            <button @click="active=2" class="center h5 flex-item">
+              <i class="iconfont icon-icon_rotate"></i>
+              <h6>旋转</h6>
+            </button>
+            <button @click="active=3" class="center h5 flex-item">
+              <i class="iconfont icon-lvjing"></i>
+              <h6>滤镜</h6>
+            </button>
+            <button @click="active=4" class="center h5 flex-item">
+              <i class="iconfont icon-zhaopian"></i>
+              <h6>替换</h6>
+            </button>
+            <button @click="deleteGood" class="center h5 flex-item">
               <i class="iconfont icon-qingchu1"></i>
               <h6> 删除</h6>
+            </button>
+          </div>
+        </div>
 
-          </button>
+        <div class="block tab-item white" v-if="active==1">
+             <h1>截取</h1>
+        </div>
+        <div class="block tab-item " v-if="active==2">
+            <h5 class="demonstration">角度</h5>
+            <el-slider v-model="angle" :format-tooltip="formatAngle" :min="0" :max="360"></el-slider>
+            <h5 class="demonstration">曝光</h5>
+            <el-slider v-model="brightness" :format-tooltip="formatBrightness" :min="50" :max="150"></el-slider>
+            <h5 class="demonstration">大小</h5>
+            <el-slider v-model="width" :format-tooltip="formatWidth" :min="300" :max="1000"></el-slider>
+        </div>
+        <div class="block tab-item white" v-if="active==3">
+            <h1>滤镜</h1>
+         </div>
+         <div class="block tab-item white" v-if="active==4">
+            <h1>替换</h1>
+         </div>
+        <div class="flex-c tab-item" v-if="active!=0">
+            <i class="iconfont icon-dacha center col-lg-2" title="关闭" @click="active=0"></i>
+            <h5 class="center flex-item">{{tabName}}</h5>
+            <i class="iconfont icon-dagou center col-lg-2" title="保存"></i>
         </div>
       </div>
- 
-      <!--<div class="block">
-        <span class="demonstration">大小</span>
-        <el-slider v-model="width" :format-tooltip="formatWidth" :min="300" :max="1000"></el-slider>
-      </div>-->
-    </div>
-    <div class="control_plane control_plane_2" v-if="touchShow  && screenWidth<=768">
-      <div class="block">
-          <div class="action">
-            <el-button type="default" @click="angleChange(10)">-</el-button>
-            <span class="plane_word"><i class="iconfont icon-weibiaoti-"></i>角度</span>
-            <el-button type="default" @click="angleChange(-10)">+</el-button>
-          </div>
-      </div>
-      <div class="block">
-          <div class="action">
-            <el-button type="default" @click="brightnessChange(10)">-</el-button>
-            <span class="plane_word"><i class="iconfont icon-puguang"></i>曝光</span>
-            <el-button type="default" @click="brightnessChange(-10)">+</el-button>
-          </div>
-      </div>
-      <div class="block">
-          <div class="action">
-            <el-button type="default" @click="zoomChange(20)">-</el-button>
-            <span class="plane_word"><i class="iconfont icon-suofang"></i>缩放</span>
-            <el-button type="default" @click="zoomChange(-20)">+</el-button>
-          </div>
-      </div>
-
-      <div class="block">
-        <div class="action">
-          <el-button type="primary" @click="toDetail">详情</el-button>
-          <el-button type="primary" @click="filp=-filp">镜像</el-button>
-          <el-button type="primary" @click="deleteGood">删除</el-button>
-        </div>
-      </div>
-
-    </div>
-  </transition>
+    </transition>
   </div>
 </template>
 <!-- //首页的添加得  -->
@@ -175,7 +165,9 @@
           ,
         stateMoving: false, //判断是不是在边框上面
         stateData: null, //当前的this
-        boxZindex:1
+        boxZindex: 1,
+        active:0,
+        tabName:"截取"
       }
     },
     mounted() {
@@ -227,7 +219,7 @@
           that.stateMoving = false;
           return;
         }
-  
+
         if (that.mouseStart.y < thatY) {
           that.width += 2;
         } else {
@@ -320,7 +312,7 @@
             that.longTouch();
           }, 500);
         }
-        that.planeShow=!that.planeShow;
+        that.planeShow = !that.planeShow;
 
         this.moving = true;
         this.zIndex = 2;
@@ -408,228 +400,250 @@
     },
     watch: {
       //监听
-      planeShow:function(){
+      planeShow: function () {
 
-          if(this.screenWidth>=768) return;
-          
-          if(this.planeShow){
-            this.boxZindex=13;
-          }else{
-            this.boxZindex=1;
-          }
-     
-          this.$parent.imgControlType=this.planeShow;
+        if (this.screenWidth >= 768) return;
+
+        if (this.planeShow) {
+          this.boxZindex = 13;
+        } else {
+          this.boxZindex = 1;
+        }
+
+        this.$parent.imgControlType = this.planeShow;
       }
     },
   }
-
 </script>
 <style lang="less">
-  .img-control span{ color: white; }
+  .img-control span {
+    color: white;
+  }
 </style>
 <style scoped lang="less">
   .img-control {
     position: absolute;
     left: 0;
     top: 0;
-    span{
+
+    span {
       color: white;
     }
 
-  .main-box {
-    position: relative;
-    padding: 16%;
-  }
+    .main-box {
+      position: relative;
+      padding: 16%;
+    }
 
-  .main-box img {
-    z-index: 2;
-    position: relative;
-  }
+    .main-box img {
+      z-index: 2;
+      position: relative;
+    }
 
-  .border-box {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    height: 84%;
-    z-index: 1;
-    width: 84%;
-    border: 2px dashed #9e9e9e;
-    transform: translate(-50%, -50%);
-  }
+    .border-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      height: 84%;
+      z-index: 1;
+      width: 84%;
+      border: 2px dashed #9e9e9e;
+      transform: translate(-50%, -50%);
+    }
 
-  .border-box li {
-    position: absolute;
-    z-index: 12;
-  }
+    .border-box li {
+      position: absolute;
+      z-index: 12;
+    }
 
-  .border-box li:hover {
-    cursor: pointer;
-  }
+    .border-box li:hover {
+      cursor: pointer;
+    }
 
-  .border-box span {
-    position: absolute;
-    width: 25px;
-    height: 25px;
-    background-color: #fff;
-    border: 6px solid #35383f;
-    opacity: 0.8;
-    border-radius: 50%;
-    z-index: 13;
-    outline: 10px solid #f5f5dc00;
-  }
+    .border-box span {
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      background-color: #fff;
+      border: 6px solid #35383f;
+      opacity: 0.8;
+      border-radius: 50%;
+      z-index: 13;
+      outline: 10px solid #f5f5dc00;
+    }
 
-  .border-box li:nth-of-type(1) span {
-    top: 35%;
-    left: 35%;
-  }
+    .border-box li:nth-of-type(1) span {
+      top: 35%;
+      left: 35%;
+    }
 
-  .border-box li:nth-of-type(2) span {
-    top: 35%;
-    right: 35%;
-  }
+    .border-box li:nth-of-type(2) span {
+      top: 35%;
+      right: 35%;
+    }
 
-  .border-box li:nth-of-type(3) span {
-    bottom: 35%;
-    left: 35%;
-  }
+    .border-box li:nth-of-type(3) span {
+      bottom: 35%;
+      left: 35%;
+    }
 
-  .border-box li:nth-of-type(4) span {
-    bottom: 35%;
-    right: 35%;
-  }
+    .border-box li:nth-of-type(4) span {
+      bottom: 35%;
+      right: 35%;
+    }
 
-  .border-box li:nth-of-type(1):active,.border-box li:nth-of-type(1):focus {
-    cursor: se-resize;
-  }
+    .border-box li:nth-of-type(1):active,
+    .border-box li:nth-of-type(1):focus {
+      cursor: se-resize;
+    }
 
-  .border-box li:nth-of-type(2):active,.border-box li:nth-of-type(2):focus {
-    cursor: ne-resize;
-  }
+    .border-box li:nth-of-type(2):active,
+    .border-box li:nth-of-type(2):focus {
+      cursor: ne-resize;
+    }
 
-  .border-box li:nth-of-type(3):active,.border-box li:nth-of-type(3):focus {
-    cursor: ne-resize;
-  }
+    .border-box li:nth-of-type(3):active,
+    .border-box li:nth-of-type(3):focus {
+      cursor: ne-resize;
+    }
 
-  .border-box li:nth-of-type(4):active,.border-box li:nth-of-type(4):focus {
-    cursor: se-resize;
-  }
+    .border-box li:nth-of-type(4):active,
+    .border-box li:nth-of-type(4):focus {
+      cursor: se-resize;
+    }
 
-  .border-box li:nth-of-type(1) {
-    top: 0px;
-    left: 0px;
-    width: 40%;
-    margin-left: -20%;
-    height: 40%;
-    margin-top: -20%;
-  }
+    .border-box li:nth-of-type(1) {
+      top: 0px;
+      left: 0px;
+      width: 40%;
+      margin-left: -20%;
+      height: 40%;
+      margin-top: -20%;
+    }
 
 
-  .border-box li:nth-of-type(2) {
-    top: 0px;
-    right: 0px;
-    width: 40%;
-    margin-right: -20%;
-    height: 40%;
-    margin-top: -20%;
-  }
+    .border-box li:nth-of-type(2) {
+      top: 0px;
+      right: 0px;
+      width: 40%;
+      margin-right: -20%;
+      height: 40%;
+      margin-top: -20%;
+    }
 
-  .border-box li:nth-of-type(3) {
-    bottom: 0px;
-    left: 0px;
-    width: 40%;
-    margin-left: -20%;
-    height: 40%;
-    margin-bottom: -20%;
-  }
+    .border-box li:nth-of-type(3) {
+      bottom: 0px;
+      left: 0px;
+      width: 40%;
+      margin-left: -20%;
+      height: 40%;
+      margin-bottom: -20%;
+    }
 
-  .border-box li:nth-of-type(4) {
-    bottom: 0px;
-    right: 0px;
-    width: 40%;
-    margin-right: -20%;
-    height: 40%;
-    margin-bottom: -20%;
-  }
+    .border-box li:nth-of-type(4) {
+      bottom: 0px;
+      right: 0px;
+      width: 40%;
+      margin-right: -20%;
+      height: 40%;
+      margin-bottom: -20%;
+    }
 
-  .img_box {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 600px;
-    z-index: 1;
-  }
+    .img_box {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 600px;
+      z-index: 1;
+    }
 
-  img {
-    width: 100%;
-    cursor: move;
-    display: block;
-    z-index: 1;
-  }
+    img {
+      width: 100%;
+      cursor: move;
+      display: block;
+      z-index: 1;
+    }
 
-  .flipx {
-    -moz-transform: scaleX(-1);
-    -webkit-transform: scaleX(-1);
-    -o-transform: scaleX(-1);
-    transform: scaleX(-1);
-  }
+    .flipx {
+      -moz-transform: scaleX(-1);
+      -webkit-transform: scaleX(-1);
+      -o-transform: scaleX(-1);
+      transform: scaleX(-1);
+    }
 
-  .control_plane {
-    position: absolute;
-    right: 100%;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    -moz-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    -o-transform: translateY(-50%);
-    transform: translateY(-50%);
-    background: #0000003b;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    padding: 10px;
-    width: 270px;
-    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.42);
-    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.42);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.42);
-  }
+    .control_plane {
+      position: absolute;
+      right: 100%;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      -moz-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      -o-transform: translateY(-50%);
+      transform: translateY(-50%);
+      background: #0000003b;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+      padding: 10px;
+      width: 270px;
+      -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.42);
+      -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.42);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.42);
+    }
+    .control_plane  .tab-item{
+      background-color: white;
+      padding: 10px 15px;
+    }
+    .action {
+      display: inline-block;
+      padding-left: 0;
+      text-align: center;
+      padding: 8px 10px;
+      margin: 0px;
+      margin-left: 0;
+      border-radius: 3px;
+      cursor: pointer;
+      color: #272727
+    }
 
-  .action {
-    display: inline-block;
-    padding-left: 0;
-    text-align: center;
-    padding: 5px;
-    margin: 0px;
-    margin-left: 0;
-    border-radius: 3px;
-    cursor: pointer;
-    color: #272727
-  }
-  .action i{ font-size:1.67rem}
-  .action button{ display: inline-block;
-  line-height: inherit }
-  .plane_word {
-    padding: 5px;
-  }
-  .control_plane_1,.control_plane_2{
-      top: 65vh;
+    .action i {
+      font-size: 1.67rem
+    }
+
+    .action button {
+      display: inline-block;
+      min-width: auto;
+      line-height: inherit
+    }
+
+    .action button h6 {
+      font-size: 0.9rem;
+      padding-top: 2px;
+    }
+
+    .plane_word {
+      padding: 5px;
+    }
+
+    .control_plane_1,
+    .control_plane_2 {
+      top: 100vh;
+      margin-top: -120px;
       left: 0px;
       right: 0px;
       transform: translateY(0%);
-      width: 90vw;
+      width: 84vw;
+      margin-left: 3vw;
       padding: 0px;
       z-index: 98;
       box-shadow: 0px 0px 0px;
-      background-color: rgba(0,0,0,0);
-     
+      background-color: rgba(0, 0, 0, 0);
+
     }
-    .control_plane_1  .button-array{
+
+    .control_plane_1 .button-array {
       background-color: #dededc;
-      border-radius: 10px;
+      border-radius: 12px;
     }
   }
-  /*.action .iconfont{
-    color: #0c6eff;
-    text-decoration: none;
-  }*/
-
 </style>
