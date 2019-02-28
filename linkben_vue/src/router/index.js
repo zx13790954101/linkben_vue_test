@@ -27,7 +27,6 @@ export default new Router({
       path: '/Simulate',//首页加载方式，空间工具
       name: 'Simulate',
       component:  resolve => require(['@/pages/simulate/simulate'], resolve),//懒加载
-  
     },
     {
       path: '/CarQuery',
@@ -39,6 +38,13 @@ export default new Router({
       path: '/CropperInit',
       name: 'CropperInit',
       component:  resolve => require(['@/pages/cropper/CropperInit'], resolve),//懒加载
+  
+    },
+    //截取子的图片
+    {
+      path: '/CropperImg',
+      name: 'CropperImg',
+      component:  resolve => require(['@/pages/cropper/CropperImg'], resolve),//懒加载
   
     },
     {

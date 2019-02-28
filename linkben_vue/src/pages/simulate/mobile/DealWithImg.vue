@@ -1,15 +1,18 @@
 <template>
     <div class="dealWithImg">
           <div class="content  row">
-            <i class="iconfont"></i>
+            <i class="el-icon-close  back" @click="back"></i>
               <div class="col-lg-6  ">
                 <div class="item flex-c">
                     <i class="iconfont icon-ic_sq_zjz"></i>
+                    <h3>截取</h3>
                 </div>
+              
               </div>
               <div class="col-lg-6 ">
                   <div class="item flex-c">
                   <i class="iconfont icon-beijing"></i>
+                  <h3>抠图</h3>
                 </div>
               </div>
           </div>
@@ -33,6 +36,10 @@
        
       },
       methods: {
+        //返回值
+        back(){
+          this.$parent.active=0;
+        },
       },
       watch: {
         tabNavActive:function(){
@@ -58,23 +65,39 @@
     left: 0px;
 
         .content{
-          width: 80vw;
-          padding:5% 10%;
+          width: 90vw;
+          padding:8% 8%;
           top:50%;
           height: auto;
           transform: translateY(-50%);
           background-color:white;
-          margin-left:10vw;
+          margin-left:5vw;
+          border-radius: 10px;
         }
 
         .item{
+          padding: 0px 10px;
           text-align: center;
-          min-height:250px;
+          min-height:270px;
           .iconfont{
             font-size: 6rem;
             margin:0 auto;
             color: white;
           }
+        }
+        .flex-c{
+          -webkit-flex-wrap: wrap; 
+           flex-wrap: wrap;
+        }
+        h3{
+          width: 100%;
+          color: white;
+        }
+        .back{
+          font-size: 2.5rem;
+          position:absolute;
+          right: 5px;
+          top: 5px;
         }
         .col-lg-6{
           padding: 0px 0px;

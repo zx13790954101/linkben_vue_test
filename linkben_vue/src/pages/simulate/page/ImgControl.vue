@@ -130,7 +130,7 @@
             icon: "iconfont icon-icon_rotate"
           },
           {
-            name: '滤镜',
+            name: '位置',
             icon: "iconfont icon-lvjing"
           },
           {
@@ -394,11 +394,17 @@
         this.$parent.imgControlType = this.planeShow;
       },
       active: function (newData, oldData) {
-        if (this.active != 0) {
+        if(newData==oldData) this.active=0;
+         if(this.active==1){
+          this.planeStyle['margin-left'] = '3vw';
+          this.planeStyle['margin-top'] = '-120px';
+          this.planeStyle['width'] = '84vw';
+          return;
+        }else if (this.active != 0 ) {
           this.planeStyle['margin-left'] = '-5vw';
           this.planeStyle['margin-top'] = '-166px';
           this.planeStyle['width'] = '100vw';
-        } else {
+        } else{
           this.planeStyle['margin-left'] = '3vw';
           this.planeStyle['margin-top'] = '-120px';
           this.planeStyle['width'] = '84vw';
