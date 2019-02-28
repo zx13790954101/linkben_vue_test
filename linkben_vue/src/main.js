@@ -24,7 +24,7 @@ Vue.use(VueAwesomeSwiper);
 import VueLazyload from 'vue-lazyload'
 Vue.use(VueLazyload, {
   preLoad: 1.3,
-  loading: require("../static/images/main/loading.png"),
+ // loading: require("../static/loading2.gif"),
   error:require('../static/images/main/Error.png'),
   attempt: 1
 })
