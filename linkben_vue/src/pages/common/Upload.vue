@@ -84,22 +84,39 @@
           console.log("data",that.imgArray)
           that.$emit('imgList', that.imgArray);
         } else {
-
+      
           let reader = new FileReader();
           reader.vue = this;
           reader.readAsDataURL(file);
           reader.onload = function () {
-            flie.src=this.result;
+            console.log("lebght",(that.$parent.$parent.$parent.goodsList).length);
+            var id=(new Date()).getTime();
+            var file={
+              src:"",
+              url:"",
+              number:"",
+              defaultUrl:"",
+              checked:"",
+              needNum:"",
+              id:id
+            };
+            file.src=this.result;
             file.url = file.src;
             file.number = file.size;
             file.defaultUrl = file.src;
             file.checked = false;
             file.needNum = 1;
+          //  file.id=(that.$parent.$parent.$parent.goodsList).length+1
             this.vue.imgList.push({
               file
             });
+         
             that.imgArray.push(file);
             that.$emit('imgList', that.imgArray);
+          
+            // var listarray= that.$parent.$parent.$parent.goodsList;
+            // listarray.push(file);
+            // that.$parent.$parent.$parent.goodsList=listarray;
           }
         }
       },

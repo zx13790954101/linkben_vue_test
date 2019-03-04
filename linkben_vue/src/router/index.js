@@ -53,6 +53,13 @@ export default new Router({
       component:  resolve => require(['@/pages/cropper/CropperImg'], resolve),//懒加载
   
     },
+    //截取子的图片
+    {
+      path: '/html2canvas',
+      name: 'html2canvas',
+      component:  resolve => require(['@/pages/test/html2canvas'], resolve),//懒加载
+  
+    },
 
   ]
 })

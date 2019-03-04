@@ -1,5 +1,6 @@
 <template>
-  <div class="topNav" :style="{'z-index':(dialogTableVisible===true?'inherit':'11')}">
+  <div class="topNav" :style="{'z-index':( (dialogTableVisible===true||html2canvasType==true)
+  ?'inherit':'11')}">
     <ul class="head-tab">
       <li class=" flex-c" @click="dialogTableVisible = true" v-if="homeImageType">
         <i class="iconfont icon-buoumaotubiao47"></i>
@@ -32,9 +33,11 @@
         </el-dropdown>
       </li>
 
-      <li class="flex-c" @click="">
+      <li class="flex-c" @click="downView(false)">
+
         <i class="iconfont icon-fenxiang2"></i>
         <h5>保存</h5>
+      
       </li>
 
       <li class="flex-c " @click="fullScreen" v-if="screenWidth>=688">
@@ -45,13 +48,27 @@
     <el-dialog title="" width="80%" :visible.sync="dialogTableVisible">
       <colorPicker></colorPicker>
     </el-dialog>
+    <el-dialog title="" :visible.sync="html2canvasType" width="80%" >
+      <h4 class="margin-10">是否要下载这张图片</h4>
+      <div class="content">
+        <div class="canvasImg img-r">
+          <img :src="endImg">
+        </div>
+      </div>
+      <div class="button-array flex-r margin-15">
+        <button class=""  @click="html2canvasType=false">取消</button>
+        <!-- <button class=""   @click="downView(true)">点击下载 </button> -->
+        <a class="down button" id="down3"  href="" download="下载">点击下载</a>
+      </div>
+    </el-dialog>
+
   </div>
 
 </template>
 
 <script>
-  import axios from 'axios'
   import colorPicker from './ColorPicker'
+  import html2canvas from 'html2canvas'
   export default {
     name: 'topNav',
     components: {
@@ -63,6 +80,8 @@
         dialogTableVisible: false,
         selectColor: '#409EFF',
         screenWidth: document.documentElement.clientWidth,
+        html2canvasType: false,
+        endImg: "",
       }
     },
     props: {
@@ -77,6 +96,51 @@
       },
       fileClick() {
         document.getElementById('upload_file2').click()
+      },
+      //下载功能
+      downView(type) {
+        debugger;
+        const that=this;
+        var dom = document.querySelector('#main-view');
+        if (this.$parent.mainBgStatus.type) dom = document.querySelector('#main-view');
+        // var canvas2 = document.createElement("canvas");
+        // var w = parseInt(window.getComputedStyle(dom).width);
+        // var h = parseInt(window.getComputedStyle(dom).height);
+        // canvas2.width = w * 2;
+        // canvas2.height = h * 2;
+        // canvas2.style.width = w + "px";
+        // canvas2.style.height = h + "px";
+       // dom=$("#main-view")
+        html2canvas(dom, {
+          allowTanit: true,
+          tainTest: true,
+          // height: dom.height(),
+          // width:dom.width(),
+          useCORS: true,
+          foreignObjectRendering: true//设置因为浮动，或者定位不能截取完全的图片
+        //  / canvas:canvas2
+        }).then(function (canvas) {
+          //document.body.appendChild(canvas);
+          //canvas转换成url，然后利用a标签的download属性，直接下载，绕过上传服务器再下载
+          if(type){
+            document.querySelector('#down3').setAttribute('href', canvas.toDataURL())
+            that.html2canvasType=false;
+          }else{
+          
+      
+              let dataURL = canvas.toDataURL("image/jpeg");
+              that.endImg = dataURL;
+          //    document.querySelector('#down3').setAttribute('href', canvas.toDataURL())
+              that.html2canvasType=true;
+              setTimeout(function(){
+                  document.querySelector('#down3').setAttribute('href', canvas.toDataURL())
+              },100)
+         
+       
+            // 
+          }
+        
+        });
       },
       //全屏
       fullScreen() {
@@ -155,8 +219,18 @@
 </style>
 <style scoped lang="less">
   .topNav {
-    i{color: #dadada; }
-    h5{  line-height:inherit;color: #dadada;  }
+    i {
+      color: #dadada;
+    }
+
+    h5 {
+      line-height: inherit;
+      color: #dadada;
+    }
+    .img-r img{
+      width: 100%;
+      height: auto;
+    }
     .head-tab {
       display: inline-block;
       height: 40px;

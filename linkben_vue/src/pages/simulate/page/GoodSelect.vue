@@ -16,7 +16,7 @@
             <article class="col-lg-6 col-xs-3" v-for="(item,index) in goodsList" v-on:click="selectGood(index)">
               <div class="upload_warp_img_div " :class="item.checked?'bg_yellow':''">
                 <i class="el-icon-circle-close upload_warp_img_div_del" @click="fileDel(index)"></i>
-                <good-img :url="item
+                <good-img :url="item.url
                 " :noStock="item.number==0?true:false" :key="item.id"></good-img>
               </div>
             </article>
@@ -134,6 +134,7 @@
         this.goodsList.splice(index, 1)
       },
       setImgList(data) {
+    
         var that = this;
         that.goodsList = data
         //   ( that.goodsList).concat(data);
@@ -152,9 +153,12 @@
       checkSelect() {
         //判断商品列表商品是否选中
         var that = this
-        $(this.goodsList).each(function (index2, ele2) {
+        
+        $(that.goodsList).each(function (index2, ele2) {
           var isSame = false
+          
           $(that.selectList).each(function (index, ele) {
+     
             if (ele2.id == ele.id) isSame = true
           })
           if (isSame) {
@@ -165,10 +169,12 @@
         })
       },
       selectGood(index) {
-        this.goodsList[index].checked = !this.goodsList[index].checked
+      
+        this.goodsList[index].checked = !this.goodsList[index].checked;
+
         if (this.goodsList[index].checked) {
           this.addGood(this.goodsList[index])
-          //this.selectList.push(this.goodsList[index]);
+        //  this.selectList.push(this.goodsList[index]);
         } else {
           this.reduceGood(this.goodsList[index])
           //if(this.selectList[index].id==this.)
@@ -180,6 +186,7 @@
         }
       },
       addGood(val) {
+        debugger;
         console.log('allGood', val)
         var add = true
         $(this.selectList).each(function (index, ele) {
@@ -369,6 +376,7 @@
     watch: {
       selectList: function (val) {
         this.checkSelect()
+       
         this.$emit('curGoodList', val)
       },
       deleteUrl: function (url) {

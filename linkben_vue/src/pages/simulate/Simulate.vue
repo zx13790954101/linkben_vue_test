@@ -1,5 +1,5 @@
 <template>
-  <div class="simulate flex ">
+  <div class="simulate flex " >
     <!-- 侧边栏的功能 -->
     <div class="left-slide" v-if="screenWidth>=688" :style="(screenWidth>=688?{'margin-left':(isCollapse==true?'0':'-320px')} :
       {'bottom':(isCollapse==false?'90px':'90px'),'height':(isCollapse==false?'100%':'0%')} )">
@@ -27,9 +27,9 @@
 
       <!-- 主的照片的div-->
       <div class="homeImage flex-c-y" v-if="homeImageType" v-for="(item,index) in mainImg">
-        <transition name="el-zoom-in-center">
+       
           <div class="main-img "  :style="{'height':(mainImgSize===true? 'auto' :'100%')}">
-            <div class="bootom " :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true? '':'100%')}">
+            <div class="bootom "  id="main-view" :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true? '':'100%')}">
               <img id="main-img" title="主的图片" :src="item.file.src"
                :style="{ 'z-index':imgStyleStatus.zIndex,'width':(mainImgSize===true?'100%':'auto'), 'height': (mainImgSize==true?'auto':'100%'),'opacity': 1,
                 'transform':'translate(-50%, -50%)  scale('+imgStyleStatus.scale+') scaleX('+imgStyleStatus.scalex+') rotate('+imgStyleStatus.rotate+'deg)'}" 
@@ -37,10 +37,10 @@
               <div id="main-bg"  rel="mainColorBg" title="纯色的背景" class="main-bg" v-show="mainBgStatus.type" :style="{'background-color':mainBgStatus.color,'z-index':imgStyleStatus.zIndex
               ,'width':mainBgStatus.width,'height':mainBgStatus.height}"></div>
             </div>
-            <img-control v-for="(item,index) in curGoodList" :url="item.defaultImg" :key="item.id" @deleteUrl="setDeleteUrl"
+            <img-control v-for="(item,index) in curGoodList" :url="item.url" :key="item.id" @deleteUrl="setDeleteUrl"
               @setCurGood="setCurGood(index)" ></img-control>
           </div>
-        </transition>
+
 
         <div class="bottom-box">
           <!-- 侧边栏的功能 -->
@@ -71,7 +71,7 @@
 </template>
 
 <script>
-  import html2canvas from 'html2canvas'
+ // import html2canvas from 'html2canvas'
   import bus from '../../assets/bus'
   import GoodImg from './components/GoodImg.vue'
   import GoodSelect from './page/GoodSelect.vue'
