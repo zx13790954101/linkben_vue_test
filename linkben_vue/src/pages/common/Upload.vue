@@ -163,7 +163,7 @@
     border-radius: 4px;
   }
   @media (max-width:768px) {
-    .upload-warp{ height: 74px; 
+    .upload-warp{ height: 80px; 
       border-radius: 0rem;
      }
     .upload-warp i {

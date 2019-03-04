@@ -1,7 +1,7 @@
 <template>
   <div class="cropperImg">
     <div class="tab-nav flex-c ">
-      <i class="iconfont icon-dacha center"  @click="back"></i>
+      <i class="iconfont icon-dacha center" @click="back"></i>
       <h4 class="flex-item center">截取图片</h4>
       <i class="iconfont icon-dagou center " @click="toHome"></i>
     </div>
@@ -34,21 +34,18 @@
         title: '截取',
         url: "",
         //记住页面的初始化的状态的图片
-        cropper: "",
+        cropper: null,
         canvasData: null,
         cropBoxData: null,
         croppedData: null,
-        data: {
-          panel: false,
-          url: "",
-        },
+        active: 0,
         number: 1,
         restoreStatus: false,
+        croppable: false,
         imageStatus: {
           width: "",
           height: "",
         },
-        active: 0,
         dataList: [{
             content: '',
             height: '',
@@ -98,22 +95,13 @@
             num: 16 / 9,
           }
         ],
-            //cropper第一次截图的状态
-         cropperDefaultStatus:{
-          croppedData:"",
-          canvasData:"",
-          cropBoxData:"",
-          croppedCanvas:"",
-          roundedCanvas:"",
-          headerImage:"",
-          restore:false,
-          aspectRatio:1,
-          active:0,
-          croppable: false,
-          oldUrl:"",
-          thisUrl:"",//当前的URL是
-          newUrl:"",
-          updateType:false,
+        //cropper第一次截图的状态
+        cropperStatus: {
+          restore: false,
+          aspectRatio: 1,
+          oldUrl: "",
+          thisUrl: "", //当前的URL是
+          newUrl: "",
         },
       }
     },
@@ -133,26 +121,35 @@
       }
     },
     methods: {
-      back(){
+      back() {
         this.$router.go(-1);
       },
-      toHome(){
-       
-
+      toHome() {
+        this.$confirm('是否确认保存这次的截图', '提示', {
+          cancelButtonText: '取消',
+          confirmButtonText: '确定',
+          type: 'warning'
+        }).then(() => {
+          this.commit();
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });
+        });
       },
       //选择截取的图片的大小
       selectSize(num, index) {
         const that = this;
         that.active = parseInt(index);
-        that.cropperDefaultStatus.aspectRatio = parseFloat(num);
-        if (that.cropperDefaultStatus.updateType) {
+        that.cropperStatus.aspectRatio = parseFloat(num);
+        if (that.cropperStatus.updateType) {
           var image = document.getElementById("itemImg"); //首页的图片的对象结构
-          image.src = that.cropperDefaultStatus.oldUrl;
+          image.src = that.cropperStatus.oldUrl;
           var loadImage = new Image();
-          loadImage.src = that.cropperDefaultStatus.oldUrl;
+          loadImage.src = that.cropperStatus.oldUrl;
           loadImage.onload = function () {
-            that.initCropper();
-            that.active = that.cropperDefaultStatus.active;
+            that.start();
           };
 
           return;
@@ -255,24 +252,40 @@
       },
       //确定提交
       commit() {
+        var that=this;
         this.panel = false;
         var croppedCanvas;
         var roundedCanvas;
-        if (!this.croppable) {
-          return;
-        }
-        // Crop
+        if (!that.croppable) return;
         croppedCanvas = this.cropper.getCroppedCanvas();
         // Round
         // roundedCanvas = this.getRoundedCanvas(croppedCanvas);
         roundedCanvas = croppedCanvas;
         this.headerImage = roundedCanvas.toDataURL();
-        //上传图片
-        this.postImg();
-
         this.croppedData = this.cropper.getData();
         this.canvasData = this.cropper.getCanvasData();
         this.cropBoxData = this.cropper.getCropBoxData();
+        that.cropperStatus.oldUrl = this.cropperStatus.thisUrl;
+        debugger;
+        this.cropperStatus.thisUrl = roundedCanvas.toDataURL();
+        var image = document.getElementById("itemImg"); //首页的图片的对象结构
+        image.src = this.cropperStatus.thisUrl;
+        if (this.cropper) {
+            
+          sessionStorage.setItem("updateCropperImg",image.src)
+          image.src=this.cropperStatus.thisUrl;
+          this.cropper.destroy();
+          this.cropper = null;
+          that.cropperStatus.updateType = true;
+          this.$message({
+            message: '截取成功',
+            type: 'success'
+          });
+          this.$store.commit('itemCropperType', true);
+           this.$router.go(-1);
+        }
+     
+
       },
       //canvas画图
       getRoundedCanvas(sourceCanvas) {
@@ -298,11 +311,6 @@
 
         return canvas;
       },
-      //提交上传函数
-      postImg() {
-        alert("上传成功");
-        //这边写图片的上传
-      },
       //重新选择
       restore(num) {
         // 对象数据的替换
@@ -327,7 +335,6 @@
   }
 </script>
 <style>
-
   .cropper-view-box,
   /* 设置头像为圆 */
   /* .cropper-face {
@@ -651,68 +658,72 @@
     background: rgba(0, 0, 0, 1);
     height: 100vh;
     width: 100%;
-    
+
     padding-top: 50px;
     padding-bottom: 60px;
   }
- 
-    .content2 {
-      height: 100%;
-      margin:0 auto;
-      width: 90vw;
-    }
-    #itemImg{
-  
-    }
-    .tab-nav i{
-      font-size: 2rem;
-    }
-    .tab-nav {
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      width: 100%;
-      height: 50px;
-      margin: 0px;
-      padding: 0px 20px;
-    }
 
-    .bottom-nav {
-      position: absolute;
-      bottom: 0px;
-      width: 100%;
-      height: 60px;
-      margin: 0px;
-      background-color: white;
-    }
-    .scrollY {
-      overflow-y: hidden;
-      width: 100%;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      display: -webkit-box;
-      vertical-align: middle;
-      /* margin: 5px 0px; */
-    }
-    .item-box {
-      width: 32px;
-      height: 32px;
-      border: 1px solid #333;
-      color: #333;
-      border-radius: 4px;
-    }
-    .scrollY li{
-        float: none;
-        height: 38px;
-        line-height: 38px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-    }
-  
-    .active{
-      color:#F44336;
-      border: 1px solid #F44336;
-    }
+  .content2 {
+    height: 100%;
+    margin: 0 auto;
+    width: 90vw;
+  }
+
+  #itemImg {}
+
+  .tab-nav i {
+    font-size: 2rem;
+  }
+
+  .tab-nav {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 50px;
+    margin: 0px;
+    padding: 0px 20px;
+  }
+
+  .bottom-nav {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 60px;
+    margin: 0px;
+    background-color: white;
+  }
+
+  .scrollY {
+    overflow-y: hidden;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    display: -webkit-box;
+    vertical-align: middle;
+    /* margin: 5px 0px; */
+  }
+
+  .item-box {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #333;
+    color: #333;
+    border-radius: 4px;
+  }
+
+  .scrollY li {
+    float: none;
+    height: 38px;
+    line-height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .active {
+    color: #F44336;
+    border: 1px solid #F44336;
+  }
 </style>

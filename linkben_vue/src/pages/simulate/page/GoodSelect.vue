@@ -400,6 +400,7 @@
 
   .good-select .el-tabs__header {
     background-color: #2b2b2b;
+    margin: 0px;
   }
 
   .good-select .el-tabs__item.is-active {
@@ -601,13 +602,14 @@
     }
 
     .good-select {
-      background-color: white;
+      background-color: inherit;
       overflow: hidden;
       -webkit-transition: all .2s ease-out 0s;
       transition: all .2s ease-out 0s;
       height: auto;
       margin: 0px;
       padding: 0px;
+      min-height: 120px;
     }
 
     .good_list {
@@ -627,8 +629,8 @@
     }
 
     .upload_warp_img_div {
-      height: 74px;
-      line-height: 74px;
+      height: 80px;
+      line-height: 80px;
       border-radius: 0px;
     }
   }

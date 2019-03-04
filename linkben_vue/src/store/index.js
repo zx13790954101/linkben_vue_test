@@ -16,6 +16,7 @@ const state={
          startColorBg:false,
       },
       screenWidth: document.documentElement.clientWidth,
+      itemCropperType:false,
 }
 const store = new Vuex.Store({
   state,

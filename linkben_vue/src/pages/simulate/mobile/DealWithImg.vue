@@ -62,7 +62,9 @@
       },
       //监听路由的变化
       '$route' () {
-         console.log("url2", this.title);
+         if(this.$store.state.itemCropperType){
+          this.$store.commit("itemCropperType",false);
+         }
        } 
 
     },

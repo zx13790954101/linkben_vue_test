@@ -30,7 +30,7 @@ export default {
   created(){
     let _footer = this.$store.state.common.footerVisible;
     if (!_footer) {
-        this.$store.commit('TOGGLE_FOOTER');
+        this..commit('TOGGLE_FOOTER');
     }
     this.$store.commit('SELECT_TAB', 'discover')
   }

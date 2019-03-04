@@ -24,7 +24,7 @@
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>在线客服</el-dropdown-item>
             <el-dropdown-item>文档</el-dropdown-item>
-            <el-dropdown-item>
+            <el-dropdown-item class="flex-c">
               <i class="iconfont icon-fenxiang2"></i>
               <h5>分享</h5>
             </el-dropdown-item>
@@ -166,7 +166,7 @@
       background: #505056;
       background: rgba(255, 255, 255, 0.3);
       background: linear-gradient(to left, rgb(42, 42, 42), rgb(60, 60, 60));
-      padding: 0px 20px;
+      padding: 0px 10px;
       box-sizing: border-box;
       border-radius: 20px;
       z-index: 11;

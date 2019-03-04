@@ -2,7 +2,8 @@
     <div class="moblie-bottom-nav">
       <ul class="satellite " v-if="screenWidth<=688 && active>0">
         <li class="tab-item" v-if="active===1"  >
-            <cutOutRotate  v-on:cutOutRotateEmit="cutOutRotateEmit"></cutOutRotate>
+            <cutOutRotate  v-if="!colorBgStatus" v-on:cutOutRotateEmit="cutOutRotateEmit"></cutOutRotate>
+            <colorBgSize v-if="colorBgStatus" v-on:cutOutRotateEmit="cutOutRotateEmit"></colorBgSize>
         </li>
         <li class="tab-item" v-else-if="active===2">
           <el-slider v-model="value2"></el-slider>
@@ -34,10 +35,11 @@
   
   <script>
     import bus from '../../../assets/bus';
-    import cutOutRotate from "./CutOutRotate.vue"
+    import cutOutRotate from "./CutOutRotate.vue";
+    import colorBgSize from "./ColorBgSize.vue";
     export default {
       name: 'monlieBottomNav',
-      components: {cutOutRotate},
+      components: {cutOutRotate,colorBgSize},
       data() {
         return {
           title: '移动端的底部的nav',
@@ -48,6 +50,7 @@
           rotateNum: 0,
           value2: 0,
           tabActive1: 1,
+          colorBgStatus:false,
          }
       },
       props: {
@@ -80,11 +83,16 @@
         },
       },
       mounted() {
-  
+         
       },
       watch: {
         active:function(newData,oldDate){
-           
+         
+           if(this.active==1&&this.$parent.$parent.mainBgStatus.type){
+              this.colorBgStatus=true;
+           }else{
+             this.colorBgStatus=false;
+           }
         }
       },
   
@@ -154,6 +162,9 @@
           overflow-x: auto;
           -webkit-overflow-scrolling: touch;
           display: -webkit-box;
+        }
+        .bottom-tab li h6{
+          line-height: 16px;
         }
         .bottom-tab li {
           margin: 0px 0px;

@@ -160,7 +160,9 @@
           color:that.selectColor,
           type:true
         }
-        that.$parent.$parent.$parent.mainBgStatus=that.mainBgStatus
+        that.$parent.$parent.$parent.mainBgStatus.color=that.selectColor;
+        that.$parent.$parent.$parent.mainBgStatus.type=true;
+        that.$parent.$parent.$parent.mainBgColor=that.selectColor;
         //提供吧东西变成字符串再变成对象可以暂时解决深拷贝的问题
         var data3={
           selectColor:that.selectColor,
@@ -236,6 +238,6 @@ width: 100%
     margin-bottom: 10px;
   }
   .main-box .bottom-box {
-    max-height: 320px;
+    max-height: 35vh;
   }
 </style>

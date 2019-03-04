@@ -9,5 +9,8 @@ export default {
   },
   [types.screenWidth](state){
     return state.screenWidth;
+  },
+  [types.itemCropperType](state,data){
+    state.itemCropperType=data;
   }
 }

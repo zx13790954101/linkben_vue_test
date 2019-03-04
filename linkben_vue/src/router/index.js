@@ -14,7 +14,13 @@ export default new Router({
   //base:getAbsolutePath () ,
   routes: [
     {
-      path:"/",
+      path: '/',
+      name: 'FunSelectPopup',
+      component:  resolve => require(['@/pages/simulate/mobile/FunSelectPopup'], resolve),//懒加载
+  
+    },
+    {
+      path:"/Home",
       name:'Home',
       component:  resolve => require(['@/pages/home/home'], resolve),//懒加载
     },
@@ -47,12 +53,7 @@ export default new Router({
       component:  resolve => require(['@/pages/cropper/CropperImg'], resolve),//懒加载
   
     },
-    {
-      path: '/HomePopup',
-      name: 'HomePopup',
-      component:  resolve => require(['@/pages/simulate/mobile/HomePopup'], resolve),//懒加载
-  
-    }
+
   ]
 })
 

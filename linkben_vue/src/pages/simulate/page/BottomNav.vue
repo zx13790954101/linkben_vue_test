@@ -205,7 +205,7 @@
   .bottom-nav {
     position: relative;
      z-index: 9;
-     padding: 4.5px 15px;
+     padding: 6.35px 15px;
      background-color: white;
 
     .el-slider {

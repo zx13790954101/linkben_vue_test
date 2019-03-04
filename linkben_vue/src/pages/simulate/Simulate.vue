@@ -12,9 +12,7 @@
     <!-- 背景轮换 -->
     <div class="swiper_box  content-r flex-item">
       <!-- 幕布的功能 -->
-    
-        <div class="img-control-box" v-if="imgControlType&&screenWidth<=688"></div>
-
+      <div class="img-control-box" v-if="imgControlType&&screenWidth<=688"></div>
       <!-- 右菜单 -->
       <div class="head-bar  flex-c flex-c-y" :style="(screenWidth>=688?{} :{'background-color':'#000000'} )">
         <topNav :homeImageType='homeImageType' class="flex-item"></topNav>
@@ -32,16 +30,12 @@
         <transition name="el-zoom-in-center">
           <div class="main-img "  :style="{'height':(mainImgSize===true? 'auto' :'100%')}">
             <div class="bootom " :style="{'width':(mainImgSize===true?'100%':'auto'),'height':(mainImgSize===true? '':'100%')}">
-              <img id="main-img" title="主的图片" v-lazy="item.file.src"
-               :style="{
-                 'z-index':imgStyleStatus.zIndex,
-                'width':(mainImgSize===true?'100%':'auto'),
-                'height': (mainImgSize==true?'auto':'100%'),
-                'opacity': 1,
-                'transform':'translate(-50%, -50%)  scale('+imgStyleStatus.scale+') scaleX('+imgStyleStatus.scalex+') rotate('+imgStyleStatus.rotate+'deg)'
-               }" 
+              <img id="main-img" title="主的图片" :src="item.file.src"
+               :style="{ 'z-index':imgStyleStatus.zIndex,'width':(mainImgSize===true?'100%':'auto'), 'height': (mainImgSize==true?'auto':'100%'),'opacity': 1,
+                'transform':'translate(-50%, -50%)  scale('+imgStyleStatus.scale+') scaleX('+imgStyleStatus.scalex+') rotate('+imgStyleStatus.rotate+'deg)'}" 
               v-show="!(mainBgStatus.type)">
-              <div id="main-bg" title="纯色的背景" class="main-bg" v-if="mainBgStatus.type" :style="{'background-color':mainBgStatus.color,'z-index':imgStyleStatus.zIndex}"></div>
+              <div id="main-bg"  rel="mainColorBg" title="纯色的背景" class="main-bg" v-show="mainBgStatus.type" :style="{'background-color':mainBgStatus.color,'z-index':imgStyleStatus.zIndex
+              ,'width':mainBgStatus.width,'height':mainBgStatus.height}"></div>
             </div>
             <img-control v-for="(item,index) in curGoodList" :url="item.defaultImg" :key="item.id" @deleteUrl="setDeleteUrl"
               @setCurGood="setCurGood(index)" ></img-control>
@@ -50,7 +44,7 @@
 
         <div class="bottom-box">
           <!-- 侧边栏的功能 -->
-          <div class="left-slide" v-if="screenWidth<=688" :style="{'margin-bottom':(isCollapse==false?'-114px':'0px')}">
+          <div class="left-slide" v-if="screenWidth<=688" :style="{'margin-bottom':(isCollapse==false?'-120px':'0px')}">
             <good-select @curGoodList="setCurGoodList" :deleteUrl="deleteUrl" :oldList="oldList"></good-select>
             <i :class="(isCollapse?'el-icon-arrow-right cut-button':'el-icon-arrow-left cut-button')" @click="isCollapse=!isCollapse"></i>
           </div>
@@ -65,12 +59,12 @@
 
 
     <!-- 选择分享渠道 -->
-    <share :url="shareUrl" :title="share.title" :img="'http://orbi0d8g8.bkt.clouddn.com/'+shareImg"></share>
+    <!-- <share :url="shareUrl" :title="share.title" :img="'http://orbi0d8g8.bkt.clouddn.com/'+shareImg"></share> -->
 
     <!-- 选择配灯场景 -->
-    <transition name="animate-transition" enter-active-class="animated slideInRight" leave-active-class="animated slideOutRight">
+    <!-- <transition name="animate-transition" enter-active-class="animated slideInRight" leave-active-class="animated slideOutRight">
       <scence-select v-if="showSelect" @closeSelect="showSelect=false" @bgListChange="bgListChange"></scence-select>
-    </transition>
+    </transition> -->
 
   </div>
 
@@ -151,6 +145,8 @@
         mainBgStatus:{
           type:false,//判断是否使用图片背景
           color:"",//颜色的
+          width:'',
+          height:'',
         },//主的背景状态
         isCollapse: false,
         oldList: array,
@@ -310,11 +306,15 @@
             }
             const image = new Image();
             image.src = file.src;
-            if (image.width > (parseInt(image.height) + 50)) {
+            image.onload = function(){
+              if (image.width > image.height) {
               that.mainImgSize = true;
-            } else {
-              that.mainImgSize = false;
+              } else {
+                that.mainImgSize = false;
+              }
             }
+          
+            debugger;
             this.vue.mainImg.push({
               file
             })
@@ -323,8 +323,9 @@
             setTimeout(function () {
               html2canvas(document.querySelector('#main-img')).then(function (canvas) {
                 //document.body.appendChild(canvas);
-                //canvas转换成url，然后利用a标签的download属性，直接下载，绕过上传服务器再下载
-                document.querySelector('#down').setAttribute('href', canvas.toDataURL())
+                //canvas转换成url，然后利用a标签的download属性，直接下载，绕过上传服务器再下载setAttribute
+                
+             //   document.querySelector('#down').setAttribute('href', canvas.toDataURL())
               })
             }, 1000);
           }
@@ -540,7 +541,7 @@
     },
     mounted: function () {
       var that=this;
-      sessionStorage.removeItem('curRemark')
+      sessionStorage.removeItem('curRemark');
       var that = this
       var file = {};
       file.src = that.defaultImg;
@@ -554,13 +555,16 @@
       });
       var image = new Image();
       image.src = that.defaultImg;
-      if (parseInt(image.width) > parseInt(image.height)) {
-        that.mainImgSize = true;
-      } else {
-        that.mainImgSize = false;
-      }
-   
-      that.homeImageType = true;
+      image.onload = function(){
+        if (parseInt(image.width) > parseInt(image.height)) {
+          that.mainImgSize = true;
+        } else {
+          that.mainImgSize = false;
+        }
+    
+        that.homeImageType = true;
+      };
+ 
       //页面加载的时候滑块控件必须要可见，否则会初始化错误，故在页面加载完成之后再display：none
       //$('.cover').css({'z-index':21,'display':'none'});
       $(window).resize(function () {
@@ -588,6 +592,8 @@
 
       }
     },
+
+    
     watch: {
       mainImg: function () {
         // this.mainImgWidth = $(".main-img .bootom img").width() + 'px';
@@ -1045,7 +1051,8 @@
     transform: translate(-50%, -50%);
     width: 100%;
     height: 0;
-    padding-bottom: 100%;
+    /* padding-bottom: 100%; */
+    height: 50vh;
     -webkit-transition: all .4s ease-out 0s;
     transition: all .4s ease-out 0s;
     z-index: 13;

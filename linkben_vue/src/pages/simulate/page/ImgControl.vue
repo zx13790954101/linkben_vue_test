@@ -1,8 +1,8 @@
 <template>
   <div class="img-control" :style="{'z-index':boxZindex}">
-    <div class="img_box" id="img_box" :style="[moving?styleObj:styleObjFinal,{zIndex:zIndex}]">
+    <div class="img_box" ref="elememt2" id="img_box" :style="[moving?styleObj:styleObjFinal,{zIndex:zIndex}]">
       <div class="main-box">
-        <img :src="url" alt="" :style="{filter:'brightness('+brightness+'%)',transform:'rotate('+angle+'deg) scaleX('+filp+')'}"
+        <img :src="url" alt="" :style="{filter:'brightness('+brightness+'%)',transform:'rotate('+angle+'deg) scaleY('+filpY+') scaleX('+filp+')'}"
           @mousewheel="zoom" @DOMMouseScroll="zoom" @mousemove.prevent="mouseMove" @touchmove.prevent="mouseMove"
           @mousedown.prevent="mouseDown" @touchstart.prevent="mouseDown" @mouseup.prevent="mouseUp" @touchend.prevent="mouseUp"
           @mouseout.prevent="mouseOut">
@@ -38,34 +38,36 @@
         </div>
       </transition>
 
-      
+
     </div>
     <div class="control_plane control_plane_1" :style="planeStyle" v-if="planeShow && screenWidth<=768">
       <div class="block button-array flex-c" v-if="active==0||active==1">
-          <button v-for="(item,index) in tabNavList" @click="selectNav($event,item.name,index)" class="center h5 flex-item">
-            <i :class="item.icon"></i>
-            <h6>{{item.name}}</h6>
-          </button>
+        <button v-for="(item,index) in tabNavList" @click="selectNav($event,item.name,index)" class="center h5 flex-item">
+          <i :class="item.icon"></i>
+          <h6>{{item.name}}</h6>
+        </button>
       </div>
-   
-     
+
+
       <div class="block tab-item " v-if="active==2">
-          <h5 class="demonstration">大小</h5>
-          <el-slider v-model="width" :format-tooltip="formatWidth" :min="300" :max="1000"></el-slider>
-        <h5 class="demonstration">角度</h5>
-        <el-slider v-model="angle" :format-tooltip="formatAngle" :min="0" :max="360"></el-slider>
+        <h6 class="demonstration">大小</h6>
+        <el-slider v-model="width" :format-tooltip="formatWidth" :min="300" :max="1000"></el-slider>
+        <!-- <h5 class="demonstration">角度</h5>
+        <el-slider v-model="angle" :format-tooltip="formatAngle" :min="0" :max="360"></el-slider> -->
+        <h6 class="demonstration">曝光</h6>
+        <el-slider v-model="brightness" :format-tooltip="formatBrightness" :min="50" :max="150"></el-slider>
+
       </div>
       <div class="block tab-item white" v-if="active==3">
-        <h5 class="demonstration">曝光</h5>
-        <el-slider v-model="brightness" :format-tooltip="formatBrightness" :min="50" :max="150"></el-slider>
+        <settingPosition></settingPosition>
       </div>
       <div class="block tab-item white" v-if="active==4">
         <h1>替换</h1>
       </div>
       <div class="flex-c tab-item" v-if="active==2||active==3||active==4">
-        <i class="iconfont icon-dacha center col-lg-2" title="关闭" @click="active=0"></i>
-        <h5 class="center flex-item">{{ tabNavList[active].name }}</h5>
-        <i class="iconfont icon-dagou center col-lg-2" title="保存"></i>
+        <i class="iconfont icon-dacha center h3" title="关闭" @click="active=0"></i>
+        <h5 class="center flex-item h5">{{ tabNavList[active].name }}</h5>
+        <i class="iconfont icon-dagou center h3" title="保存"></i>
       </div>
     </div>
     <dealWithImg :tabNavActive="active" v-if="active==1"></dealWithImg>
@@ -74,13 +76,18 @@
 <!-- //首页的添加得  -->
 <script>
   import dealWithImg from "../mobile/DealWithImg.vue"
+  import settingPosition from "../mobile/SettingPosition.vue"
   export default {
     name: 'img-control',
-    components: {dealWithImg},
+    components: {
+      dealWithImg,
+      settingPosition
+    },
     props: ['url'],
     data() {
       return {
         filp: 1,
+        filpY: 1,
         screenWidth: document.documentElement.clientWidth,
         planeShow: false,
         touchShow: false,
@@ -98,6 +105,7 @@
         zoomNum: 1,
         zIndex: 1,
         width: 200,
+        height: null,
         finalLeft: ($(window).width() * 0.7 - 400) / 2,
         finalTop: ($(window).height()) / 5,
         /*finalTop: ($(window).height()-400)/2*/
@@ -126,7 +134,7 @@
             icon: "iconfont icon-762bianjiqi_jietu"
           },
           {
-            name: '旋转',
+            name: '大小',
             icon: "iconfont icon-icon_rotate"
           },
           {
@@ -150,6 +158,14 @@
     },
     methods: {
       selectNav(event, name, index) {
+        // this.height=this.$refs.element.offsetHeight; 
+        let that = this;
+        this.$nextTick(function () {
+          let height = $(that.$refs.elememt2).height();
+          that.height = height; //计算高度;
+          // console.log("height2", that.height, that.width)
+        });
+
         if (index == 0) {
           this.planeShow = false
         } else if (index == 5) {
@@ -394,17 +410,17 @@
         this.$parent.imgControlType = this.planeShow;
       },
       active: function (newData, oldData) {
-        if(newData==oldData) this.active=0;
-         if(this.active==1){
+        if (newData == oldData) this.active = 0;
+        if (this.active == 1) {
           this.planeStyle['margin-left'] = '3vw';
           this.planeStyle['margin-top'] = '-120px';
           this.planeStyle['width'] = '84vw';
           return;
-        }else if (this.active != 0 ) {
+        } else if (this.active != 0) {
           this.planeStyle['margin-left'] = '-5vw';
-          this.planeStyle['margin-top'] = '-166px';
+          this.planeStyle['margin-top'] = '-222px';
           this.planeStyle['width'] = '100vw';
-        } else{
+        } else {
           this.planeStyle['margin-left'] = '3vw';
           this.planeStyle['margin-top'] = '-120px';
           this.planeStyle['width'] = '84vw';
@@ -412,13 +428,11 @@
       }
     },
   }
-
 </script>
 <style lang="less">
   .img-control span {
     color: white;
   }
-
 </style>
 <style scoped lang="less">
   .img-control {
@@ -594,6 +608,8 @@
     .control_plane .tab-item {
       background-color: white;
       padding: 10px 15px;
+      font-weight: 600;
+      min-height: 50px;
     }
 
     .action {
@@ -615,7 +631,8 @@
     .button-array button {
       display: inline-block;
       min-width: auto;
-      line-height: inherit
+      line-height: inherit;
+      height: auto;
     }
 
     .button-array button h6 {
@@ -627,8 +644,7 @@
       padding: 5px;
     }
 
-    .control_plane_1,
-    .control_plane_2 {
+    .control_plane_1, .control_plane_2 {
       top: 100vh;
       margin-top: -120px;
       left: 0px;
@@ -646,9 +662,8 @@
     .control_plane_1 .button-array {
       background-color: #dededc;
       border-radius: 12px;
-      padding: 4px 8px;
+      padding: 7px 8px;
       text-align: center;
     }
   }
-
 </style>
