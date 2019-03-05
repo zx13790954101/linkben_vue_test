@@ -13,25 +13,10 @@ const chalk = require('chalk')
 const webpack = require('webpack')
 const config = require('../config')
 
-var client = require('scp2');
-  // 部署上线
-  client.scp('/linzesen/linkben_project/linkben_vue/dist', {
-    host: '47.93.198.213',
-    username: 'root',
-    password: 'jE5JKBNnjy',
-    path: '/www/wwwroot/linkben.com/linkben_test/public/dist'
-  }, function (err) {
-  if (err) {
-    console.log(err)
-  } else {
-    console.log('文件上传完毕!\n')
-  }
-})
 //生产环境下的webpack配置
 const webpackConfig = require('./webpack.prod.conf')
 
 const spinner = ora('building for production...')
-
 // 开启loading动画
 spinner.start()
 
@@ -53,6 +38,8 @@ rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
       chunkModules: false
     }) + '\n\n')
 
+ 
+ 
     if (stats.hasErrors()) {
       console.log(chalk.red('  Build failed with errors.\n'))
       process.exit(1)

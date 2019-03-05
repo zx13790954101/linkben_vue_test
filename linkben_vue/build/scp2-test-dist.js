@@ -7,7 +7,8 @@ var scpConfig = {
   "username": "root",
   "password": "jE5JKBNnjy",
   "port": "21",
-  "path": "/www/wwwroot/linkben.com/linkben_test/public/dist"
+  "path": "/www/wwwroot/",
+  "connection-timeout":"22222222",
 };
 
 console.log("正在上传您的打包文件到测试环境："+ scpConfig.host+":"+ scpConfig.port  +" ，请稍后...")
