@@ -8,7 +8,7 @@ var scpConfig = {
   "password": "jE5JKBNnjy",
   "port": "21",
   "path": "/www/wwwroot/",
-  "connection-timeout":"22222222",
+  "connection-timeout":"222222222",
 };
 
 console.log("正在上传您的打包文件到测试环境："+ scpConfig.host+":"+ scpConfig.port  +" ，请稍后...")

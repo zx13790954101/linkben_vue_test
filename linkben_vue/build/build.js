@@ -13,10 +13,12 @@ const chalk = require('chalk')
 const webpack = require('webpack')
 const config = require('../config')
 
+
 //生产环境下的webpack配置
 const webpackConfig = require('./webpack.prod.conf')
 
 const spinner = ora('building for production...')
+
 // 开启loading动画
 spinner.start()
 
@@ -38,8 +40,6 @@ rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
       chunkModules: false
     }) + '\n\n')
 
- 
- 
     if (stats.hasErrors()) {
       console.log(chalk.red('  Build failed with errors.\n'))
       process.exit(1)
