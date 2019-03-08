@@ -3,12 +3,14 @@ var client = require('scp2');
 
 // var random = Math.random()
 var scpConfig = {
-  "host": "47.93.198.213",
-  "username": "root",
-  "password": "jE5JKBNnjy",
-  "port": "21",
-  "path": "/www/wwwroot/",
-  "connection-timeout":"222222222",
+  host: "47.93.198.213",
+  port:21,
+  username: "linkben",
+  password: "C7PaiFkfid",
+  path: "/www/wwwroot/linkben.com/linkben_test/public/",
+  agent: process.env['SSH_AUTH_SOCK'],
+  readyTimeout: 99999,
+  tryKeyboard: true,
 };
 
 console.log("正在上传您的打包文件到测试环境："+ scpConfig.host+":"+ scpConfig.port  +" ，请稍后...")
