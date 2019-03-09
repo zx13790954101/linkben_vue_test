@@ -10,6 +10,10 @@ import router from '@/router'
 // 导入css reset
 //import 'normalize.css'
 //引入mint-ui所有的组件使用下面两行
+
+
+
+
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 Vue.use(MintUI)

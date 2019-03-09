@@ -1,6 +1,5 @@
 <template>
   <div class="img-control" :style="{'z-index':boxZindex}">
-
     <div class="img_box" ref="elememt2" id="img_box" :style="[moving?styleObj:styleObjFinal,{zIndex:zIndex}]">
       <div class="main-box">
         <img :src="url" alt="" :style="{filter:'brightness('+brightness+'%)',transform:'rotate('+angle+'deg) scaleY('+filpY+') scaleX('+filp+')'}"
@@ -38,8 +37,9 @@
           </div>
         </div>
       </transition>
-    </div>
 
+
+    </div>
     <div class="control_plane control_plane_1" :style="planeStyle" v-if="planeShow && screenWidth<=768">
       <div class="block button-array flex-c" v-if="active==0||active==1">
         <button v-for="(item,index) in tabNavList" @click="selectNav($event,item.name,index)" class="center h5 flex-item">
@@ -77,10 +77,6 @@
 <script>
   import dealWithImg from "../mobile/DealWithImg.vue"
   import settingPosition from "../mobile/SettingPosition.vue"
-  import 'jquery-ui'
-  import 'jquery-ui/ui/widgets/draggable'
-  import 'jquery-ui/ui/widgets/droppable'
-  import 'jquery-ui/ui/widgets/resizable'
   export default {
     name: 'img-control',
     components: {
@@ -158,8 +154,7 @@
       }
     },
     mounted() {
-      
-       $(document.querySelector("#img_box")).resizable();
+
     },
     methods: {
       selectNav(event, name, index) {

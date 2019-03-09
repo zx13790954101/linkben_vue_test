@@ -70,7 +70,12 @@
           style: '',
           mainji: '',
           selectType: ''
-        }
+        },
+        defaultImg:[
+          {
+            src:require('../../../../static/images/img1.jpg')
+          }
+        ]
       }
     },
     mounted: function () {
@@ -119,10 +124,10 @@
       });
 
       var file = {};
-      file.src = "./static/images/img1.jpg";
-      file.url = "./static/images/img1.jpg";
+      file.src = this.defaultImg[0].src;
+      file.url =  this.defaultImg[0].src;
       file.number = 12333;
-      file.defaultImg = "./static/images/img1.jpg";
+      file.defaultImg =  this.defaultImg[0].src;
       file.checked = false;
       file.needNum = 1;
 
@@ -186,7 +191,6 @@
         }
       },
       addGood(val) {
-        debugger;
         console.log('allGood', val)
         var add = true
         $(this.selectList).each(function (index, ele) {
