@@ -37,8 +37,13 @@
               <div id="main-bg"  rel="mainColorBg" title="纯色的背景" class="main-bg" v-show="mainBgStatus.type" :style="{'background-color':mainBgStatus.color,'z-index':imgStyleStatus.zIndex
               ,'width':mainBgStatus.width,'height':mainBgStatus.height}"></div>
             </div>
+
             <img-control v-for="(item,index) in curGoodList" :url="item.url" :key="item.id" @deleteUrl="setDeleteUrl"
               @setCurGood="setCurGood(index)" ></img-control>
+
+              
+
+
           </div>
 
 

@@ -30,7 +30,8 @@ module.exports = {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
       'styles': resolve('src/assets/styles'),
-      'jquery': 'jquery' 
+      'jquery': 'jquery' ,
+      'jquery-ui': 'jquery-ui'
     }
   },
   module: {
@@ -91,7 +92,9 @@ module.exports = {
   plugins: [
     new webpack.ProvidePlugin({
         $: "jquery",
-        jQuery: "jquery"
+        jQuery: "jquery",
+        jquery: "jquery",
+        "window.jQuery": "jquery"
     })
  ],
 }

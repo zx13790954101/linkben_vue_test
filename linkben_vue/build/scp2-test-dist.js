@@ -3,12 +3,6 @@ var client = require('scp2');
 
 // var random = Math.random()
 var scpConfig = {
-  host: "47.93.198.213",
-  username: "linkben",
-  password: "C7PaiFkfid",
-  port: "21",
-  path: "/",
-  "connection-timeout":"22222222",
 };
 
 console.log("正在上传您的打包文件到测试环境："+ scpConfig.host+":"+ scpConfig.port  +" ，请稍后...")

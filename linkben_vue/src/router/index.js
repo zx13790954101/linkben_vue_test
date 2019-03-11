@@ -48,9 +48,9 @@ export default new Router({
     },
     //截取子的图片
     {
-      path: '/CropperImg',
-      name: 'CropperImg',
-      component:  resolve => require(['@/pages/cropper/CropperImg'], resolve),//懒加载
+      path: '/DragDiv',
+      name: 'DragDiv',
+      component:  resolve => require(['@/pages/cropper/DragDiv'], resolve),//懒加载
   
     },
     //截取子的图片
