@@ -38,8 +38,11 @@
               ,'width':mainBgStatus.width,'height':mainBgStatus.height}"></div>
             </div>
 
-            <img-control v-for="(item,index) in curGoodList" :url="item.url" :key="item.id" @deleteUrl="setDeleteUrl"
+            <img-control  v-if="screenWidth>=688" v-for="(item,index) in curGoodList" :url="item.url" :key="item.id" @deleteUrl="setDeleteUrl"
               @setCurGood="setCurGood(index)" ></img-control>
+
+              <mobileImgControl  v-if="screenWidth<=688" v-for="(item,index) in curGoodList" :url="item.url" :key="item.id" @deleteUrl="setDeleteUrl"
+              @setCurGood="setCurGood(index)" ></mobileImgControl>
 
               
 
@@ -80,6 +83,7 @@
   import bus from '../../assets/bus'
   import GoodImg from './components/GoodImg.vue'
   import GoodSelect from './page/GoodSelect.vue'
+  import MobileImgControl from './mobile/MobileImgControl.vue'
   import ImgControl from './page/ImgControl.vue'
   import Share from './page/Share.vue'
   import GoodDetailCopy from './page/GoodDetailCopy.vue'
@@ -96,7 +100,8 @@
       ScenceSelect,
       GoodImg,
       TopNav,
-      BottomNav
+      BottomNav,
+      MobileImgControl
     },
     data() {
       var data = {
