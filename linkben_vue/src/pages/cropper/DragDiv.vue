@@ -22,6 +22,7 @@
   import 'jquery-ui/ui/widgets/draggable'
   import 'jquery-ui/ui/widgets/droppable'
   import 'jquery-ui/ui/widgets/resizable'
+  import '../../assets/jquery/jquery.ui.touch-punch.min.js'
     export default {
       name: 'dragdiv',
       data() {

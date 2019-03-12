@@ -1,295 +1,150 @@
 <template>
-  <div class0="touchkit">
-    <h1>Touchkit</h1>
-    <div class="wrap js-wrap">
-      <div class="item sticker">
-        <div class="parent js-par"></div>
-        <div class="tips">
-          Tips:<br />you can select any widget to operate it and tap the background to move the background-image!
+    <div id="app">
+        <div class="js-area area drag">
+         
+            <div class="el js-drag-el b active" style="left:30%;top:50%;"></div>
         </div>
-      </div>
     </div>
-    <div class="export js-export Button">exportImage</div>
-    <div class="addCropBox js-cropBox Button">add cropBox</div>
-    <div class="result js-result">
-      <div class="result-wrap">
-        <h2>This is already a image!<br />you can save this image by longTap!</h2>
-        <img style="width:300px;" src="" alt="">
-      </div>
-    </div>
-
-  </div>
 </template>
 
-
 <script>
-  import Touchkit from "Touchkit"
-  export default {
-    name: 'Touchkit',
-    data() {
-      return {
-        headerImage: "",
-        urlImg: require('../../../static/to/1.jpg'),
-      };
+  import   myTouch from  '../../assets/touch/myTouch'
+export default {
+  name: 'app',
+  data:function () {
+      return{
+          bigPic: '',
+          isShowBigpic: false,
+          modalWidth: 0,
+          modalHeight: 0,
+          baseLeft : 0,
+          baseTop: 0,
+          bodyWidth: document.body.clientWidth,
+          ele: null, // 不能在这里设置， dom还没有生成
+          
+      }
+  },
+  mounted() {
+    myTouch.mtouch()
+  },
+  methods:{
+    handleShowPic: function(picSrc){ // 显示图片
+        this.modalWidth = document.documentElement.clientWidth;
+        this.modalHeight = document.documentElement.clientHeight;
+        this.bigPic = picSrc;
+        this.isShowBigpic = true;
+        this.ele = document.getElementsByClassName('modal_content')[0];
+        document.addEventListener('touchmove', this.preHandler, {passive:false});
+        document.addEventListener('touchstart', this.preHandler, {passive:false});
     },
-    mounted() {
-      var divbox = document.querySelector(".js-par");
-      let Tk = new Touchkit({
-        el: divbox,
-        limit: {
-          x: 0.5,
-          y: 0.5,
-          maxScale: 3,
-          minScale: 0.4,
-        },
-      });
-      Tk.background({
-        image: '../../../static/to/p3.jpg',
-        type: 'contain',
-        // top:150,
-        // static:true,
-        success() {},
-      }).add({
-        image: `../../../static/to/ear.png`,
-        width: '100px',
-        use: 'all',
-        limit: true,
-        pos: {
-          x: 116,
-          y: 45,
-          scale: 1.25,
-          rotate: 2.63,
-        },
-        close: true,
-        success() {},
-      }).add({
-        image: `../../../static/to/neck.png`,
-        width: 100,
-        use: 'all',
-        limit: true,
-        pos: {
-          x: '0px',
-          y: 0,
-          scale: 1,
-          rotate: 0,
-        },
-        close: true,
-        success() {},
-      });
-      $('.js-cropBox').on('click',function(){
-    Tk.cropBox();
-    // Tk.clear();
-});
-
-    $('.js-export').on('click',function(){
-    Tk.exportImage(b64=>{
-        $('.js-result').show();
-        $('.js-result img').attr('src',b64);
-    });
-    });
-    $('.js-result').on('click',function(){
-    $('.js-result img').attr('src','');
-    $(this).hide();
-    });
-    $('.Button').on('touchstart',function(){
-    $(this).addClass('taped');
-    });
-    $('.Button').on('touchend',function(){
-    $(this).removeClass('taped');
-    });
+    handleCloseBigpic: function(){ // 恢复原状
+      this.isShowBigpic = false;
+      document.removeEventListener('touchmove',this.preHandler, {passive:false});
+      document.removeEventListener('touchstart',this.preHandler, {passive:false});
+      this.ele.style.margin =  '0px';
+      this.ele.style.transform = 'translate(-50%, -50%) scale(1,1)';
     },
-    methods: {}
-  };
+    scalePic: function(param, is_endScale){
+      var nodeStyle = this.ele.style.transform;
+      var changeSize = nodeStyle ?  parseFloat(nodeStyle.slice(nodeStyle.indexOf('scale')+6)) : 0;
+      if(is_endScale){
+        // 缩放图片结束，要重新计算定位
+        this.setMaxdisp(changeSize,parseInt(this.ele.style.marginLeft), parseInt(this.ele.style.marginTop), 'scale')
+        return 
+      }
+      if(nodeStyle){
+        // 如果存在的话，就说明已经设置了，scale已经改变了
+        var currScaleSize = changeSize + param; 
+        currScaleSize > 3 ? currScaleSize = 3 : null
+        currScaleSize < 1 ? currScaleSize = 1 : null
+        this.ele.style.transform = 'translate(-50%, -50%) scale('+currScaleSize+','+currScaleSize+')';
+      }else{ // 如果不存在，就说明是第一次设置
+          var scale = param + 1 
+          this.ele.style.marginLeft =  '0px';
+          this.ele.style.marginTop  = '0px';
+          this.ele.style.transform = 'translate(-50%, -50%) scale('+scale+','+scale+')';
+      }
+    },
+    movePic: function(param){
+     if(param.is_endMove){ // 每次移动松开手指的时候要下次移动的基础坐标
+        this.baseLeft = parseInt(this.ele.style.marginLeft.slice(0, -2));
+        this.baseTop = parseInt(this.ele.style.marginTop.slice(0, -2));
+      }else{
+        var nodeStyle = this.ele.style.transform 
+        if(nodeStyle){ // 有这个就表示应该是移动
+          var currScaleSize = parseFloat(nodeStyle.slice(nodeStyle.indexOf('scale')+6))
+          this.setMaxdisp(currScaleSize,this.baseLeft+ param.x, this.baseTop + param.y, 'move')
+        }
+      }
+    },
+    setMaxdisp:function(changeSize, changeX, changeY, type){
+      // 计算最大位移
+      var picHeight =  this.bodyWidth  / (this.ele.naturalWidth / this.ele.naturalHeight); 
+      var maxTop = ( picHeight * changeSize - window.innerHeight) /2 
+      var maxLeft = this.bodyWidth / 2 * (changeSize - 1) 
+      if(changeX >= maxLeft){
+        this.ele.style.marginLeft = maxLeft + 'px'
+      }else if(changeX < -maxLeft){
+        this.ele.style.marginLeft = -maxLeft + 'px'
+      }else if(type==='move'){
+        this.ele.style.marginLeft =changeX +'px'; 
+      }
+      // 如果图片当前尺寸大于屏幕尺寸，可以移动
+      if(maxTop > 0){
+        if(changeY >= maxTop){
+          this.ele.style.marginTop = maxTop + 'px';
+        }else if(changeY < -maxTop){
+          this.ele.style.marginTop = -maxTop + 'px'
+        }else if(type==='move'){
+          this.ele.style.marginTop = changeY+'px';
+        }
+      }else if(type==='move'){
+        this.ele.style.marginTop = 0 +'px'; 
+      }
+    },
+    preHandler:function(e){
+      e.preventDefault();
+    }
+  }
+}
 </script>
+<style lang="less" scoped>
 
-<style scoped lang="less">
-  .wrap {
-    width: 100%;
-    transition: all .3s;
-    -webkit-transition: all .3s;
-    transform: translateX(0);
-    -webkit-transform: translateX(0);
-  }
 
-  .wrap.switch {
-    transform: translateX(-16rem);
-  }
-
-  .item {
-    display: inline-block;
-    width: 100%;
-    vertical-align: top;
-    text-align: center;
-  }
-
-  .export {
-    width: 120px;
-    height: 35px;
-    background: #996699;
+  .modal{
     position: fixed;
-    color: white;
-    line-height: 35px;
-    text-align: center;
-    border-radius: 25px;
-    left: 75%;
-    margin-left: -75px;
-    bottom: 20px;
-    font-size: 16px;
-  }
-
-  .addCropBox {
-    width: 120px;
-    height: 35px;
-    background: #996699;
-    position: fixed;
-    color: white;
-    line-height: 35px;
-    text-align: center;
-    border-radius: 25px;
-    left: 35%;
-    margin-left: -75px;
-    bottom: 20px;
-    font-size: 16px;
-  }
-
-  .Button.taped {
-    background: #CC99CC;
-  }
-
-  .title {
-    text-align: center;
-    color: #996699;
-    font-size: 40px;
-    line-height: 60px;
-  }
-
-  .parent {
-    display: inline-block;
-    width: 300px;
-    height: 300px;
+    top: 0;
+    left: 0;
     overflow: hidden;
-    position: relative;
-    border: 1px solid #996699;
-  }
-
-  .pic {
-    width: 100%;
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    -webkit-transform: translateY(-50%);
-  }
-
-  .el {
-    width: 100px;
-    height: 100px;
-    position: absolute;
-    transform-origin: 50% 50%;
-    -webkit-transform-origin: 50% 50%;
-    /*border: 1px solid transparent;*/
-    left: 0;
-    top: 0;
-  }
-
-  .el-ear {
-    height: 40px;
-    transform: translate3d(5.38rem, 2.27rem, 0px) scale(1.25416) rotate(2.6359deg);
-    -webkit-transform: translate3d(5.38rem, 2.27rem, 0px) scale(1.25416) rotate(2.6359deg);
-  }
-
-  .el-nose {
-    height: 83px;
-    transform: translate3d(5.02rem, 4rem, 0px) scale(0.496975) rotate(2.66493deg);
-    -webkit-transform: translate3d(5.02rem, 4rem, 0px) scale(0.496975) rotate(2.66493deg);
-  }
-
-  .el-neck {
-    height: 93px;
-    transform: translate3d(4.22rem, 7.16rem, 0px) scale(0.762083) rotate(1.4128deg);
-    -webkit-transform: translate3d(4.22rem, 7.16rem, 0px) scale(0.762083) rotate(1.4128deg);
-  }
-
-  .pinch {
-    width: 26px;
-    height: 26px;
-    /* background:url(images/pinch.png) no-repeat 0 0; */
-    background-size: 100%;
-    position: absolute;
-    right: -13px;
-    bottom: -13px;
-    display: none;
-  }
-
-
-  .active .pinch {
-    display: block;
-  }
-
-  .sub-title {
-    font-size: 14px;
-    line-height: 48px;
-    color: #FF9999;
+    background: rgba(0, 0, 0, 1);
     text-align: center;
+    .modal_content{
+      position: absolute;
+      width: 100%;
+      width: 88%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      margin-left: 0;
+      margin-top: 0;
+    }
+    .close_modal{
+      color: #ffffff;
+      font-size: 12px;
+      font-style: normal;
+      background: rgba(0, 0, 0, 0.6);
+      height:70rem;
+      z-index: 100;
+      position: relative;
+      text-align: right;
+      padding: 0 10px 0 0;
+      .close_icon{
+        border-radius: 50%;
+        width:  40rem;
+        padding: 16rem;
+      }
+    }
   }
-
-  .crop-wrap {
-    display: inline-block;
-    overflow: hidden;
-    width: 300px;
-    height: 300px;
-
-  }
-
-  .result {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    left: 0;
-    top: 0;
-    background: rgba(0, 0, 0, 0.8);
-    display: none;
-  }
-
-  .result img {
-    width: 300px;
-  }
-
-  .result-wrap {
-    position: absolute;
-    left: 50%;
-    top: 40%;
-    transform: translate(-50%, -50%);
-  }
-
-  .result h2 {
-    color: white;
-    font-size: 14px;
-    text-align: center;
-    line-height: 30px;
-  }
-
-  .tips {
-    display: inline-block;
-    color: #996699;
-    width: 80%;
-    text-align: left;
-    font-size: 14px;
-  }
-
-  .mask {
-    width: 100%;
-    height: 100%;
-    background: white;
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 9999;
-    color: #996699;
-    font-size: 24px;
-    text-align: center;
-    padding-top: 100px;
-    box-sizing: border-box;
-    display: none;
+  .width80{
+    width: 100% !important;
   }
 </style>

@@ -48,9 +48,9 @@ export default new Router({
     },
     //截取子的图片
     {
-      path: '/DragDiv',
-      name: 'DragDiv',
-      component:  resolve => require(['@/pages/cropper/DragDiv'], resolve),//懒加载
+      path: '/Touchkit',
+      name: 'Touchkit',
+      component:  resolve => require(['@/pages/cropper/Touchkit'], resolve),//懒加载
       
     },
     //截取子的图片

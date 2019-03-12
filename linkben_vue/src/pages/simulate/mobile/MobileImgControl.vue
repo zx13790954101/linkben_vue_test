@@ -1,45 +1,21 @@
 <template>
   <div class="img-control" :style="{'z-index':boxZindex}">
+
     <div class="img_box" ref="elememt2" id="img_box" :style="[moving?styleObj:styleObjFinal,{zIndex:zIndex}]">
       <div class="main-box">
         <img :src="url" alt="" :style="{filter:'brightness('+brightness+'%)',transform:'rotate('+angle+'deg) scaleY('+filpY+') scaleX('+filp+')'}"
-          @mousewheel="zoom" @DOMMouseScroll="zoom" @mousemove.prevent="mouseMove" @touchmove.prevent="mouseMove"
-          @mousedown.prevent="mouseDown" @touchstart.prevent="mouseDown" @mouseup.prevent="mouseUp" @touchend.prevent="mouseUp"
-          @mouseout.prevent="mouseOut">
-        <ul class="border-box" v-if="borderType" :style="{'z-index':borderBoxStats}">
-          <li class="top" @click="formState(top)"> <span></span></li>
-          <li class="bottom" @click="formState(bottom)"> <span></span></li>
-          <li class="left" @click="formState(left)"><span></span></li>
-          <li class="right" @mousedown.prevent="downState" @mousemove.prevent="moveState" @click="clickState($event)"
-            @mouseup.prevent="upState"><span></span></li>
-        </ul>
+         @touchmove.prevent="mouseMove" @touchstart.prevent="mouseDown" @touchend.prevent="mouseUp">
+        <!-- <ul class="border-box" v-if="planeShow" :style="{'z-index':1}">
+          <li class="top"> <span></span></li>
+          <li class="bottom"> <span></span></li>
+          <li class="left" ><span></span></li>
+          <li class="right"><span></span></li>
+        </ul> -->
       </div>
-      <transition name="el-fade-in">
-        <div class="control_plane" v-if="planeShow && screenWidth>=768">
-          <div class="block">
-            <div class="action">
-              <el-button type="primary" @click="toDetail">详情</el-button>
-              <el-button type="primary" @click="filp=-filp">镜像</el-button>
-              <el-button type="primary" @click="deleteGood">删除</el-button>
-            </div>
-          </div>
-          <div class="block">
-            <span class="demonstration">角度</span>
-            <el-slider v-model="angle" :format-tooltip="formatAngle" :min="0" :max="360"></el-slider>
-          </div>
-          <div class="block">
-            <span class="demonstration">曝光</span>
-            <el-slider v-model="brightness" :format-tooltip="formatBrightness" :min="50" :max="150"></el-slider>
-          </div>
-          <div class="block">
-            <span class="demonstration">大小</span>
-            <el-slider v-model="width" :format-tooltip="formatWidth" :min="300" :max="1000"></el-slider>
-          </div>
-        </div>
-      </transition>
 
 
     </div>
+
     <div class="control_plane control_plane_1" :style="planeStyle" v-if="planeShow && screenWidth<=768">
       <div class="block button-array flex-c" v-if="active==0||active==1">
         <button v-for="(item,index) in tabNavList" @click="selectNav($event,item.name,index)" class="center h5 flex-item">
@@ -52,8 +28,7 @@
       <div class="block tab-item " v-if="active==2">
         <h6 class="demonstration">大小</h6>
         <el-slider v-model="width" :format-tooltip="formatWidth" :min="300" :max="1000"></el-slider>
-        <!-- <h5 class="demonstration">角度</h5>
-        <el-slider v-model="angle" :format-tooltip="formatAngle" :min="0" :max="360"></el-slider> -->
+    
         <h6 class="demonstration">曝光</h6>
         <el-slider v-model="brightness" :format-tooltip="formatBrightness" :min="50" :max="150"></el-slider>
 
@@ -75,10 +50,16 @@
 </template>
 <!-- //首页的添加得  -->
 <script>
-  import dealWithImg from "../mobile/DealWithImg.vue"
-  import settingPosition from "../mobile/SettingPosition.vue"
+  import dealWithImg from "./DealWithImg.vue"
+  import settingPosition from "./SettingPosition.vue"
+  import 'jquery-ui/ui/widgets/draggable'
+  import 'jquery-ui/ui/widgets/droppable'
+  import 'jquery-ui/ui/widgets/resizable'
+  import '../../../assets/jquery/jquery.ui.touch-punch.min.js'
+  import Touchkit from "Touchkit"
+  import myTouch from '../../../assets/touch/myTouch'
   export default {
-    name: 'img-control',
+    name: 'mobileImgControl',
     components: {
       dealWithImg,
       settingPosition
@@ -154,7 +135,8 @@
       }
     },
     mounted() {
-
+    //  console.log("elememt2",$(this.$refs.elememt2),$(document.querySelector("#img_box")))
+    //  $(document.querySelector("#img_box")).resizable();
     },
     methods: {
       selectNav(event, name, index) {
@@ -446,7 +428,7 @@
 
     .main-box {
       position: relative;
-      padding: 16%;
+      padding: 8%;
     }
 
     .main-box img {
@@ -644,7 +626,8 @@
       padding: 5px;
     }
 
-    .control_plane_1, .control_plane_2 {
+    .control_plane_1,
+    .control_plane_2 {
       top: 100vh;
       margin-top: -120px;
       left: 0px;
