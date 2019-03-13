@@ -1,10 +1,10 @@
 <template>
   <div class="img-control" :style="{'z-index':boxZindex}">
 
-    <div class="img_box" ref="elememt2" id="img_box" :style="[moving?styleObj:styleObjFinal,{zIndex:zIndex}]">
+    <div class="img_box itembox2" ref="elememt2" id="img_box" :style="[moving?styleObj:styleObjFinal,{zIndex:zIndex}]">
       <div class="main-box">
         <img :src="url" alt="" :style="{filter:'brightness('+brightness+'%)',transform:'rotate('+angle+'deg) scaleY('+filpY+') scaleX('+filp+')'}"
-         @touchmove.prevent="mouseMove" @touchstart.prevent="mouseDown" @touchend.prevent="mouseUp">
+        >
         <!-- <ul class="border-box" v-if="planeShow" :style="{'z-index':1}">
           <li class="top"> <span></span></li>
           <li class="bottom"> <span></span></li>
@@ -12,10 +12,7 @@
           <li class="right"><span></span></li>
         </ul> -->
       </div>
-
-
     </div>
-
     <div class="control_plane control_plane_1" :style="planeStyle" v-if="planeShow && screenWidth<=768">
       <div class="block button-array flex-c" v-if="active==0||active==1">
         <button v-for="(item,index) in tabNavList" @click="selectNav($event,item.name,index)" class="center h5 flex-item">
@@ -23,8 +20,6 @@
           <h6>{{item.name}}</h6>
         </button>
       </div>
-
-
       <div class="block tab-item " v-if="active==2">
         <h6 class="demonstration">大小</h6>
         <el-slider v-model="width" :format-tooltip="formatWidth" :min="300" :max="1000"></el-slider>
@@ -56,8 +51,10 @@
   import 'jquery-ui/ui/widgets/droppable'
   import 'jquery-ui/ui/widgets/resizable'
   import '../../../assets/jquery/jquery.ui.touch-punch.min.js'
-  import Touchkit from "Touchkit"
-  import myTouch from '../../../assets/touch/myTouch'
+  import {
+    initMtouch
+  } from "../../../assets/touch/extendMtouch"
+
   export default {
     name: 'mobileImgControl',
     components: {
@@ -137,6 +134,14 @@
     mounted() {
     //  console.log("elememt2",$(this.$refs.elememt2),$(document.querySelector("#img_box")))
     //  $(document.querySelector("#img_box")).resizable();
+      //判断是否大屏
+
+       if(this.screenWidth>=688){
+        $(document.querySelector("#img_box")).resizable();
+       }else{
+         console.log("ssss");
+        initMtouch(".itembox2")
+       }
     },
     methods: {
       selectNav(event, name, index) {
@@ -428,7 +433,7 @@
 
     .main-box {
       position: relative;
-      padding: 8%;
+      padding: 2%;
     }
 
     .main-box img {

@@ -48,9 +48,9 @@ export default new Router({
     },
     //截取子的图片
     {
-      path: '/Touchkit',
-      name: 'Touchkit',
-      component:  resolve => require(['@/pages/cropper/Touchkit'], resolve),//懒加载
+      path: '/Home2',
+      name: 'Home2',
+      component:  resolve => require(['@/pages/cropper/Home'], resolve),//懒加载
       
     },
     //截取子的图片

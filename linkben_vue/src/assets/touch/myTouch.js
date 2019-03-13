@@ -1,9 +1,7 @@
-const myTouch={
+// mtouch插件的扩展
 
-
-
- mTouch:function(){
-
+//初始化方法
+export const initMtouch = (name) =>{
 
   (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
@@ -562,6 +560,7 @@ const myTouch={
             base64 + ');');
     };
 
+
     window.requestAnimFrame = function () {
         return window.requestAnimationFrame || window.webkitRequestAnimationFrame || function (callback) {
             window.setTimeout(callback, 1000 / 60);
@@ -586,13 +585,13 @@ const myTouch={
     var elRect = $drag[0].getBoundingClientRect();
     var freeze = false;
     var mt = MTouch('.js-area');
-    mt.on('drag', function (ev) {
-        if (!freeze) {
-            dragTrans.x += ev.delta.deltaX;
-            dragTrans.y += ev.delta.deltaY;
-            set($drag, limit(wrap, $drag[0], dragTrans));
-        }
-    });
+    // mt.on('drag', function (ev) {
+    //     if (!freeze) {
+    //         dragTrans.x += ev.delta.deltaX;
+    //         dragTrans.y += ev.delta.deltaY;
+    //         set($drag, limit(wrap, $drag[0], dragTrans));
+    //     }
+    // });
 
     mt.on('pinch singlePinch', function (ev) {
         if (!freeze) {
@@ -720,11 +719,13 @@ const myTouch={
 //# sourceMappingURL=example.js.map
 
 
+
+
 }
 
+
+
+// 暴露 common.js 的方法
+export default {
+  initMtouch
 }
-
-
-// 暴露 protocol.js 的方法
-export  default myTouch
-
