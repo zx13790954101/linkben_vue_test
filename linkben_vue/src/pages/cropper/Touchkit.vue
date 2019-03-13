@@ -4,11 +4,13 @@
          
             <div class="el js-drag-el b active" style="left:30%;top:50%;"></div>
         </div>
+
+        <div class="div1"></div>
     </div>
 </template>
 
 <script>
-  import   myTouch from  '../../assets/touch/myTouch'
+  import myTouch from  '../../assets/touch/myTouch'
 export default {
   name: 'app',
   data:function () {
@@ -25,86 +27,14 @@ export default {
       }
   },
   mounted() {
-    myTouch.mtouch()
+    myTouch.mTouch();
+    let mt = new MTouch(document.querySelector(".div1"));
+    mt.on('singlePinch', e =>{
+
+} , operator);
   },
   methods:{
-    handleShowPic: function(picSrc){ // 显示图片
-        this.modalWidth = document.documentElement.clientWidth;
-        this.modalHeight = document.documentElement.clientHeight;
-        this.bigPic = picSrc;
-        this.isShowBigpic = true;
-        this.ele = document.getElementsByClassName('modal_content')[0];
-        document.addEventListener('touchmove', this.preHandler, {passive:false});
-        document.addEventListener('touchstart', this.preHandler, {passive:false});
-    },
-    handleCloseBigpic: function(){ // 恢复原状
-      this.isShowBigpic = false;
-      document.removeEventListener('touchmove',this.preHandler, {passive:false});
-      document.removeEventListener('touchstart',this.preHandler, {passive:false});
-      this.ele.style.margin =  '0px';
-      this.ele.style.transform = 'translate(-50%, -50%) scale(1,1)';
-    },
-    scalePic: function(param, is_endScale){
-      var nodeStyle = this.ele.style.transform;
-      var changeSize = nodeStyle ?  parseFloat(nodeStyle.slice(nodeStyle.indexOf('scale')+6)) : 0;
-      if(is_endScale){
-        // 缩放图片结束，要重新计算定位
-        this.setMaxdisp(changeSize,parseInt(this.ele.style.marginLeft), parseInt(this.ele.style.marginTop), 'scale')
-        return 
-      }
-      if(nodeStyle){
-        // 如果存在的话，就说明已经设置了，scale已经改变了
-        var currScaleSize = changeSize + param; 
-        currScaleSize > 3 ? currScaleSize = 3 : null
-        currScaleSize < 1 ? currScaleSize = 1 : null
-        this.ele.style.transform = 'translate(-50%, -50%) scale('+currScaleSize+','+currScaleSize+')';
-      }else{ // 如果不存在，就说明是第一次设置
-          var scale = param + 1 
-          this.ele.style.marginLeft =  '0px';
-          this.ele.style.marginTop  = '0px';
-          this.ele.style.transform = 'translate(-50%, -50%) scale('+scale+','+scale+')';
-      }
-    },
-    movePic: function(param){
-     if(param.is_endMove){ // 每次移动松开手指的时候要下次移动的基础坐标
-        this.baseLeft = parseInt(this.ele.style.marginLeft.slice(0, -2));
-        this.baseTop = parseInt(this.ele.style.marginTop.slice(0, -2));
-      }else{
-        var nodeStyle = this.ele.style.transform 
-        if(nodeStyle){ // 有这个就表示应该是移动
-          var currScaleSize = parseFloat(nodeStyle.slice(nodeStyle.indexOf('scale')+6))
-          this.setMaxdisp(currScaleSize,this.baseLeft+ param.x, this.baseTop + param.y, 'move')
-        }
-      }
-    },
-    setMaxdisp:function(changeSize, changeX, changeY, type){
-      // 计算最大位移
-      var picHeight =  this.bodyWidth  / (this.ele.naturalWidth / this.ele.naturalHeight); 
-      var maxTop = ( picHeight * changeSize - window.innerHeight) /2 
-      var maxLeft = this.bodyWidth / 2 * (changeSize - 1) 
-      if(changeX >= maxLeft){
-        this.ele.style.marginLeft = maxLeft + 'px'
-      }else if(changeX < -maxLeft){
-        this.ele.style.marginLeft = -maxLeft + 'px'
-      }else if(type==='move'){
-        this.ele.style.marginLeft =changeX +'px'; 
-      }
-      // 如果图片当前尺寸大于屏幕尺寸，可以移动
-      if(maxTop > 0){
-        if(changeY >= maxTop){
-          this.ele.style.marginTop = maxTop + 'px';
-        }else if(changeY < -maxTop){
-          this.ele.style.marginTop = -maxTop + 'px'
-        }else if(type==='move'){
-          this.ele.style.marginTop = changeY+'px';
-        }
-      }else if(type==='move'){
-        this.ele.style.marginTop = 0 +'px'; 
-      }
-    },
-    preHandler:function(e){
-      e.preventDefault();
-    }
+    
   }
 }
 </script>

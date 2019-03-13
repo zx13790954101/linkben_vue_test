@@ -1,4 +1,10 @@
-export const touch = () => {
+const myTouch={
+
+
+
+ mTouch:function(){
+
+
   (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
         typeof define === 'function' && define.amd ? define(factory) :
@@ -712,9 +718,13 @@ export const touch = () => {
 
 })));
 //# sourceMappingURL=example.js.map
+
+
+}
+
 }
 
 
 // 暴露 protocol.js 的方法
-export default mtouch
+export  default myTouch
 
