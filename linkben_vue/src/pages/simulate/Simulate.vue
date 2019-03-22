@@ -38,11 +38,11 @@
               ,'width':mainBgStatus.width,'height':mainBgStatus.height}"></div>
             </div>
 
-            <img-control  v-if="screenWidth>=688" v-for="(item,index) in curGoodList" :url="item.url" :key="item.id" @deleteUrl="setDeleteUrl"
+            <img-control   v-for="(item,index) in curGoodList" :url="item.url" :key="item.id" @deleteUrl="setDeleteUrl"
               @setCurGood="setCurGood(index)" ></img-control>
 
-              <mobileImgControl  v-if="screenWidth<=688" v-for="(item,index) in curGoodList" :url="item.url" :key="item.id" @deleteUrl="setDeleteUrl"
-              @setCurGood="setCurGood(index)" ></mobileImgControl>
+              <!-- <mobileImgControl  v-if="screenWidth<=688" v-for="(item,index) in curGoodList" :url="item.url" :key="item.id" @deleteUrl="setDeleteUrl"
+              @setCurGood="setCurGood(index)" ></mobileImgControl> -->
 
               
 

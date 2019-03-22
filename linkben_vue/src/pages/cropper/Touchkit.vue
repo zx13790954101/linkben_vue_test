@@ -10,6 +10,11 @@
 <script>
   //import  {initMtouch} from "../../assets/touch/extendMtouch"
   import MTouch from "Mtouch"
+  import 'jquery-ui/ui/widgets/draggable'
+  import 'jquery-ui/ui/widgets/droppable'
+  import 'jquery-ui/ui/widgets/resizable'
+  import '../../assets/jquery/jquery.ui.touch-punch.min.js'
+
   export default {
     name: 'touchkit',
     data: function () {
@@ -40,6 +45,16 @@
     },
     mounted() {
     //  this.className="div4";
+     if(this.bodyWidth>=668){
+      $(document.querySelector(".div1")).resizable();
+      $(document.querySelector(".div1")).draggable();
+       return;
+     }
+
+ 
+
+
+
       window.requestAnimFrame = function() {
         return window.requestAnimationFrame || window.webkitRequestAnimationFrame || function(callback) {
           window.setTimeout(callback, 1000 / 60);
@@ -47,7 +62,7 @@
       }();
       var that=this;
       var $drag =$(('.'+that.className));
-      console.log("ss",$drag,that.className)
+      $drag =$('.div1');
       var $drags = $drag ;
       var wrap =document.querySelector('body');
       var wrapRect = wrap.getBoundingClientRect();
@@ -74,11 +89,11 @@
           }
       });
    
-      // if($drag.innerHTML){
-      //   $drag.append('<div class="mtouch-singleButton" data-singlebutton="true"></div>');
-      // }else{
+      if($drag.innerHTML){
+        $drag.append('<div class="mtouch-singleButton" data-singlebutton="true"></div>');
+      }else{
         $drag.html('<div class="mtouch-singleButton" data-singlebutton="true"></div>');
-      // }
+       }
     
 
     },
@@ -109,23 +124,25 @@
     }
   }
 </script>
+
 <style lang="less" scoped>
+
   .div1 {
     width: 200px;
     height: 200px;
     background-color: red;
-    /* position: absolute;
+    position: absolute;
     top: 50%;
 				left: 50%;
 				margin-top: -100px;
-				margin-left: -100px; */
+				margin-left: -100px;
 
 
   }
 
   .div2 {
     width: 100%;
-    height:80vh;
+    height:40vh;
     overflow: hidden;
     background-color: black;
     position: relative;

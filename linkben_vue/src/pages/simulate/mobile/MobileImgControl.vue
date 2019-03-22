@@ -1,9 +1,9 @@
 <template>
   <div class="img-control" :style="{'z-index':boxZindex}">
 
-    <div class="img_box itembox2" ref="elememt2" id="img_box" :style="[moving?styleObj:styleObjFinal,{zIndex:zIndex}]">
+    <div class="img_box img_control_box"  id="img_box"  >
       <div class="main-box">
-        <img :src="url" alt="" :style="{filter:'brightness('+brightness+'%)',transform:'rotate('+angle+'deg) scaleY('+filpY+') scaleX('+filp+')'}"
+        <img :src="url" alt="" @click="!planeShow"  :style="{filter:'brightness('+brightness+'%)',transform:'rotate('+angle+'deg) scaleY('+filpY+') scaleX('+filp+')'}"
         >
         <!-- <ul class="border-box" v-if="planeShow" :style="{'z-index':1}">
           <li class="top"> <span></span></li>
@@ -136,12 +136,9 @@
     //  $(document.querySelector("#img_box")).resizable();
       //判断是否大屏
 
-       if(this.screenWidth>=688){
-        $(document.querySelector("#img_box")).resizable();
-       }else{
-         console.log("ssss");
-        initMtouch(".itembox2")
-       }
+        $(document.querySelector(".img_control_box")).resizable();
+        $(document.querySelector(".img_control_box")).draggable();
+    
     },
     methods: {
       selectNav(event, name, index) {

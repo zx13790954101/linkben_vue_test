@@ -7,13 +7,13 @@
           @mousewheel="zoom" @DOMMouseScroll="zoom" @mousemove.prevent="mouseMove" @touchmove.prevent="mouseMove"
           @mousedown.prevent="mouseDown" @touchstart.prevent="mouseDown" @mouseup.prevent="mouseUp" @touchend.prevent="mouseUp"
           @mouseout.prevent="mouseOut">
-        <ul class="border-box" v-if="borderType" :style="{'z-index':borderBoxStats}">
+        <!-- <ul class="border-box" v-if="borderType" :style="{'z-index':borderBoxStats}">
           <li class="top" @click="formState(top)"> <span></span></li>
           <li class="bottom" @click="formState(bottom)"> <span></span></li>
           <li class="left" @click="formState(left)"><span></span></li>
           <li class="right" @mousedown.prevent="downState" @mousemove.prevent="moveState" @click="clickState($event)"
             @mouseup.prevent="upState"><span></span></li>
-        </ul>
+        </ul> -->
       </div>
       <transition name="el-fade-in">
         <div class="control_plane" v-if="planeShow && screenWidth>=768">
@@ -159,7 +159,7 @@
     },
     mounted() {
       
-       $(document.querySelector("#img_box")).resizable();
+      // $(document.querySelector("#img_box")).resizable();
     },
     methods: {
       selectNav(event, name, index) {
