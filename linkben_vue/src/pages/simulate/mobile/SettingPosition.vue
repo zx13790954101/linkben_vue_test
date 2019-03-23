@@ -76,8 +76,8 @@
         var that=this;
         const clientWidth=document.documentElement.clientWidth;
         const clientHeight=document.documentElement.clientHeight;
-        let height=(clientHeight-150)/2-that.imgStyle.height/2;
-        let width=(clientWidth-clientWidth/10)/2-that.imgStyle.width/2;
+        let height=(clientHeight-150)/2;
+        let width=(clientWidth-clientWidth/10)/2;
         switch(name){
           case 'vertical':
             //获取元素内联样式值

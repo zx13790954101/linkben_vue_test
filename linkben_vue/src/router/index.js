@@ -30,9 +30,9 @@ export default new Router({
       component:  resolve => require(['@/pages/home/pages/Item'], resolve),//懒加载
     },
     {
-      path: '/Simulate',//首页加载方式，空间工具
-      name: 'Simulate',
-      component:  resolve => require(['@/pages/simulate/simulate'], resolve),//懒加载
+      path: '/diy',//首页加载方式，空间工具
+      name: 'diy',
+      component:  resolve => require(['@/pages/simulate/diy'], resolve),//懒加载
     },
     {
       path: '/CarQuery',

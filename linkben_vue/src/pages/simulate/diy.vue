@@ -65,15 +65,6 @@
 
     </div>
 
-
-    <!-- 选择分享渠道 -->
-    <!-- <share :url="shareUrl" :title="share.title" :img="'http://orbi0d8g8.bkt.clouddn.com/'+shareImg"></share> -->
-
-    <!-- 选择配灯场景 -->
-    <!-- <transition name="animate-transition" enter-active-class="animated slideInRight" leave-active-class="animated slideOutRight">
-      <scence-select v-if="showSelect" @closeSelect="showSelect=false" @bgListChange="bgListChange"></scence-select>
-    </transition> -->
-
   </div>
 
 </template>
@@ -91,7 +82,7 @@
   import TopNav from './page/TopNav.vue'
   import BottomNav from './page/BottomNav.vue'
   export default {
-    name: 'simulate',
+    name: 'diy',
     components: {
       GoodSelect,
       ImgControl,

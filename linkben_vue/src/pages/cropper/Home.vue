@@ -2,7 +2,7 @@
     <div id="app">
 
       <!-- <defaultVideo></defaultVideo> -->
-        <videoPlayer2></videoPlayer2>
+        <dragdiv></dragdiv>
     </div>
   </template>
   
@@ -11,11 +11,11 @@
     import test1 from "./Test1.vue"
     import videoPlayer2 from "./videoPlayer2.vue"
     import defaultVideo from "./DefaultVideo.vue"
-    
+    import dragdiv from "./dragdiv.vue"
     export default {
       name: 'home',
       components: {
-        touchkit,test1,videoPlayer2,defaultVideo
+        touchkit,test1,videoPlayer2,defaultVideo,dragdiv
       },
       data: function () {
         return {
@@ -24,5 +24,7 @@
       },
     }
   </script>
-  <style lang="less" scoped>
+  <style lang="less">
+
+
   </style>

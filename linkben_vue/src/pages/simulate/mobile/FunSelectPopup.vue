@@ -18,7 +18,7 @@
           </router-link>
         </div>
 
-        <div class="item img-r l-img" v-if="(index/2)==1||(index/2)==0">
+        <div class="item img-h l-img" v-if="(index/2)==1||(index/2)==0">
           <img v-lazy="item.src">
         </div>
 
@@ -67,25 +67,25 @@
             src: require("../../../../static/img/head/tu1.gif"),
             title:"制作证件照",
             content:"来自于linkben",
-            link:"Simulate",
+            link:"diy",
             title2:"随机搭配",
-            color:"#FFF",
+       //     color:"#FFF",
           },
           {
             src: require("../../../../static/img/home/1.png"),
             title:"室内空间制作",
             content:"来自于linkben",
-            link:"Simulate",
+            link:"diy",
             title2:"随机搭配",
-            color:"#bed6e8",
+        //    color:"#bed6e8",
           },
           {
             src: require("../../../../static/img/head/1.png"),
             title:"制作证件照",
             content:"来自于linkben",
-            link:"Simulate",
+            link:"diy",
             title2:"随机搭配",
-            color:"#f0d4cf",
+//color:"#f0d4cf",
           },
         ],
       }
@@ -115,16 +115,20 @@
 .swiper-container{
   height: 80vh;
   width: 100%;
+  color: white;
+}
+span{
+  color: white;
 }
     .swiper-slide {
       background-position: center;
       background-size: cover;
       width: 100%;
       height: 200px;
-      background-color: white;
+      /* background-color: white; */
     }
     .title{
-      background-color: white;
+      /* background-color: white; */
       height: 60px;
       line-height: 60px;
       position:absolute;
