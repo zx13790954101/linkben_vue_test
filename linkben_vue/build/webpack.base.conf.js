@@ -24,6 +24,9 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
+  externals:{
+    "prismplayer": "prismplayer"
+  },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
@@ -94,7 +97,8 @@ module.exports = {
         $: "jquery",
         jQuery: "jquery",
         jquery: "jquery",
-        "window.jQuery": "jquery"
+        "window.jQuery": "jquery",
+        "prismplayer": "prismplayer"
     })
  ],
 }

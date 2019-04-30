@@ -19,6 +19,8 @@
     export default {
       name: 'html2canvas2',
       data() {
+
+        r
         return {
           dataURL:"",
           endImg:"",
