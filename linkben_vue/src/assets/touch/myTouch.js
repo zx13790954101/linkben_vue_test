@@ -9,6 +9,7 @@ export const initMtouch = (name) =>{
         (factory());
 }(this, (function () {
     'use strict';
+	
 
     var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
         return typeof obj;
