@@ -1,0 +1,4 @@
+export const TEST = 'TEST'
+export const SAVE_SESS_TOKEN_OPTIONS = 'SAVE_SESS_TOKEN_OPTIONS'
+export const SAVE_SESS_TOKEN = 'SAVE_SESS_TOKEN'
+export const INIT_SESS_TOKEN = 'INIT_SESS_TOKEN'
