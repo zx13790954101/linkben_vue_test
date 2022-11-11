@@ -62,7 +62,7 @@
     "gulp-sftp": "^0.1.5",
     "gulp-sftp-new": "^0.1.8",
     "hammer": "^0.0.5",
-    "html-webpack-plugin": "^2.30.1",
+    "html-webpack-plugin": "^5.5.0",
     "jquery-ui": "^1.12.1",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
